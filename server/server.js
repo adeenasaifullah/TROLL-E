@@ -17,7 +17,7 @@ app.use(routes) // the server now has access to all the routes defined in app.js
 
 
 
-mongoose.set('strictQuery', true);
+
 
 
 

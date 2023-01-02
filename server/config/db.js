@@ -4,21 +4,19 @@ const dbConfig = require('./dbConfig')
 
 const connectDB = async () => {
 
-try{
+    try {
+        mongoose.set('strictQuery', true);
+        const conn = mongoose.connect(dbConfig.database, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        })
 
-    const conn = await mongoose.connect(dbConfig.database
-    ,{
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-
-    console.log(`MongoDB Connected: ${conn.connection.host}`)
-}
-catch(err)
-{
-    console.log(err)
-    process.exit(1)
-}
+        console.log(`MongoDB Connected`)
+    }
+    catch (err) {
+        console.log(err)
+        process.exit(1)
+    }
 }
 
 module.exports = connectDB

@@ -13,7 +13,7 @@ var userSchema = new Schema({
         type: String,
         require: true
     },
-    
+
     last_name: {
         type: String,
         require: true
@@ -25,48 +25,74 @@ var userSchema = new Schema({
     },
 
     password: {
-        type: String, 
+        type: String,
         require: true
+    },
+
+    shoppingHistory: {
+        receipt: [{
+            productID: {
+                type: String,
+                required: true
+            },
+            productQuantity: {
+                type: Number,
+                required: true
+            },
+            date: {
+                type: Date,
+                required: true
+            },
+            grossTotal: {
+                type: Number,
+                required: true
+            },
+            netTotal: {
+                type: Number,
+                required: true
+            },
+            gst: {
+                type: Number,
+                required: true
+            }
+        }]
     }
 
 })
 
-userSchema.pre('save',async function(next) {
+userSchema.pre('save', async function (next) {
     var user = this;
-    try{
+    try {
 
-        if(this.isModified('password') || this.isNew)
-        {
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(user.password, salt)
-        user.password = hashedPassword
-        next()
+        if (this.isModified('password') || this.isNew) {
+            const salt = await bcrypt.genSalt(10)
+            const hashedPassword = bcrypt.hash(user.password, salt)
+            user.password = hashedPassword
+            next()
         }
     }
-    catch(error)
-    {
-       next(error) 
+    catch (error) {
+        next(error)
     }
 
 })
 
-userSchema.methods.isValidPassword = async function(password) {
-try{
-   return await bcrypt.compare(password, this.password)
+userSchema.methods.isValidPassword = async function (password) {
+    try {
+        return await bcrypt.compare(password, this.password)
 
-}
-catch (error){
-    throw error
-}
+    }
+    catch (error) {
+        throw error
+    }
 }
 
-userSchema.post('save',async function(next) {
-    try{
+userSchema.post('save', async function (next) {
+    try {
         console.log("called after saving a user")
     }
-    catch(error)
-    {
-       next(error) 
+    catch (error) {
+        next(error)
     }
 
 })

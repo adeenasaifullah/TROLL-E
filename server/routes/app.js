@@ -7,7 +7,12 @@ const userController = require('../routecontrollers/user_controller');
 //all routes will be written here
 
 router.post('/register', userController.register)
-
+router.post('/login', userController.login )
+router.get('/getprofile', verifyAccessToken, userController.getprofile)
+router.post('/forgotpassword', userController.resetpasswordemail)
+router.post('/changepassword/:userId/:token', userController.changepassword)
+router.post('/refresh', userController.refreshtoken)
+router.delete('/logout', userController.logout )
 
 
 module.exports = router

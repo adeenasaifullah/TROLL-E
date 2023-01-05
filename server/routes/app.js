@@ -15,9 +15,9 @@ router.post('/forgotpassword', userController.resetpasswordemail)
 router.post('/changepassword/:userId/:token', userController.changepassword)
 router.post('/refresh', userController.refreshtoken)
 router.delete('/logout', userController.logout)
-router.put('/addToShoppingHistory/:userID', receiptController.addHistory)
-router.get('/getHistory/:userID', receiptController.getHistory)
-router.get('/allProducts',  productController.getAllPrdoucts)
+router.put('/addToShoppingHistory/:userID', verifyAccessToken, receiptController.addHistory)
+router.get('/getHistory/:userID', verifyAccessToken, receiptController.getHistory)
+router.get('/allProducts', verifyAccessToken, productController.getAllPrdoucts)
 
 
 module.exports = router

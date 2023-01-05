@@ -31,20 +31,8 @@ var userSchema = new Schema({
 
     shoppingHistory: {
         receipt: [{
-            productID: {
-                type: String,
-                required: true
-            },
-            productQuantity: {
-                type: Number,
-                required: true
-            },
             date: {
                 type: Date,
-                required: true
-            },
-            grossTotal: {
-                type: Number,
                 required: true
             },
             netTotal: {
@@ -54,8 +42,31 @@ var userSchema = new Schema({
             gst: {
                 type: Number,
                 required: true
-            }
-        }]
+            },
+            isDeleted: {
+                type: Boolean,
+                defaults: false
+            }, items: [{
+                productID: {
+                    type: String,
+                    required: true
+                },
+                productQuantity: {
+                    type: Number,
+                    required: true
+                },
+                grossTotal: {
+                    type: Number,
+                    required: true
+                },
+                isDeleted: {
+                    type: Boolean,
+                    defaults: false
+                }
+            }]
+        }
+
+        ]
     }
 
 })

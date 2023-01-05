@@ -10,30 +10,15 @@ module.exports = {
                     message: "Invalid user"
                 })
             }
-            //console.log(User)
             const {
-                productID,
-                productQuantity,
-                grossTotal,
+                items,
                 netTotal,
                 gst
             } = req.body
-            // const Receipt = new User.shoppingHistory.receipt({
-            //     productID,
-            //     productQuantity,
-            //     date: Date.now(),
-            //     grossTotal,
-            //     netTotal,
-            //     gst
-            // })
-            //console.log(Receipt)
             User.shoppingHistory.receipt.push({
-                productID,
-                productQuantity,
-                date: Date.now(),
-                grossTotal,
                 netTotal,
-                gst
+                date: Date.now(),
+                items
             })
             await User.save({
                 validateBeforeSave: false
@@ -49,6 +34,18 @@ module.exports = {
                     message: err
                 }
             )
+        }
+    },
+
+    getHistory: async (req, res, next) => {
+        try {
+            const User = await user.findById(req.params.userID)
+            res.status(200).json(User.shoppingHistory.receipt)
+
+        } catch (err) {
+            res.status(401).json({
+                message: err
+            })
         }
     }
 }

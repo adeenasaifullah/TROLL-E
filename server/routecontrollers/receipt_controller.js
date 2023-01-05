@@ -17,8 +17,10 @@ module.exports = {
             } = req.body
             User.shoppingHistory.receipt.push({
                 netTotal,
+                gst,
                 date: Date.now(),
-                items
+                items,
+                isDeleted: false
             })
             await User.save({
                 validateBeforeSave: false

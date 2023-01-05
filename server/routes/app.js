@@ -17,7 +17,7 @@ router.post('/refresh', userController.refreshtoken)
 router.delete('/logout', userController.logout)
 router.put('/addToShoppingHistory/:userID', receiptController.addHistory)
 router.get('/getHistory/:userID', receiptController.getHistory)
-router.get('/allProducts', verifyAccessToken, productController.getAllPrdoucts)
+router.get('/allProducts',  productController.getAllPrdoucts)
 
 
 module.exports = router

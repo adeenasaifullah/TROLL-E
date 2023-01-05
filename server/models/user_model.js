@@ -64,9 +64,7 @@ var userSchema = new Schema({
                     defaults: false
                 }
             }]
-        }
-
-        ]
+        }]
     }
 
 })

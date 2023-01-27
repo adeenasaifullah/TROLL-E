@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '/utility.dart';
 
-import 'SignupInputWrapper.dart';
+import 'signup_input_wrapper.dart';
 
 class Signup extends StatelessWidget {
   @override

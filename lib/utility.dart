@@ -78,6 +78,7 @@ class Roboto_subheading extends StatelessWidget {
       style: GoogleFonts.roboto(
         color: const Color(0xff000000),
         fontSize: size,
+        fontWeight: FontWeight.w500
       ),
     );
   }

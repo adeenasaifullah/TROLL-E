@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const kPrimaryColor = Color(0xFFBAD3D4);
@@ -43,6 +44,7 @@ class Roboto_button extends StatelessWidget {
 class Roboto_heading extends StatelessWidget {
   final String textValue;
   final double size;
+
   const Roboto_heading({Key? key, required this.textValue, required this.size})
       : super(key: key);
 
@@ -238,4 +240,19 @@ class NavButton extends StatelessWidget {
       child: Roboto_button(textValue: buttonText, size: 18),
     );
   }
+}
+
+final otpInputDecoration = InputDecoration(
+  contentPadding:
+  EdgeInsets.symmetric(vertical: 20.h),
+  border: outlineInputBorder(),
+  focusedBorder: outlineInputBorder(),
+  enabledBorder: outlineInputBorder(),
+);
+
+OutlineInputBorder outlineInputBorder() {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: BorderSide(color: Colors.grey),
+  );
 }

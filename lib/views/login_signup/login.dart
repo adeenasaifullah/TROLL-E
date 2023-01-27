@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '/utility.dart';
 
-import 'signup_input_wrapper.dart';
+import 'login_input_wrapper.dart';
 
-class Signup extends StatelessWidget {
+class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +20,9 @@ class Signup extends StatelessWidget {
         child: Column(
           children: <Widget>[
             SizedBox(height: displayHeight(context) * 0.07),
-            Roboto_heading(textValue: 'Sign Up', size: 28),
+            Roboto_heading(textValue: 'Login', size: 28),
             SizedBox(height: displayHeight(context) * 0.01),
-            Roboto_subheading(textValue: 'Register to create an account', size: 16),
+            Roboto_subheading(textValue: 'Sign in to continue', size: 16),
             SizedBox(height: displayHeight(context) * 0.1,),
             //Header(),
             Expanded(child: Container(
@@ -34,7 +34,7 @@ class Signup extends StatelessWidget {
                     topRight: Radius.circular(60),
                   )
               ),
-              child: SignupInputWrapper(),
+              child: LoginInputWrapper(),
             ))
           ],
         ),

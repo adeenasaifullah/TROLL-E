@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Signup.dart';
 import '/utility.dart';
 
@@ -42,7 +42,7 @@ class LoginInputWrapper extends StatelessWidget {
                       textController: emailController,
                       labelText: 'Email',
                       //hintText: 'email',
-                      prefixIcon: Icon(Icons.email_sharp, color: Color(0xFF838383)),
+                     // prefixIcon: Icon(Icons.email_outlined, color: Color(0xFF838383)),
                       autoFocus: false,
                     ),
                     SizedBox(height: displayHeight(context) * 0.03),
@@ -64,7 +64,7 @@ class LoginInputWrapper extends StatelessWidget {
                       textController: passwordController,
                       labelText: 'Password',
                       //hintText: 'Enter your password',
-                      prefixIcon: Icon(Icons.lock, color: Color(0xFF838383)),
+                     // prefixIcon: Icon(Icons.lock_outline, color: Color(0xFF838383)),
                       //suffixIcon: Icons.visibility_off,
                       //suffixIcon:  obscureIcon ? Icons.visibility : Icons.visibility_off,
                       autoFocus: false,
@@ -77,7 +77,7 @@ class LoginInputWrapper extends StatelessWidget {
           SizedBox(height: displayHeight(context) * 0.01),
           Row(
               children: <Widget>[
-                SizedBox(width: displayWidth(context) * 0.6),
+                SizedBox(width: 180.w),
                 TextButton(
                   onPressed: () {},
                   child: Text(
@@ -90,9 +90,9 @@ class LoginInputWrapper extends StatelessWidget {
           SizedBox(height: displayHeight(context) * 0.06),
           NavButton(
             buttonText: 'Login',
-            textSize: displayHeight(context) * 0.03,
-            buttonHeight: displayHeight(context) * 0.065,
-            buttonWidth: displayWidth(context) * 0.7,
+            textSize: 20.sp,
+            buttonHeight: 50.h,
+            buttonWidth: 300.w,
             onPressed: ()=> {
               //do something
             },
@@ -104,7 +104,7 @@ class LoginInputWrapper extends StatelessWidget {
           ),
           SizedBox(height: displayHeight(context) * 0.01),
 
-          Image(image: AssetImage('Assets/google.png')),
+          Image(image: AssetImage('Assets/images/google.png')),
           SizedBox(height: displayHeight(context) * 0.02),
           TextButton(
             onPressed: () {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:troll_e/views/login_signup/login.dart';
 import '/utility.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class SignupInputWrapper extends StatelessWidget {
@@ -142,9 +144,9 @@ class SignupInputWrapper extends StatelessWidget {
           SizedBox(height: displayHeight(context) * 0.04),
           NavButton(
             buttonText: 'Sign Up',
-            textSize: displayHeight(context) * 0.03,
-            buttonHeight: displayHeight(context) * 0.08,
-            buttonWidth: displayWidth(context) * 0.7,
+            textSize: 20.sp,
+            buttonHeight: 50.h,
+            buttonWidth: 300.w,
             onPressed: ()=> {
               //do something
             },
@@ -153,8 +155,8 @@ class SignupInputWrapper extends StatelessWidget {
           //Roboto_text(textValue: 'Already have an account?', size: 15),
           TextButton(
             onPressed: () {
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (context) => Login()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Login()));
             },
             child: Text('Already have an account? Login',
                 style: GoogleFonts.roboto(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
+import 'package:troll_e/views/otp/otp.dart';
 import 'package:troll_e/views/profile/user_edit_profile.dart';
 
 void main() {
@@ -112,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
               MaterialPageRoute(builder: (context) =>  Signup()),
               );
               },
-              child: const Text("Login Screen"),
+              child: const Text("Sign up Screen"),
             ),
             ElevatedButton(
               onPressed: () {
@@ -122,6 +123,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text("Edit Profile Screen"),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  OTP()),
+                );
+              },
+              child: const Text("OTP"),
             ),
 
           ],

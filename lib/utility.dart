@@ -191,12 +191,13 @@ class _fieldState extends State<field> {
           prefixIcon: widget.prefixIcon,
 
           // //Icon(Icons.lock, color: Color(0xFF283618)),
-          suffixIcon: IconButton(
+          suffixIcon:
+          IconButton(
               icon: Icon(widget.suffixIcon),
               onPressed: () {
 
                 if (_obscured == false) {
-                  widget.suffixIcon = Icons.visibility_off;
+                 widget.suffixIcon = Icons.visibility_off;
                 } else {
                   widget.suffixIcon = Icons.visibility;
                 }

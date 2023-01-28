@@ -145,8 +145,8 @@ class SignupInputWrapper extends StatelessWidget {
           NavButton(
             buttonText: 'Sign Up',
             textSize: 20.sp,
-            buttonHeight: 50.h,
-            buttonWidth: 300.w,
+            buttonHeight: displayHeight(context)*0.075,
+            buttonWidth: displayWidth(context) * 0.8,
             onPressed: ()=> {
               //do something
             },
@@ -160,7 +160,7 @@ class SignupInputWrapper extends StatelessWidget {
             },
             child: Text('Already have an account? Login',
                 style: GoogleFonts.roboto(
-                  color: Color(0xFF000000), fontSize: 15, )),
+                  color: Color(0xFF000000), fontSize: 15.sp, )),
             //backgroundColor: Colors.white,
           ),
         ],

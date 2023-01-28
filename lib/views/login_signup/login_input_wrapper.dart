@@ -14,8 +14,7 @@ class LoginInputWrapper extends StatelessWidget {
       padding: EdgeInsets.all(30),
       child: Column(
         children: <Widget>[
-          SizedBox(height: 30,),
-          Container(
+          SizedBox(height: displayHeight(context) * 0.02),          Container(
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10)
@@ -77,7 +76,7 @@ class LoginInputWrapper extends StatelessWidget {
           SizedBox(height: displayHeight(context) * 0.01),
           Row(
               children: <Widget>[
-                SizedBox(width: 180.w),
+                SizedBox(width: displayWidth(context) * 0.55),
                 TextButton(
                   onPressed: () {},
                   child: Text(
@@ -91,8 +90,8 @@ class LoginInputWrapper extends StatelessWidget {
           NavButton(
             buttonText: 'Login',
             textSize: 20.sp,
-            buttonHeight: 50.h,
-            buttonWidth: 300.w,
+            buttonHeight: displayHeight(context)*0.075,
+            buttonWidth: displayWidth(context) * 0.8,
             onPressed: ()=> {
               //do something
             },
@@ -100,11 +99,13 @@ class LoginInputWrapper extends StatelessWidget {
           SizedBox(height: displayHeight(context) * 0.04),
           Text(
             "Or continue with",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black, fontSize: 15.sp),
           ),
           SizedBox(height: displayHeight(context) * 0.01),
 
-          Image(image: AssetImage('Assets/images/google.png')),
+          Image(image: AssetImage('Assets/images/google.png'),
+            height: displayHeight(context) * 0.06,
+          width: displayWidth(context) * 0.06,),
           SizedBox(height: displayHeight(context) * 0.02),
           TextButton(
             onPressed: () {
@@ -113,7 +114,7 @@ class LoginInputWrapper extends StatelessWidget {
             },
             child: Text("Don't have an account? Sign up",
                 style: GoogleFonts.robotoCondensed(
-                    color: Color(0xFF000000), fontSize: 14, fontWeight: FontWeight.w700)),
+                    color: Color(0xFF000000), fontSize: 14.sp, fontWeight: FontWeight.w700)),
             //backgroundColor: Colors.white,
           ),
 

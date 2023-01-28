@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '/utility.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login_input_wrapper.dart';
 
 class Login extends StatelessWidget {
@@ -20,12 +20,13 @@ class Login extends StatelessWidget {
         child: Column(
           children: <Widget>[
             SizedBox(height: displayHeight(context) * 0.07),
-            Roboto_heading(textValue: 'Login', size: 28),
+            Roboto_heading(textValue: 'Login', size: 28.sp),
             SizedBox(height: displayHeight(context) * 0.01),
-            Roboto_subheading(textValue: 'Sign in to continue', size: 16),
+            Roboto_subheading(textValue: 'Sign in to continue', size: 16.sp),
             SizedBox(height: displayHeight(context) * 0.1,),
             //Header(),
             Expanded(child: Container(
+              height: displayHeight(context)*0.2,
               width: displayWidth(context),
               decoration: BoxDecoration(
                   color: Colors.white,

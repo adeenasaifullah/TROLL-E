@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
      drawer: Menu(),
       appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: const Color(0xFFBAD3D4),
+        backgroundColor: kPrimaryColor,
         title:  Roboto_heading(textValue: 'Profile', size: 20.sp)
 
       ),

@@ -30,7 +30,7 @@ class Menu extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    kPrimaryColor,
+                    kPrimaryDarkColor,
                     kPrimaryColor,
                     Colors.white,
                   ],

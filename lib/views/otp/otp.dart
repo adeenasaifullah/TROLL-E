@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:troll_e/views/otp/otp_form.dart';
 import '/utility.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OTP extends StatelessWidget {
   @override
@@ -14,12 +15,12 @@ class OTP extends StatelessWidget {
         ),
         child: Column(
           children: <Widget>[
-            SizedBox(height: displayHeight(context) * 0.07),
-            Roboto_heading(textValue: 'OTP Verification', size: 28),
-            SizedBox(height: displayHeight(context) * 0.01),
-            Roboto_subheading(textValue: 'We sent your code to +92 398 860 ***', size: 16),
+            SizedBox(height: 50.h),
+            Roboto_heading(textValue: 'OTP Verification', size: 26.sp),
+            SizedBox(height: 15.h),
+            Roboto_subheading(textValue: 'We sent your code to +92 398 860 ***', size: 14.sp),
             buildTimer(),
-            SizedBox(height: displayHeight(context) * 0.1,),
+            SizedBox(height: 60.h),
             //Header(),
             Expanded(child: Container(
               width: displayWidth(context),

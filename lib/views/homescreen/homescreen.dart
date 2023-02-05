@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:troll_e/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

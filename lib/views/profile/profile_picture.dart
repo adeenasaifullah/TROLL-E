@@ -20,6 +20,8 @@ class _ProfilePicState extends State<ProfilePic> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return SizedBox(
       height: 150.h,
       //width: 80.w,
@@ -30,7 +32,7 @@ class _ProfilePicState extends State<ProfilePic> {
         children: [
           CoverImage(),
           Positioned(
-            top: 20,
+            top: height * 0.03,
             // child: ClipOval(
             //     child: (imagePath != null)
             //     ? Image.file(File(imagePath!), width: 80.w,height: 85.h,)
@@ -47,8 +49,8 @@ class _ProfilePicState extends State<ProfilePic> {
             ),
           ),
           Positioned(
-            right:150,
-            bottom: 50,
+            right:width * 0.37,
+            bottom: height * 0.07,
             child: SizedBox(
               height: 30.h,
               width: 30.w,

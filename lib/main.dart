@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';
 import 'package:troll_e/views/homescreen/homescreen.dart';
+import 'package:troll_e/views/login_signup/profile_image.dart';
 import 'package:troll_e/views/otp/otp.dart';
 import 'package:troll_e/views/profile/user_edit_profile.dart';
 
@@ -153,6 +154,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text("HomeScreen"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  ProfileImage()),
+                );
+              },
+              child: const Text("Profile Image"),
             ),
 
           ],

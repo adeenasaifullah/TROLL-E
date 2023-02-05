@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
 import 'package:troll_e/views/otp/otp.dart';
 import 'package:troll_e/views/profile/user_edit_profile.dart';
+import 'package:troll_e/views/help_center.dart';
 
 void main() {
   runApp(const MyApp());
@@ -133,6 +134,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text("OTP"),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  Helpcenter()),
+                );
+              },
+              child: const Text("Help Center"),
             ),
 
           ],

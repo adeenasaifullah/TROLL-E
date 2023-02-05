@@ -17,6 +17,10 @@ class SignupInputWrapper extends StatelessWidget {
       padding: EdgeInsets.all(30),
       child: Column(
         children: <Widget>[
+      Expanded(
+      child: SingleChildScrollView(
+          child: Column(
+          children: <Widget>[
           SizedBox(height: displayHeight(context) * 0.01),
           Container(
               decoration: BoxDecoration(
@@ -165,6 +169,10 @@ class SignupInputWrapper extends StatelessWidget {
           ),
         ],
       ),
+    )
+    )
+    ]
+      )
     );
   }
 }

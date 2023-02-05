@@ -14,6 +14,10 @@ class LoginInputWrapper extends StatelessWidget {
       padding: EdgeInsets.all(30),
       child: Column(
         children: <Widget>[
+      Expanded(
+      child: SingleChildScrollView(
+          child: Column(
+          children: <Widget>[
           SizedBox(height: displayHeight(context) * 0.02),          Container(
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -76,7 +80,7 @@ class LoginInputWrapper extends StatelessWidget {
           SizedBox(height: displayHeight(context) * 0.01),
           Row(
               children: <Widget>[
-                SizedBox(width: displayWidth(context) * 0.55),
+                SizedBox(width: displayWidth(context) * 0.4),
                 TextButton(
                   onPressed: () {},
                   child: Text(
@@ -86,7 +90,7 @@ class LoginInputWrapper extends StatelessWidget {
                 ),
               ]
           ),
-          SizedBox(height: displayHeight(context) * 0.06),
+          SizedBox(height: displayHeight(context) * 0.04),
           NavButton(
             buttonText: 'Login',
             textSize: 20.sp,
@@ -104,9 +108,9 @@ class LoginInputWrapper extends StatelessWidget {
           SizedBox(height: displayHeight(context) * 0.01),
 
           Image(image: AssetImage('Assets/images/google.png'),
-            height: displayHeight(context) * 0.06,
-          width: displayWidth(context) * 0.06,),
-          SizedBox(height: displayHeight(context) * 0.02),
+            height: displayHeight(context) * 0.1,
+          width: displayWidth(context) * 0.1,),
+          //SizedBox(height: displayHeight(context) * 0.02),
           TextButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -120,6 +124,10 @@ class LoginInputWrapper extends StatelessWidget {
 
         ],
       ),
+    )
+    )
+    ]
+      )
     );
   }
 }

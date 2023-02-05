@@ -51,10 +51,10 @@ class _HelpcenterState extends State<Helpcenter>{
             Row(
               children: <Widget>[
                 SizedBox(width: 15.w,),
-                helpquery(
-                    'Assets/icons/cart.png',
-                    'How to remove a product from the cart?'),
 
+                  helpquery(
+                      'Assets/icons/cart.png',
+                      'How to remove product from cart?'),
               ],
             ),
             SizedBox(height: 10.h,),

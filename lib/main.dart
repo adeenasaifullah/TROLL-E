@@ -6,7 +6,7 @@ import 'package:troll_e/views/homescreen/homescreen.dart';
 import 'package:troll_e/views/login_signup/profile_image.dart';
 import 'package:troll_e/views/otp/otp.dart';
 import 'package:troll_e/views/profile/user_edit_profile.dart';
-import 'package:troll_e/views/help_center.dart';
+import 'package:troll_e/views/help_center/help_center.dart';
 
 void main() {
   runApp(const MyApp());

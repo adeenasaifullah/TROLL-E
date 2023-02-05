@@ -19,6 +19,7 @@ class _HelpcenterState extends State<Helpcenter>{
     return Scaffold(
         drawer: Menu(),
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           backgroundColor:  Color(0xFFBAD3D4),
           title: Roboto_heading(textValue: 'Help Center', size: 20.sp),
         ),

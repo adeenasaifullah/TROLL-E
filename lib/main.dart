@@ -7,6 +7,7 @@ import 'package:troll_e/views/login_signup/profile_image.dart';
 import 'package:troll_e/views/otp/otp.dart';
 import 'package:troll_e/views/profile/user_edit_profile.dart';
 import 'package:troll_e/views/help_center/help_center.dart';
+import 'package:troll_e/views/splash/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -174,6 +175,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text("Help Center"),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  SplashScreen()),
+                );
+              },
+              child: const Text("Splash screen"),
             ),
 
           ],

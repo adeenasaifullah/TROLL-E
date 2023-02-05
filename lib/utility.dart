@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const kPrimaryColor = Color(0xFFBAD3D4);
+const kPrimaryDarkColor = Color(0xFF7EB0B2);
 
 Size displaySize(BuildContext context) {
   //debugPrint('Size = ' + MediaQuery.of(context).size.toString());
@@ -245,7 +246,7 @@ class NavButton extends StatelessWidget {
 
 final otpInputDecoration = InputDecoration(
   contentPadding:
-  EdgeInsets.symmetric(vertical: 20.h),
+  EdgeInsets.symmetric(vertical: 30.h),
   border: outlineInputBorder(),
   focusedBorder: outlineInputBorder(),
   enabledBorder: outlineInputBorder(),

@@ -58,7 +58,7 @@ class _OTPFormState extends State<OTPForm> {
                   child: TextFormField(
                     autofocus: true,
                     obscureText: true,
-                    style: TextStyle(fontSize: 25.sp),
+                    style: TextStyle(fontSize: 20.sp),
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     decoration: otpInputDecoration,
@@ -72,7 +72,7 @@ class _OTPFormState extends State<OTPForm> {
                   child: TextFormField(
                     focusNode: pin2FocusNode,
                     obscureText: true,
-                    style: TextStyle(fontSize: 25.sp),
+                    style: TextStyle(fontSize: 20.sp),
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     decoration: otpInputDecoration,
@@ -84,7 +84,7 @@ class _OTPFormState extends State<OTPForm> {
                   child: TextFormField(
                     focusNode: pin3FocusNode,
                     obscureText: true,
-                    style: TextStyle(fontSize: 25.sp),
+                    style: TextStyle(fontSize: 20.sp),
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     decoration: otpInputDecoration,
@@ -96,7 +96,7 @@ class _OTPFormState extends State<OTPForm> {
                   child: TextFormField(
                     focusNode: pin4FocusNode,
                     obscureText: true,
-                    style: TextStyle(fontSize: 25.sp),
+                    style: TextStyle(fontSize: 20.sp),
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     decoration: otpInputDecoration,
@@ -110,7 +110,7 @@ class _OTPFormState extends State<OTPForm> {
                 ),
               ],
             ),
-            SizedBox(height: 170.h),
+            SizedBox(height: 140.h),
 
               NavButton(
                 buttonText: 'Continue',

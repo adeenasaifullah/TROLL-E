@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
+import 'package:troll_e/views/forgot_password/forgot_password.dart';
+import 'package:troll_e/views/homescreen/homescreen.dart';
 import 'package:troll_e/views/otp/otp.dart';
 import 'package:troll_e/views/profile/user_edit_profile.dart';
 import 'package:troll_e/views/help_center.dart';
@@ -134,6 +136,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text("OTP"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  ForgotPassword()),
+                );
+              },
+              child: const Text("Forgot Password"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  HomeScreen()),
+                );
+              },
+              child: const Text("HomeScreen"),
             ),
 
             ElevatedButton(

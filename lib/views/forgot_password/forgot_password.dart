@@ -1,9 +1,16 @@
-import 'package:flutter/material.dart';
-import '/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'login_input_wrapper.dart';
+import 'package:flutter/material.dart';
+import 'package:troll_e/utility.dart';
+import 'package:troll_e/views/forgot_password/forgot_password_details.dart';
 
-class Login extends StatelessWidget {
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({Key? key}) : super(key: key);
+
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +26,11 @@ class Login extends StatelessWidget {
         ),
         child: Column(
           children: <Widget>[
-            SizedBox(height: displayHeight(context) * 0.07),
-            Roboto_heading(textValue: 'Login', size: 26.sp),
-            SizedBox(height: displayHeight(context) * 0.01),
-            Roboto_subheading(textValue: 'Sign in to continue', size: 14.sp),
-            SizedBox(height: displayHeight(context) * 0.1,),
+            SizedBox(height: 50.h),
+            Roboto_heading(textValue: 'Forgot Password', size: 26.sp),
+            SizedBox(height: 15.h),
+            Roboto_subheading(textValue: 'Please enter your email and we will send \n you a link to return to your account', size: 14.sp),
+            SizedBox(height: 60.h),
             //Header(),
             Expanded(child: Container(
               height: displayHeight(context)*0.2,
@@ -31,11 +38,11 @@ class Login extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
+                    topLeft: Radius.circular(60),
+                    topRight: Radius.circular(60),
                   )
               ),
-              child: LoginInputWrapper(),
+             child: ForgotPasswordDetails(),
             ))
           ],
         ),

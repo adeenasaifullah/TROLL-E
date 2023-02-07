@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:troll_e/views/login_signup/login.dart';
 import '/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'profile_image_wrapper.dart';
 
 class ProfileImage extends StatefulWidget {
@@ -65,9 +66,17 @@ class _ProfileImageState extends State<ProfileImage> {
                       alignment: Alignment.bottomRight,
                       child: SizedBox(
                         width: 45.w,
-                        child: Text("Skip",
-                            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey, decoration: TextDecoration.underline,)),
-                      ),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Login()));
+                          },
+                          child: Text("Skip",
+                              style: GoogleFonts.robotoCondensed( fontStyle: FontStyle.italic,
+                                  color: Colors.grey, decoration: TextDecoration.underline,)),
+                          //backgroundColor: Colors.white,
+                        ),
+                        ),
                     )
 
                     ]

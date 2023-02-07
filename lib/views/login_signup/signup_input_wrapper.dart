@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:troll_e/views/login_signup/login.dart';
+import 'package:troll_e/views/login_signup/profile_image.dart';
 import '/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -152,7 +153,8 @@ class SignupInputWrapper extends StatelessWidget {
             buttonHeight: displayHeight(context)*0.075,
             buttonWidth: displayWidth(context) * 0.8,
             onPressed: ()=> {
-              //do something
+            Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ProfileImage()))
             },
           ),
           SizedBox(height: displayHeight(context) * 0.0084),

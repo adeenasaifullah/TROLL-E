@@ -43,6 +43,7 @@ class _SingleHistoryState extends State<SingleHistory> {
             ),
           ),
         ],
+        centerTitle: true,
         title: Text((dateFormat.format(widget.reciept.date)).toString(), style: TextStyle(color: Colors.black),),
 
         backgroundColor: Color(0xFFBAD3D4),
@@ -80,7 +81,8 @@ class _SingleHistoryState extends State<SingleHistory> {
             ),
           ),
           SizedBox(height: 25),
-          Text("Product Description"),
+          Text("Product Description", style: TextStyle(fontWeight: FontWeight.w600),),
+          SizedBox(height: 25),
           Padding(
             padding: const EdgeInsets.only(left: 15.0, right: 15),
             child: Row(

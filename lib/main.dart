@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
+import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';
 import 'package:troll_e/views/homescreen/homescreen.dart';
 import 'package:troll_e/views/login_signup/profile_image.dart';
@@ -203,6 +204,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) =>  ShoppingHistory()),
+                );
+              },
+              child: const Text("Shopping History"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Checkout()),
                 );
               },
               child: const Text("Checkout"),

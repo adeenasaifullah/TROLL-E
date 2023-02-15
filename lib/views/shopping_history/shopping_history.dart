@@ -42,6 +42,7 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
             onPressed: (){
             }
         ),
+        centerTitle: true,
         title: Text('Shopping History', style: TextStyle(color: Colors.black,),),
         backgroundColor: Color(0xFFBAD3D4),
       ),

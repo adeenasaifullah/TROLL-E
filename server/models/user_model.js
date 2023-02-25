@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+//const shoppingHistory = require('./shopping_history_model');
+const shoppingHistoryItemsSchema = require('./shopping_history_items');
 
 var userSchema = new Schema({
 
@@ -29,43 +31,44 @@ var userSchema = new Schema({
         require: true
     },
 
-    shoppingHistory: {
-        receipt: [{
-            date: {
-                type: Date,
-                required: true
-            },
-            netTotal: {
-                type: Number,
-                required: true
-            },
-            gst: {
-                type: Number,
-                required: true
-            },
-            isDeleted: {
-                type: Boolean,
-                defaults: false
-            }, items: [{
-                productID: {
-                    type: String,
-                    required: true
-                },
-                productQuantity: {
-                    type: Number,
-                    required: true
-                },
-                grossTotal: {
-                    type: Number,
-                    required: true
-                },
-                isDeleted: {
-                    type: Boolean,
-                    defaults: false
-                }
-            }]
-        }]
-    }
+    shoppingHistory: shoppingHistoryItemsSchema //{
+    // receipt: [{
+    // date: {
+    //     type: Date,
+    //     required: true
+    // },
+    // netTotal: {
+    //     type: Number,
+    //     required: true
+    // },
+    // gst: {
+    //     type: Number,
+    //     required: true
+    // },
+    // isDeleted: {
+    //     type: Boolean,
+    //     defaults: false
+    // },
+    //items: [{
+    //     productID: {
+    //         type: String,
+    //         required: true
+    //     },
+    //     productQuantity: {
+    //         type: Number,
+    //         required: true
+    //     },
+    //     grossTotal: {
+    //         type: Number,
+    //         required: true
+    //     },
+    //     isDeleted: {
+    //         type: Boolean,
+    //         defaults: false
+    //     }
+    // }]
+    //     }]
+    // }
 
 })
 
@@ -75,7 +78,7 @@ userSchema.pre('save', async function (next) {
 
         if (this.isModified('password') || this.isNew) {
             const salt = await bcrypt.genSalt(10)
-            const hashedPassword = bcrypt.hash(user.password, salt)
+            const hashedPassword = await bcrypt.hash(user.password, salt)
             user.password = hashedPassword
             next()
         }

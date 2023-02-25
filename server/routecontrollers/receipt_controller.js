@@ -1,4 +1,13 @@
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
+
+// const {receiptSchema} = require('../models/receipt_model');
+//const shoppingHistorySchema = require('../models/shopping_history_model');
 const user = require('../models/user_model')
+
+// const shoppingHistory = mongoose.model('ShoppingHistory', shoppingHistorySchema);
+// const ReceiptModel = mongoose.model('Receipt', receiptSchema);
+
 
 module.exports = {
     addHistory: async (req, res, next) => {
@@ -15,13 +24,15 @@ module.exports = {
                 netTotal,
                 gst
             } = req.body
-            User.shoppingHistory.receipt.push({
-                netTotal,
-                gst,
-                date: Date.now(),
-                items,
-                isDeleted: false
-            })
+            User.shoppingHistory
+                .receipt
+                .push({
+                    netTotal,
+                    gst,
+                    date: Date.now(),
+                    items,
+                    isDeleted: false
+                })
             await User.save({
                 validateBeforeSave: false
             })
@@ -30,12 +41,7 @@ module.exports = {
 
             })
         } catch (err) {
-            res.status(400).json(
-                {
-                    success: false,
-                    message: err
-                }
-            )
+            next(err)
         }
     },
 
@@ -45,9 +51,7 @@ module.exports = {
             res.status(200).json(User.shoppingHistory.receipt)
 
         } catch (err) {
-            res.status(401).json({
-                message: err
-            })
+            next(err)
         }
     }
 }

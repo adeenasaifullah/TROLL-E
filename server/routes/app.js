@@ -23,7 +23,7 @@ router.get('/allProducts', verifyAccessToken, productController.getAllPrdoucts)
 router.post('/addTempReceipt', tempReceiptController.addTempReceipt)
 router.put('/addItemToCart/:userID', tempReceiptController.addItem)
 router.put('/decreaseQuantity/:userID', tempReceiptController.decreaseQuantity)
-
+router.put('/increaseQuantity/:userID', tempReceiptController.increaseQuantity)
 
 
 module.exports = router

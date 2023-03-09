@@ -1,3 +1,4 @@
+const { array } = require('@hapi/joi');
 const mongoose = require('mongoose');
 const shoppingHistoryItemsSchema = require('./shopping_history_items');
 const Schema = mongoose.Schema;
@@ -13,18 +14,22 @@ var receiptSchema = new Schema({
         type: Number,
         required: true
     },
-    gst: {
+    totalDiscount: {
         type: Number,
         required: true
+    },
+    gst: {
+        type: Number,  
     },
     isDeleted: {
         type: Boolean,
         default: false
     },
-    items: [shoppingHistoryItemsSchema]
+    items: [
+        {
+            type: shoppingHistoryItemsSchema
+        }
+    ]
 })
-
-// const receipt = mongoose.model('Receipt', receiptSchema)
-// module.exports = receipt
 
 module.exports = receiptSchema

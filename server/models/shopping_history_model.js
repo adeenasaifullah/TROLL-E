@@ -4,10 +4,12 @@ const receiptSchema = require('./receipt_model');
 const Schema = mongoose.Schema;
 
 var shoppingHistorySchema = new Schema({
-    receipt: [receiptSchema]
+    receipt: [
+        {
+            type: receiptSchema
+        }
+    ]
 })
 
-// const shoppingHistory = mongoose.model('ShoppingHistory', shoppingHistorySchema)
-// module.exports = shoppingHistory
 
 module.exports = shoppingHistorySchema

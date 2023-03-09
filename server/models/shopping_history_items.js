@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var shoppingHistoryItemsSchema = new Schema({
+var shoppingHistoryItemsSchema = new mongoose.Schema({
     productID: {
         type: String,
         required: true

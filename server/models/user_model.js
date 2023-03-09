@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 //const shoppingHistory = require('./shopping_history_model');
-const shoppingHistoryItemsSchema = require('./shopping_history_items');
+const receiptSchema = require('./receipt_model');
 
-var userSchema = new Schema({
+var userSchema = new mongoose.Schema({
 
     email: {
         type: String,
@@ -31,44 +31,54 @@ var userSchema = new Schema({
         require: true
     },
 
-    shoppingHistory: shoppingHistoryItemsSchema //{
-    // receipt: [{
-    // date: {
-    //     type: Date,
-    //     required: true
-    // },
-    // netTotal: {
-    //     type: Number,
-    //     required: true
-    // },
-    // gst: {
-    //     type: Number,
-    //     required: true
-    // },
-    // isDeleted: {
-    //     type: Boolean,
-    //     defaults: false
-    // },
-    //items: [{
-    //     productID: {
-    //         type: String,
-    //         required: true
-    //     },
-    //     productQuantity: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     grossTotal: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     isDeleted: {
-    //         type: Boolean,
-    //         defaults: false
-    //     }
-    // }]
-    //     }]
-    // }
+    shoppingHistory:
+    //  shoppingHistoryItemsSchema
+    {
+        receipt: [{
+            type: {
+                receiptSchema
+            }
+            // date: {
+            //     type: Date,
+            //     required: true
+            // },
+            // netTotal: {
+            //     type: Number,
+            //     required: true
+            // },
+            // gst: {
+            //     type: Number,
+            //     required: true
+            // },
+            // isDeleted: {
+            //     type: Boolean,
+            //     defaults: false
+            // },
+            // items: [
+            //     {
+            //         type: shoppingHistoryItemsSchema
+            //     }
+            // ]
+            // [{
+            //     productID: {
+            //         type: String,
+            //         required: true
+            //     },
+            //     productQuantity: {
+            //         type: Number,
+            //         required: true
+            //     },
+            //     grossTotal: {
+            //         type: Number,
+            //         required: true
+            //     },
+            //     isDeleted: {
+            //         type: Boolean,
+            //         defaults: false
+            //     }
+            // }]
+        }]
+    }
 
 })
 

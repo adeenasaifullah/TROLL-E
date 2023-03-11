@@ -9,6 +9,10 @@ var userSchema = new Schema({
         require: true
     },
 
+    google_id: {
+        type: String
+    },
+
     first_name: {
         type: String,
         require: true
@@ -21,12 +25,16 @@ var userSchema = new Schema({
 
     phone_number: {
         type: String,
-        require: true
+        
+    },
+
+    image: {
+        type: String
     },
 
     password: {
         type: String,
-        require: true
+        
     },
 
     shoppingHistory: {
@@ -58,20 +66,21 @@ var userSchema = new Schema({
         }]
     }
 
-})
+});
 
 userSchema.pre('save', async function (next) {
-    var user = this;
+    
     try {
 
-        if (this.isModified('password') || this.isNew) {
+         if (this.isModified('password') || this.isNew) {
             const salt = await bcrypt.genSalt(10)
-            const hashedPassword = bcrypt.hash(user.password, salt)
-            user.password = hashedPassword
+            const hashedPassword = await bcrypt.hash(this.password, salt)
+            this.password = hashedPassword
             next()
-        }
+         }
     }
-    catch (error) {
+    catch (error)
+     {
         next(error)
     }
 

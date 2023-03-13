@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+//const shoppingHistory = require('./shopping_history_model');
+const receiptSchema = require('./receipt_model');
 
-var userSchema = new Schema({
+var userSchema = new mongoose.Schema({
 
     email: {
         type: String,
@@ -37,32 +39,52 @@ var userSchema = new Schema({
         
     },
 
-    shoppingHistory: {
+    shoppingHistory:
+    //  shoppingHistoryItemsSchema
+    {
         receipt: [{
-            productID: {
-                type: String,
-                required: true
-            },
-            productQuantity: {
-                type: Number,
-                required: true
-            },
-            date: {
-                type: Date,
-                required: true
-            },
-            grossTotal: {
-                type: Number,
-                required: true
-            },
-            netTotal: {
-                type: Number,
-                required: true
-            },
-            gst: {
-                type: Number,
-                required: true
+            type: {
+                receiptSchema
             }
+            // date: {
+            //     type: Date,
+            //     required: true
+            // },
+            // netTotal: {
+            //     type: Number,
+            //     required: true
+            // },
+            // gst: {
+            //     type: Number,
+            //     required: true
+            // },
+            // isDeleted: {
+            //     type: Boolean,
+            //     defaults: false
+            // },
+            // items: [
+            //     {
+            //         type: shoppingHistoryItemsSchema
+            //     }
+            // ]
+            // [{
+            //     productID: {
+            //         type: String,
+            //         required: true
+            //     },
+            //     productQuantity: {
+            //         type: Number,
+            //         required: true
+            //     },
+            //     grossTotal: {
+            //         type: Number,
+            //         required: true
+            //     },
+            //     isDeleted: {
+            //         type: Boolean,
+            //         defaults: false
+            //     }
+            // }]
         }]
     }
 

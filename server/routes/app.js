@@ -19,8 +19,8 @@ router.post('/changepassword/:userId/:token', userController.changepassword)
 router.post('/refresh', userController.refreshtoken)
 router.delete('/logout', userController.logout )
 
-router.put('/addToShoppingHistory/:userID', receiptController.addHistory)
-router.get('/allProducts', productController.getAllPrdoucts)
+// router.put('/addToShoppingHistory/:userID', receiptController.addHistory)
+// router.get('/allProducts', productController.getAllPrdoucts)
 router.get('/auth/google', passport.authenticate('google', {scope: ['email','profile']}))
 router.get('/google/signin', passport.authenticate('google', {
     successRedirect: '/home',
@@ -40,6 +40,7 @@ router.post('/addTempReceipt', tempReceiptController.addTempReceipt)
 router.put('/addItemToCart/:userID', tempReceiptController.addItem)
 router.put('/decreaseQuantity/:userID', tempReceiptController.decreaseQuantity)
 router.put('/increaseQuantity/:userID', tempReceiptController.increaseQuantity)
+router.post('/verifytagid', tempReceiptController.verifyRFID)
 
 // http://localhost:3000/google/signin
 

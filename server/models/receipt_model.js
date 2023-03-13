@@ -33,3 +33,5 @@ var receiptSchema = new Schema({
 })
 
 module.exports = receiptSchema
+
+

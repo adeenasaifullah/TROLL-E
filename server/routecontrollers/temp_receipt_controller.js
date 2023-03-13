@@ -1,8 +1,60 @@
 var tempReceipt = require("../models/temp_receipt")
 const Products = require("../models/product_model")
 const User = require("../models/user_model")
-
+const receiptSchema = require("../models/receipt_model")
 module.exports = {
+
+    verifyRFID : async (req,res,next) => {
+
+        try {
+
+            const tempreceipt = await tempReceipt.findOne({
+                UID : req.body.UID
+            })
+            if (!tempreceipt) throw createError.NotFound('This trolley is not used by any user')
+
+            const currentuserID = tempreceipt.userID
+
+
+            const user = await User.findOne({ _id: currentuserID })
+            user.shoppingHistory
+            .receipt
+            .push({
+                date: tempreceipt.receipt.date,
+                netTotal: tempreceipt.receipt.netTotal,
+                totalDiscount: tempreceipt.receipt.totalDiscount,
+                gst: tempreceipt.receipt.gst,
+                isDeleted: tempreceipt.receipt.isDeleted,
+                items: tempreceipt.receipt.items,
+            
+            })
+            await user.save();
+            await tempreceipt.delete();
+
+            res.send({date: tempreceipt.receipt.date,
+                netTotal: tempreceipt.receipt.netTotal,
+                totalDiscount: tempreceipt.receipt.totalDiscount,
+                gst: tempreceipt.receipt.gst,
+                isDeleted: tempreceipt.receipt.isDeleted,
+                items: tempreceipt.receipt.items,})
+
+            //find user against this UID
+            //store this receipt in the user's shopping history
+        }
+
+        catch (error) {
+
+            res.send("You are doing something wrong");
+            console.log(error);
+
+        }
+
+
+
+    },
+
+
+
 
     addTempReceipt: async (req, res) => {
         try {

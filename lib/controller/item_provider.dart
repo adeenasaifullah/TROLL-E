@@ -2,12 +2,12 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
-import 'package:troll_e/models/item_model.dart';
+import 'package:troll_e/models/Item_model.dart';
 
 class itemprovider extends ChangeNotifier{
-  List<Items> _itemlist = [];
+  List<ItemModel> _itemlist = [];
 
-  UnmodifiableListView<Items> get items {
+  UnmodifiableListView<ItemModel> get items {
     return UnmodifiableListView(_itemlist);
   }
 

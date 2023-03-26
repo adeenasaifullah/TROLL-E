@@ -26,7 +26,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
           true,
           ScanMode.BARCODE).then((value)=>setState(()=> _result=value));
       // setState(() {
-      //   _result = qrResult;
+      //   _result = value;
       // });
     }
     catch (ex) {

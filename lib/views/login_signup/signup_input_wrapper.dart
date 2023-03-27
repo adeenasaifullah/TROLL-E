@@ -17,6 +17,7 @@ class SignupInputWrapper extends StatelessWidget {
   final _signUpFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    bool result;
     return Padding(
       padding: EdgeInsets.all(30),
       child: Column(
@@ -176,15 +177,19 @@ class SignupInputWrapper extends StatelessWidget {
               textSize: 20.sp,
               buttonHeight: displayHeight(context)*0.075,
               buttonWidth: displayWidth(context) * 0.8,
-              onPressed: ()=> {
+              onPressed: () async {
 
               if (_signUpFormKey.currentState!.validate()) {
-              signUp(context: context, first_name: fnameController.text, last_name: lnameController.text,
+              result = await signUp(context: context, first_name: fnameController.text, last_name: lnameController.text,
                 email: emailController.text, phone_number: phoneController.text,
-                password: passwordController.text)
+                password: passwordController.text);
+                    print(result);
+                if (result == (true)){
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ProfileImage()));
+                }
               }
-              // Navigator.of(context).push(MaterialPageRoute(
-              // builder: (context) => ProfileImage()))
+
               },
             ),
             SizedBox(height: displayHeight(context) * 0.0084),

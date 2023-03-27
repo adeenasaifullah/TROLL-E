@@ -34,7 +34,7 @@ void showSnackBar(BuildContext context, String text) {
   );
 }
 
-void signUp({
+Future<bool> signUp({
   required BuildContext context,
   required String email,
   required String first_name,
@@ -52,6 +52,7 @@ void signUp({
         body: jsonEncode(newuser),
         headers: {"Content-Type":"application/json"},
     );
+      Future<bool> result = Future.value(false);
 
     httpErrorHandle(
       response: response,
@@ -61,21 +62,24 @@ void signUp({
           context,
           'You have successfully signed up!'
         );
+        result = Future.value(true);
       }
     );
-
+      return result;
   }
 
   catch (error){
     showSnackBar(context, error.toString());
+    return Future.value(false);
   }
 }
 
 
-void login({
+Future<bool> login({
   required BuildContext context,
   required String email,
   required String password,
+  required SharedPreferences prefs,
 
 }) async {
   try{
@@ -90,23 +94,27 @@ void login({
     var jsonResponse = jsonDecode(response.body);
     var accessToken = jsonResponse['accesstoken'];
     var refreshToken = jsonResponse['refreshtoken'];
-
+    Future<bool> result = Future.value(false);
     httpErrorHandle(
         response: response,
         context: context,
-        onSuccess: (){
-          //preferences.setString('accesstoken', accessToken);
-          print(accessToken );
-          print(refreshToken);
+        onSuccess: () async{
+          //SharedPreferences preferences = await SharedPreferences.getInstance();
+          prefs.setString('accesstoken', accessToken);
+          prefs.setString('refreshtoken', refreshToken);
+
 
           showSnackBar(
               context,
               'You have successfully logged In!'
+
           );
+          result = Future.value(true);
         }
     );
-
+    return result;
   }catch (error){
     showSnackBar(context, error.toString());
+    return Future.value(false);
   }
 }

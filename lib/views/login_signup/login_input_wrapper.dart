@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../helpers/user_apis.dart';
+import '../homescreen/homescreen.dart';
 import 'Signup.dart';
 import '/utility.dart';
 
@@ -12,21 +13,23 @@ class LoginInputWrapper extends StatefulWidget {
   _LoginInputWrapperState createState() => _LoginInputWrapperState();
 }
 class _LoginInputWrapperState extends State<LoginInputWrapper>{
-  //late SharedPreferences prefs;
+  late SharedPreferences prefs;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _loginFormKey = GlobalKey<FormState>();
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   initSharedPref();
-  // }
-  // void initSharedPref() async{
-  //   prefs = await SharedPreferences.getInstance();
-  // }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+  void initSharedPref() async{
+    prefs = await SharedPreferences.getInstance();
+  }
 
   Widget build(BuildContext context) {
+
+   bool result;
     return Padding(
       padding: EdgeInsets.all(30),
       child: Column(
@@ -115,10 +118,16 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
               textSize: 20.sp,
               buttonHeight: displayHeight(context)*0.075,
               buttonWidth: displayWidth(context) * 0.8,
-              onPressed: ()=> {
+              onPressed: () async {
               if (_loginFormKey.currentState!.validate()) {
-                login(context: context,   email: emailController.text, password: passwordController.text)
-    }
+                 result = await login(context: context, prefs: prefs,  email: emailController.text, password: passwordController.text);
+               print(result);
+                if (result == (true)){
+                    Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => HomeScreen()));
+                }
+
+            }
               },
             ),
             SizedBox(height: displayHeight(context) * 0.04),

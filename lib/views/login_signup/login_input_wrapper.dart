@@ -13,7 +13,7 @@ class LoginInputWrapper extends StatefulWidget {
   _LoginInputWrapperState createState() => _LoginInputWrapperState();
 }
 class _LoginInputWrapperState extends State<LoginInputWrapper>{
-  late SharedPreferences prefs;
+  //late SharedPreferences prefs;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _loginFormKey = GlobalKey<FormState>();
@@ -21,15 +21,16 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    initSharedPref();
+  //  initSharedPref();
   }
-  void initSharedPref() async{
-    prefs = await SharedPreferences.getInstance();
-  }
+  // void initSharedPref() async{
+  //   prefs = await SharedPreferences.getInstance();
+  //   print("THIS IS PREFS VALUE IN INITSHAREDPREF OF LOGINWRAPPER SCREEEN");
+  //   print(prefs.get('accesstoken'));
+  // }
 
   Widget build(BuildContext context) {
-
-   bool result;
+    late SharedPreferences prefs;
     return Padding(
       padding: EdgeInsets.all(30),
       child: Column(
@@ -120,11 +121,12 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
               buttonWidth: displayWidth(context) * 0.8,
               onPressed: () async {
               if (_loginFormKey.currentState!.validate()) {
-                 result = await login(context: context, prefs: prefs,  email: emailController.text, password: passwordController.text);
-               print(result);
-                if (result == (true)){
+                 prefs = await login(context: context,   email: emailController.text, password: passwordController.text);
+               print("result");
+               print(prefs.get('accesstoken'));
+                if (prefs.get('accesstoken') != null){
                     Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => HomeScreen()));
+                    builder: (context) => HomeScreen(token: prefs.get("accesstoken"),)));
                 }
 
             }

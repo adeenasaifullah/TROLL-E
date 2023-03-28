@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:troll_e/provider/profile_provider.dart';
+import 'package:troll_e/provider/user_provider.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
 import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';
 import 'package:troll_e/views/homescreen/homescreen.dart';
+import 'package:troll_e/views/login_signup/login.dart';
 import 'package:troll_e/views/login_signup/profile_image.dart';
 import 'package:troll_e/views/otp/otp.dart';
 import 'package:troll_e/views/profile/user_edit_profile.dart';
@@ -11,13 +15,25 @@ import 'package:troll_e/views/help_center/help_center.dart';
 import 'package:troll_e/views/splash/splash_screen.dart';
 import 'package:troll_e/views/cart/shopping_cart.dart';
 import 'package:troll_e/views/shopping_history/shopping_history.dart';
+import 'package:provider/provider.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => ProfileProvider()),
+      ChangeNotifierProvider(create: (_) => UserProvider()),
+    ],
+    child: MyApp(token: prefs.getString('accesstoken')),
+  ),);
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final token;
+  const MyApp({
+    @required this.token,
+    Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -41,7 +57,8 @@ class MyApp extends StatelessWidget {
               // is not restarted.
               primarySwatch: Colors.blue,
             ),
-            home: const MyHomePage(title: 'Flutter Demo Home Page'),
+            home: (token != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
+            //const MyHomePage(title: 'Flutter Demo Home Page'),
           );
         }
     );

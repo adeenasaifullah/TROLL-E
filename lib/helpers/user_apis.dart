@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:troll_e/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import '../models/receipt_model.dart';
+import '../views/login_signup/login.dart';
 
 
 void httpErrorHandle({
@@ -75,13 +76,14 @@ Future<bool> signUp({
 }
 
 
-Future<bool> login({
+Future<SharedPreferences> login({
   required BuildContext context,
   required String email,
   required String password,
-  required SharedPreferences prefs,
+
 
 }) async {
+   SharedPreferences prefs= await SharedPreferences.getInstance();
   try{
     var reqBody = {
       "email" : email,
@@ -94,7 +96,7 @@ Future<bool> login({
     var jsonResponse = jsonDecode(response.body);
     var accessToken = jsonResponse['accesstoken'];
     var refreshToken = jsonResponse['refreshtoken'];
-    Future<bool> result = Future.value(false);
+    //Future<bool> result = Future.value(false);
     httpErrorHandle(
         response: response,
         context: context,
@@ -102,6 +104,8 @@ Future<bool> login({
           //SharedPreferences preferences = await SharedPreferences.getInstance();
           prefs.setString('accesstoken', accessToken);
           prefs.setString('refreshtoken', refreshToken);
+          print("LOGINNNNN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          print(prefs.get("accesstoken"));
 
 
           showSnackBar(
@@ -109,12 +113,79 @@ Future<bool> login({
               'You have successfully logged In!'
 
           );
-          result = Future.value(true);
+         // result = Future.value(true);
         }
     );
-    return result;
+    return prefs;
   }catch (error){
     showSnackBar(context, error.toString());
-    return Future.value(false);
+    return prefs;
   }
+}
+
+void logOut(BuildContext context) async {
+  try {
+    SharedPreferences prefs =await SharedPreferences.getInstance();
+    print("ACCESS TOKEN IN LOGOUT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+    print(prefs.get('accesstoken'));
+    prefs.remove('accesstoken');
+
+    print("ACCESS TOKEN IN LOGOUT PART 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+    print(prefs.get('accesstoken'));
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+        Login()), (Route<dynamic> route) => false);
+    // Navigator.pushNamedAndRemoveUntil(
+    //   context,
+    //   "/login",
+    //       (route) => false,
+    // );
+  } catch (e) {
+    showSnackBar(context, e.toString());
+  }
+}
+
+
+Future<UserModel?> getProfile({required BuildContext context}) async {
+  UserModel? user;
+  try{
+
+    print(" BEFORE SHARED PREF !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accesstoken');
+    print("TRYING TO PRINT access token  HERE");
+    print(accessToken);
+    print("TRYING TO PRINT prefs.get(accesstoken) HERE");
+    print(prefs.get("accesstoken"));
+    http.Response res =
+    await http.get(Uri.parse("http://localhost:3000/getprofile"),
+      headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
+    print(" BEFORE HTTP ERROR HANDLE and now res.body!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    print((res.body));
+    print("^^^^^^^^^^^^^^^^^^^^^^^");
+    httpErrorHandle(
+        response: res,
+        context: context,
+
+        onSuccess: () async{
+          print(" BEFORE MAP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+          //SharedPreferences preferences = await SharedPreferences.getInstance();
+          Map<String, dynamic> json = jsonDecode(res.body);
+          user = UserModel.fromJson(json);
+          print("............USER FIRST NAMEE ...........................................");
+          print(user?.first_name);
+
+
+        }
+    );
+  return user;
+  }
+
+  catch(err){
+        print(err);
+        return user;
+
+  }
+
 }

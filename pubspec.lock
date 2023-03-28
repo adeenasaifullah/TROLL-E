@@ -212,6 +212,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
+  jwt_decoder:
+    dependency: "direct main"
+    description:
+      name: jwt_decoder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   lints:
     dependency: transitive
     description:
@@ -240,6 +247,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -338,6 +352,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.5"
   shared_preferences:
     dependency: "direct main"
     description:

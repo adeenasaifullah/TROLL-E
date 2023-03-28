@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:troll_e/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:troll_e/views/menu/menu.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final token;
+  const HomeScreen({@required this.token, Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -13,6 +15,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _result = "";
+  late String userId;
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Map<String,dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+  //  userId = jwtDecodedToken['_id'];
+    print("INSIDE HOMESCREEEN AND THIS IS THE JWTDECODEDTOKEN");
+    print(jwtDecodedToken);
+    print(jwtDecodedToken['email']);
+   // print(userId);
+
+
+  }
 
    _scanQR() async {
     try {

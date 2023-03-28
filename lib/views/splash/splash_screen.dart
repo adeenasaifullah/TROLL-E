@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:troll_e/views/homescreen/homescreen.dart';
+import 'package:troll_e/views/login_signup/signup.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                HomeScreen()
+                Signup()
             )
 
       );

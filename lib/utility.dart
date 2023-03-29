@@ -129,6 +129,8 @@ class Roboto_boldtext extends StatelessWidget {
   }
 }
 
+
+
 class field extends StatefulWidget {
   //final bool? obscuredText;
   final String labelText;
@@ -163,7 +165,7 @@ class field extends StatefulWidget {
 
 class _fieldState extends State<field> {
   final _formKey = GlobalKey<FormState>();
-  bool _obscured = false;
+  bool _obscured = true;
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +173,7 @@ class _fieldState extends State<field> {
       width: displayWidth(context) * 0.8,
       height: displayHeight(context)*0.075,
       child: TextFormField(
-        obscureText: _obscured,
+        //obscureText: _obscured,
         controller: widget.textController,
         //onChanged: widget.onChanged,
         validator: widget.validateInput,
@@ -195,13 +197,14 @@ class _fieldState extends State<field> {
           suffixIcon:
           IconButton(
               icon: Icon(widget.suffixIcon),
+
               onPressed: () {
 
-                if (_obscured == false) {
-                 widget.suffixIcon = Icons.visibility_off;
-                } else {
-                  widget.suffixIcon = Icons.visibility;
-                }
+                // if (_obscured == false) {
+                //  widget.suffixIcon = Icons.visibility_off;
+                // } else {
+                //   widget.suffixIcon = Icons.visibility;
+                // }
                 _obscured = !_obscured;
 
                 setState(() {});

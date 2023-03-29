@@ -95,7 +95,7 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
                         labelText: 'Password',
                         //hintText: 'Enter your password',
                        // prefixIcon: Icon(Icons.lock_outline, color: Color(0xFF838383)),
-                        //suffixIcon: Icons.visibility_off,
+                        suffixIcon: Icons.visibility_off,
                         //suffixIcon:  obscureIcon ? Icons.visibility : Icons.visibility_off,
                         autoFocus: false,
                         // obscuredText: true,

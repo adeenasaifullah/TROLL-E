@@ -139,7 +139,7 @@ class field extends StatefulWidget {
   final String? Function(String?)? validateInput;
   final TextEditingController textController;
   VoidCallback? onPressed;
-  bool? obscuredText;
+  //bool? obscuredText;
 
   field({
     Key? key,
@@ -153,7 +153,7 @@ class field extends StatefulWidget {
     required this.autoFocus,
 
     // this.onPressed,
-    this.obscuredText,
+    //this.obscuredText,
     //this.onPressed
   }) : super(key: key);
 

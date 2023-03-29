@@ -1,8 +1,10 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:troll_e/controller/user_provider.dart';
 import 'package:troll_e/provider/profile_provider.dart';
-import 'package:troll_e/provider/user_provider.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
 import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';
@@ -19,7 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 void main() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+SharedPreferences prefs = await SharedPreferences.getInstance();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ProfileProvider()),
@@ -28,7 +30,7 @@ void main() async {
     child: MyApp(token: prefs.getString('accesstoken')),
   ),);
 }
-
+//token: context.read<UserProvider>().prefs.getString('accesstoken')
 class MyApp extends StatelessWidget {
   final token;
   const MyApp({
@@ -58,6 +60,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             home: (token != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
+            //(prefs.getString('accesstoken') != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
             //const MyHomePage(title: 'Flutter Demo Home Page'),
           );
         }

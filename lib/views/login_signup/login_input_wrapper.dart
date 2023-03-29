@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../controller/user_provider.dart';
 import '../../helpers/user_apis.dart';
 import '../homescreen/homescreen.dart';
 import 'Signup.dart';
@@ -17,6 +19,7 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _loginFormKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -30,7 +33,8 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
   // }
 
   Widget build(BuildContext context) {
-    late SharedPreferences prefs;
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Padding(
       padding: EdgeInsets.all(30),
       child: Column(
@@ -94,7 +98,7 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
                         //suffixIcon: Icons.visibility_off,
                         //suffixIcon:  obscureIcon ? Icons.visibility : Icons.visibility_off,
                         autoFocus: false,
-                        obscuredText: true,
+                        // obscuredText: true,
                       ),
 
                     ]
@@ -121,12 +125,12 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
               buttonWidth: displayWidth(context) * 0.8,
               onPressed: () async {
               if (_loginFormKey.currentState!.validate()) {
-                 prefs = await login(context: context,   email: emailController.text, password: passwordController.text);
+                login(context: context,   email: emailController.text, password: passwordController.text);
                print("result");
-               print(prefs.get('accesstoken'));
-                if (prefs.get('accesstoken') != null){
+               //print(userProvider.prefs.getString('accesstoken'));
+                if (context.read<UserProvider>().prefs.getString('accesstoken') != null){
                     Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => HomeScreen(token: prefs.get("accesstoken"),)));
+                    builder: (context) => HomeScreen(token: context.read<UserProvider>().prefs.getString("accesstoken"),)));
                 }
 
             }

@@ -76,19 +76,24 @@ Future<bool> signUp({
     return Future.value(false);
   }
 }
-  void login({
+  Future<void> login({
   required BuildContext context,
   required String email,
   required String password,
+    required UserProvider userProvider
 }) async {
    // SharedPreferences prefs= await SharedPreferences.getInstance();
   try{
-    final userProvider = Provider.of<UserProvider>(context);
-    userProvider.setSharedPreferences();
+    print("initializing userprovider line 86");
+   //  final userProvider = Provider.of<UserProvider>(context);
+    print("initializing prefs line 87");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+  //  await userProvider.setSharedPreferences();
     var reqBody = {
       "email" : email,
       "password" : password
     };
+    print("making http call line 94");
     http.Response response = await http.post(Uri.parse('http://localhost:3000/login'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
@@ -96,35 +101,42 @@ Future<bool> signUp({
     var jsonResponse = jsonDecode(response.body);
     var accessToken = jsonResponse['accesstoken'];
     var refreshToken = jsonResponse['refreshtoken'];
-    UserModel user = jsonResponse['user'];
-    //Future<bool> result = Future.value(false);
+    var userJson = jsonResponse['user'];
+    UserModel user = UserModel.fromJson(userJson);
+   // Future<bool> result = Future.value(false);
     httpErrorHandle(
         response: response,
         context: context,
         onSuccess: () async{
+          print("inside onsucess line 108");
           //SharedPreferences preferences = await SharedPreferences.getInstance();
-          userProvider.prefs.setString('accesstoken', accessToken);
-          userProvider.prefs.setString('refreshtoken', refreshToken);
+          // prefs.setString('accesstoken', accessToken);
+          // prefs.setString('refreshtoken', refreshToken);
+          print("line 115 setCurrentUser");
           userProvider.setCurrentUser(user);
+          await userProvider.setSharedPreferences(accessToken, refreshToken);
+
+
 
           // prefs.setString('accesstoken', accessToken);
           // prefs.setString('refreshtoken', refreshToken);
-          // print("LOGINNNNN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-          print(userProvider.prefs.get("accesstoken"));
+           print("LOGINNNNN userprovider accesstoken !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          print(userProvider.prefs.getString("accesstoken"));
 
 
           showSnackBar(
               context,
               'You have successfully logged In!'
-
           );
-         // result = Future.value(true);
+          //result = Future.value(true);
+
         }
     );
-    // return prefs;
+    // return result;
   }catch (error){
     showSnackBar(context, error.toString());
-    // return prefs;
+    //return Future.value(false);
+    //return prefs;
   }
 }
 

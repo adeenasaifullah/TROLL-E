@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:troll_e/provider/profile_provider.dart';
+import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/views/profile/change_password.dart';
 import 'package:troll_e/views/profile/profile_picture.dart';
 

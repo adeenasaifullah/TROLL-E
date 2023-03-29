@@ -14,8 +14,11 @@ class UserProvider extends ChangeNotifier{
   List<ItemModel> allProducts = [];
 
 
-  Future<void> setSharedPreferences() async {
-    prefs = await SharedPreferences.getInstance();
+  Future<void> setSharedPreferences(String accesstoken,String refreshtoken) async {
+
+    prefs =  await SharedPreferences.getInstance();
+    prefs.setString('accesstoken', accesstoken);
+    prefs.setString("refreshtoken", refreshtoken);
     notifyListeners();
   }
 

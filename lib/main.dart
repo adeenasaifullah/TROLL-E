@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:troll_e/controller/user_provider.dart';
-import 'package:troll_e/provider/profile_provider.dart';
+import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
 import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';

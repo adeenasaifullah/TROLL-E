@@ -9,9 +9,11 @@ import 'package:troll_e/models/user_model.dart';
 class UserProvider extends ChangeNotifier{
   late SharedPreferences prefs;
   //SharedPreferences prefs = SharedPreferences.getInstance() as SharedPreferences;
-  late UserModel? user;
+   UserModel? user;
   List<ItemModel> currentShoppingCart = [];
   List<ItemModel> allProducts = [];
+  bool isLoading=false;
+
 
 
   Future<void> setSharedPreferences(String accesstoken,String refreshtoken) async {
@@ -22,9 +24,12 @@ class UserProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future <void> setCurrentUser(UserModel User) async {
+  void setCurrentUser(UserModel User)  {
     user = User;
+    isLoading=false;
     notifyListeners();
+    isLoading=true;
   }
+
 
 }

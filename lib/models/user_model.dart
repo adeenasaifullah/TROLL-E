@@ -3,6 +3,7 @@ import 'package:troll_e/models/receipt_model.dart';
 import 'package:troll_e/models/shopping_history.dart';
 
 class UserModel {
+   String? user_id;
   final String email;
   final String first_name;
   final String last_name;
@@ -13,6 +14,7 @@ class UserModel {
    List <ReceiptModel>? shoppingHistory = [];
 
   UserModel({
+    this.user_id,
     required this.email,
     required this.first_name,
     required this.last_name,
@@ -23,6 +25,7 @@ class UserModel {
 
   static UserModel fromJson(Map<String, dynamic> json) {
     return UserModel(
+      user_id: json['_id'],
         email: json['email'],
         first_name: json['first_name'],
         last_name: json['last_name'],

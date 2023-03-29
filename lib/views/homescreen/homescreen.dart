@@ -1,127 +1,202 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:troll_e/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:troll_e/views/menu/menu.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_glow/flutter_glow.dart';
+
+import '../../controller/profile_provider.dart';
+import '../../controller/shopping_provider.dart';
+import '../cart/shopping_cart.dart';
 
 class HomeScreen extends StatefulWidget {
   final token;
-  const HomeScreen({@required this.token, Key? key}) : super(key: key);
+  const HomeScreen({Key? key, this.token}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _result = "";
-  late String userId;
+  bool cartConnected = false;
+  String qr_code = "";
 
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Map<String,dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-  //  userId = jwtDecodedToken['_id'];
-    print("INSIDE HOMESCREEEN AND THIS IS THE JWTDECODEDTOKEN");
-    print(jwtDecodedToken);
-    print(jwtDecodedToken['email']);
-   // print(userId);
-
-
-  }
-
-   _scanQR() async {
+  Future<String> scanQR() async {
     try {
-       await FlutterBarcodeScanner.scanBarcode("#000000", "Cancel", true, ScanMode.QR).then((value)=>setState(()=> _result=value));
+      await FlutterBarcodeScanner.scanBarcode("#000000", "Cancel", true, ScanMode.QR).then((value)=>
+          setState(()=> qr_code=value));
+      return qr_code;
       // setState(() {
       //   _result = qrResult;
       // });
     }
     catch (ex) {
       setState(() {
-        _result = "Unknown Error $ex";
+        qr_code = "Unknown Error $ex";
+
       });
+      return qr_code;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final profileProvider = Provider.of<ProfileProvider>(context);
+    final shoppingProvider = Provider.of<ShoppingProvider>(context);
+
     return Scaffold(
-        extendBodyBehindAppBar:true,
-        drawer: Menu(),
+      extendBodyBehindAppBar:true,
+      drawer: Menu(),
       appBar:
       // PreferredSize(
       //   preferredSize: Size.fromHeight(80.0),
       //  child:
-        AppBar(
-            toolbarHeight: 80,
-            iconTheme: IconThemeData(color: Colors.black),
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            title: Row(mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              Image.asset('Assets/images/TROLL-E-without-tagline.png', fit: BoxFit.cover, height: 180.h,)
-        ])
-         //   title:  Roboto_heading(textValue: 'Profile', size: 20.sp)
+      AppBar(
+        toolbarHeight: 80,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+        //title: Image.asset('Assets/images/TROLL-E-without-tagline.png', fit: BoxFit.cover, height: 150.h,)
 
-        ),
-   //   ),
+      ),
+      //   ),
       body: Container(
-        width: double.infinity,
 
+        width: double.infinity,
         decoration:  const BoxDecoration(
-            gradient:  LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.white,
-                kPrimaryColor,
-               kPrimaryDarkColor,
+          image: DecorationImage(
+            image: AssetImage(
+                'Assets/images/bg3.jpeg'),
+            fit: BoxFit.cover,
+          ),
+          // gradient: LinearGradient(
+          //   begin: Alignment.topCenter,
+          //   end: Alignment.bottomCenter,
+          //   colors: [
+          //     Colors.black54,
+          //     //Color(0xffFFFFFF),
+          //   ],
+          // )
+          //color: Color(0xff434343)
+        ),
+        child: Center(
+            child:  Column(
+              children: [
+                SizedBox(height: displayHeight(context) * 0.2),
+
+                //Container(height: 150.h,),
+                Expanded(
+                  child: Container(
+                    height: displayHeight(context)*0.2,
+                    width: displayWidth(context),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(60),
+                          topRight: Radius.circular(60),
+                        )
+                    ),
+                    child: Column(
+                        children: <Widget>[
+                          SizedBox(height: displayHeight(context) * 0.07),
+                          Roboto_subheading(textValue: 'Welcome back, Adeena!', size: 18.sp),
+                          SizedBox(height: displayHeight(context) * 0.1,),
+                          CircleAvatar(
+                            backgroundColor: kPrimaryDarkColor,
+                            radius: 105.r,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 100.r,
+                              child: GlowButton(
+                                width: 150.w, height: 150.h,
+                                child: Image.asset('Assets/icons/connect.png', width: 50.w,),
+                                onPressed: (){
+// true means its glowing
+                                  if(cartConnected == true)
+                                  {
+                                    //dk why if a user is connected
+                                    // setState(() {
+                                    //   cartConnected  = false;
+                                    // });
+                                  }
+                                  else
+                                  {
+                                    String uid = scanQR() as String;
+                                    shoppingProvider.connect(uid, profileProvider.user);
+                                   // cartConnected = shoppingProvider.result;
+
+                                        setState(() {
+                                          cartConnected = shoppingProvider.result;
+                                    //  cartConnected  = true;
+                                    });
+                                  }
+                                }
+                                , borderRadius: BorderRadius.circular(500.r),
+                                color: cartConnected? kPrimaryDarkColor: Color(0xffDDE7E8),
+                                blurRadius: cartConnected? 50:0 ,
+                                spreadRadius: cartConnected? 10:0,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 120.h),
+                          GlowButton(
+                            child: Text("Start Shopping" , style:  TextStyle(color: Colors.white),),
+                            width: 300.w, height: 50.h,
+                            borderRadius: BorderRadius.circular(15),
+                            color: cartConnected? Colors.black54: Color(0xffDDE7E8),
+                            blurRadius: 0,
+                            spreadRadius: 0,
+
+                            onPressed: () {
+                              cartConnected?
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>  Shoppingcart()),
+                              ) : null;
+                            },
+
+                          ),
+                          // NavButton(
+                          //   buttonText: 'Start Shopping',
+                          //   textSize: 20.sp,
+                          //   buttonHeight: displayHeight(context)*0.075,
+                          //   buttonWidth: displayWidth(context) * 0.8,
+                          //   onPressed: ()=> {
+                          //     //do something
+                          //   },
+                          // ),
+                        ]
+
+                    ),
+                  ),
+                ),
+
+                // GlowButton(
+                //   child: Text("Start Shoping" , style:  TextStyle(color: Color(0xff111111)),),
+                //   width: 300.w, height: 50.h,
+                //   borderRadius: BorderRadius.circular(15),
+                //   color: cartConnected? kPrimaryColor: Color(0xffDDE7E8),
+                //   blurRadius: cartConnected? 60:0,
+                //   spreadRadius: cartConnected? 1:0,
+                //
+                //   onPressed: () {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) =>  Shoppingcart()),
+                //   );
+                // },
+                //
+                // ),
 
               ],
             )
+        ),
 
-        ),
-        child: Center(
-          child:  GestureDetector(
-            onTap:()  => _scanQR() ,
-            child: Container(
-              height:150.h,
-              width: 150.w,
-              margin: EdgeInsets.all(100.0),
-              decoration: BoxDecoration(
-                  color: kPrimaryColor,
-                  shape: BoxShape.circle
-              ),
-            ),
-          )
-          // Container(
-          //   height:150.h,
-          //   width: 150.w,
-          //   decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(200),
-          //       color: kPrimaryColor,
-              // boxShadow: [
-              //   BoxShadow(
-              //       color: kPrimaryColor,
-              //       blurRadius: 80,
-              //       spreadRadius: 20
-              //   )
-              // ]
-           // ),
-            // child: ElevatedButton(
-            //
-            //   style: ElevatedButton.styleFrom(
-            //     backgroundColor: Colors.transparent,
-            //     shape: CircleBorder(),
-            //     padding: EdgeInsets.all(50),
-            //     // <-- Splash color
-            //   ),
-            //     child: const Text("HomeScreen"),
-            //   onPressed: () {  },
-            // ),
-         // ),
-        ),
       ),
       // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile),
 

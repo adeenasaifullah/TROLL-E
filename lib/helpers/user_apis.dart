@@ -87,7 +87,7 @@ Future<bool> signUp({
     print("initializing userprovider line 86");
    //  final userProvider = Provider.of<UserProvider>(context);
     print("initializing prefs line 87");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  //  SharedPreferences prefs = await SharedPreferences.getInstance();
   //  await userProvider.setSharedPreferences();
     var reqBody = {
       "email" : email,
@@ -103,6 +103,8 @@ Future<bool> signUp({
     var refreshToken = jsonResponse['refreshtoken'];
     var userJson = jsonResponse['user'];
     UserModel user = UserModel.fromJson(userJson);
+    print("THIS IS THE JSON RESPONSE USER BODY ................................");
+    print(jsonResponse['user']);
    // Future<bool> result = Future.value(false);
     httpErrorHandle(
         response: response,
@@ -114,6 +116,8 @@ Future<bool> signUp({
           // prefs.setString('refreshtoken', refreshToken);
           print("line 115 setCurrentUser");
           userProvider.setCurrentUser(user);
+          print("THIS IS THE USER");
+          print(user.first_name);
           await userProvider.setSharedPreferences(accessToken, refreshToken);
 
 
@@ -123,11 +127,11 @@ Future<bool> signUp({
            print("LOGINNNNN userprovider accesstoken !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
           print(userProvider.prefs.getString("accesstoken"));
 
-
-          showSnackBar(
-              context,
-              'You have successfully logged In!'
-          );
+          //
+          // showSnackBar(
+          //     context,
+          //     'You have successfully logged In!'
+          // );
           //result = Future.value(true);
 
         }
@@ -174,17 +178,19 @@ void logout(BuildContext context) async {
 }
 
 
+
 Future<UserModel?> getProfile({required BuildContext context}) async {
   UserModel? user;
   try{
-    final userProvider = Provider.of<UserProvider>(context);
+
     print(" BEFORE SHARED PREF !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? accessToken = userProvider.prefs.getString('accesstoken');
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accesstoken');
     print("TRYING TO PRINT access token  HERE");
     print(accessToken);
     print("TRYING TO PRINT prefs.get(accesstoken) HERE");
-    print(userProvider.prefs.get("accesstoken"));
+    print(prefs.get("accesstoken"));
     http.Response res =
     await http.get(Uri.parse("http://localhost:3000/getprofile"),
       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
@@ -194,8 +200,10 @@ Future<UserModel?> getProfile({required BuildContext context}) async {
     httpErrorHandle(
         response: res,
         context: context,
+
         onSuccess: () async{
           print(" BEFORE MAP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
           //SharedPreferences preferences = await SharedPreferences.getInstance();
           Map<String, dynamic> json = jsonDecode(res.body);
           user = UserModel.fromJson(json);
@@ -205,12 +213,12 @@ Future<UserModel?> getProfile({required BuildContext context}) async {
 
         }
     );
-  return user;
+    return user;
   }
 
   catch(err){
-        print(err);
-        return user;
+    print(err);
+    return user;
 
   }
 }
@@ -254,3 +262,46 @@ Future<void> forgotpassword({
   }
 }
 
+
+//
+// Future<UserModel?> getProfile({required BuildContext context}) async {
+//   UserModel? user;
+//   try{
+//     final userProvider = Provider.of<UserProvider>(context);
+//     print(" BEFORE SHARED PREF !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//     //SharedPreferences prefs = await SharedPreferences.getInstance();
+//     String? accessToken = userProvider.prefs.getString('accesstoken');
+//     print("TRYING TO PRINT access token  HERE");
+//     print(accessToken);
+//     print("TRYING TO PRINT prefs.get(accesstoken) HERE");
+//     print(userProvider.prefs.get("accesstoken"));
+//     http.Response res =
+//     await http.get(Uri.parse("http://localhost:3000/getprofile"),
+//       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
+//     print(" BEFORE HTTP ERROR HANDLE and now res.body!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//     print((res.body));
+//     print("^^^^^^^^^^^^^^^^^^^^^^^");
+//     httpErrorHandle(
+//         response: res,
+//         context: context,
+//         onSuccess: () async{
+//           print(" BEFORE MAP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//           //SharedPreferences preferences = await SharedPreferences.getInstance();
+//           Map<String, dynamic> json = jsonDecode(res.body);
+//           user = UserModel.fromJson(json);
+//           print("............USER FIRST NAMEE ...........................................");
+//           print(user?.first_name);
+//
+//
+//         }
+//     );
+//   return user;
+//   }
+//
+//   catch(err){
+//         print(err);
+//         return user;
+//
+//   }
+//
+// }

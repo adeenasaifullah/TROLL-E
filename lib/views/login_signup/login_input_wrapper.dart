@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:troll_e/views/forgot_password/change_password.dart';
+import 'package:troll_e/views/forgot_password/forgot_password.dart';
 import '../../controller/user_provider.dart';
 import '../../helpers/user_apis.dart';
 import '../homescreen/homescreen.dart';
@@ -76,7 +78,7 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
                         autoFocus: false,
                       ),
                       SizedBox(height: displayHeight(context) * 0.03),
-                      field(
+                      passfield(
                         validateInput: (password) {
                           if (passwordController.text.isEmpty) {
                             return "* Required";
@@ -88,15 +90,9 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
                           }
                         },
 
-                        // onChanged: (val) {
-                        //   setState(() => password = val);
-                        // },
                         textController: passwordController,
                         labelText: 'Password',
-                        //hintText: 'Enter your password',
-                       // prefixIcon: Icon(Icons.lock_outline, color: Color(0xFF838383)),
                         suffixIcon: Icons.visibility_off,
-                        //suffixIcon:  obscureIcon ? Icons.visibility : Icons.visibility_off,
                         autoFocus: false,
                         // obscuredText: true,
                       ),
@@ -109,7 +105,10 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
                 children: <Widget>[
                   SizedBox(width: displayWidth(context) * 0.4),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ForgotPassword()));
+                    },
                     child: Text(
                       "Forgot Password?",
                       style: TextStyle(color: Colors.grey),

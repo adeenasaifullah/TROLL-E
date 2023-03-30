@@ -144,24 +144,36 @@ Future<bool> signUp({
   }
 }
 
-void logOut(BuildContext context) async {
+void logout(BuildContext context) async {
   try {
     SharedPreferences prefs =await SharedPreferences.getInstance();
-    print("ACCESS TOKEN IN LOGOUT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-    print(prefs.get('accesstoken'));
-    prefs.remove('accesstoken');
-
-    print("ACCESS TOKEN IN LOGOUT PART 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-    print(prefs.get('accesstoken'));
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-        Login()), (Route<dynamic> route) => false);
-    // Navigator.pushNamedAndRemoveUntil(
-    //   context,
-    //   "/login",
-    //       (route) => false,
+    // var reqBody = {
+    //   "refreshtoken": (prefs.get('refreshtoken'))
+    // };
+    // print(prefs.get('refreshtoken'));
+    // http.Response response = await http.delete(Uri.parse('http://localhost:3000/logout'),
+    //   body: jsonEncode(reqBody),
+    //   headers: {"Content-Type":"application/json"},
     // );
-  } catch (e) {
-    showSnackBar(context, e.toString());
+
+    // httpErrorHandle(
+    //     //response: response,
+    //     context: context,
+    //     onSuccess: () async{
+    //       //SharedPreferences preferences = await SharedPreferences.getInstance();
+    //       showSnackBar(
+    //           context,
+    //           'You have successfully logged out!'
+    //       );
+    //     }
+    // );
+    prefs.remove("refreshtoken");
+    prefs.remove("accesstoken");
+    // print("Refresh Token" );
+    // print( prefs.getString("refreshtoken"));
+
+  }catch (error){
+    //showSnackBar(context, error.toString());
   }
 }
 
@@ -209,8 +221,48 @@ Future<UserModel?> getProfile({required BuildContext context}) async {
     return user;
 
   }
-
 }
+
+Future<void> forgotpassword({
+  required BuildContext context,
+  required String email,
+}) async {
+  // SharedPreferences prefs= await SharedPreferences.getInstance();
+  try{
+
+    var reqBody = {
+      "email" : email,
+    };
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/forgotpassword'),
+      body: jsonEncode(reqBody),
+      headers: {"Content-Type":"application/json"},
+    );
+    var jsonResponse = jsonDecode(response.body);
+    httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () async{
+          print("email sent");
+
+
+
+          showSnackBar(
+              context,
+              'Change password link has been sent to your email.'
+          );
+          //result = Future.value(true);
+
+        }
+    );
+    // return result;
+  }catch (error){
+    showSnackBar(context, error.toString());
+    //return Future.value(false);
+    //return prefs;
+  }
+}
+
+
 //
 // Future<UserModel?> getProfile({required BuildContext context}) async {
 //   UserModel? user;

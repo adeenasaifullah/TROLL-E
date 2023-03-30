@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:troll_e/helpers/user_apis.dart';
 import 'package:troll_e/utility.dart';
+import 'package:troll_e/views/login_signup/login.dart';
 import 'package:troll_e/views/profile/profile_details.dart';
 
 class Menu extends StatelessWidget {
@@ -69,7 +70,11 @@ class Menu extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.logout) ,
             title: Text("Logout"),
-            onTap: ()=> logOut(context),),
+            onTap: ()=> { logout(context),
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Login())),
+            }
+          )
         ],
       ),
     );

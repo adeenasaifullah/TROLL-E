@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:troll_e/utility.dart';
+import '../../helpers/user_apis.dart';
 import '../login_signup/Signup.dart';
 
 class ForgotPasswordDetails extends StatefulWidget {
@@ -65,7 +66,7 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
             buttonHeight: displayHeight(context)*0.075,
             buttonWidth: displayWidth(context) * 0.8,
             onPressed: ()=> {
-              //do something
+              forgotpassword(context: context, email:emailController.text)
             },
           ),
           SizedBox(height: 20.h,),

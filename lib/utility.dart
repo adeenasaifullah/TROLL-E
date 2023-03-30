@@ -165,7 +165,7 @@ class field extends StatefulWidget {
 
 class _fieldState extends State<field> {
   final _formKey = GlobalKey<FormState>();
-  bool _obscured = true;
+  //bool _obscured = false;
 
   @override
   Widget build(BuildContext context) {
@@ -194,20 +194,93 @@ class _fieldState extends State<field> {
           prefixIcon: widget.prefixIcon,
 
           // //Icon(Icons.lock, color: Color(0xFF283618)),
+          // suffixIcon:
+          // IconButton(
+          //     icon: Icon(widget.suffixIcon),
+          //     onPressed: () {
+          //       // if (_obscured == false) {
+          //       //  widget.suffixIcon = Icons.visibility_off;
+          //       // } else {
+          //       //   widget.suffixIcon = Icons.visibility;
+          //       // }
+          //       _obscured = !_obscured;
+          //       setState(() {});
+          //     }),
+        ),
+      ),
+    );
+  }
+}
+
+class passfield extends StatefulWidget {
+  //final bool? obscuredText;
+  final String labelText;
+  //final String hintText;
+  Icon? prefixIcon;
+  IconData? suffixIcon;
+  final bool autoFocus;
+  final String? Function(String?)? validateInput;
+  final TextEditingController textController;
+  VoidCallback? onPressed;
+  //bool? obscuredText;
+
+  passfield({
+    Key? key,
+    required this.textController,
+    required this.labelText,
+    //required this.hintText,
+    this.prefixIcon,
+    this.suffixIcon,
+    //required this.onChanged,
+    this.validateInput,
+    required this.autoFocus,
+
+    // this.onPressed,
+    //this.obscuredText,
+    //this.onPressed
+  }) : super(key: key);
+
+  @override
+  _passfieldState createState() => _passfieldState();
+}
+
+class _passfieldState extends State<passfield> {
+  final _formKey = GlobalKey<FormState>();
+  bool _obscured = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: displayWidth(context) * 0.8,
+      height: displayHeight(context)*0.075,
+      child: TextFormField(
+        obscureText: _obscured,
+        controller: widget.textController,
+        //onChanged: widget.onChanged,
+        validator: widget.validateInput,
+        decoration: InputDecoration(
+          fillColor: Color(0xFFF4F1F1),
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            borderSide: const BorderSide(width: 6,  color: Color(0xFFF4F1F1)),),
+          labelText: widget.labelText,
+          labelStyle: GoogleFonts.roboto(
+            color: Color(0xFF283618),
+            fontSize: 14,
+          ),
+          prefixIcon: widget.prefixIcon,
           suffixIcon:
           IconButton(
               icon: Icon(widget.suffixIcon),
-
               onPressed: () {
-
-                // if (_obscured == false) {
-                //  widget.suffixIcon = Icons.visibility_off;
-                // } else {
-                //   widget.suffixIcon = Icons.visibility;
-                // }
+                if (_obscured == false) {
+                 widget.suffixIcon = Icons.visibility_off;
+                } else {
+                  widget.suffixIcon = Icons.visibility;
+                }
                 _obscured = !_obscured;
-
-                setState(() {});
+                 setState(() {});
               }),
         ),
       ),

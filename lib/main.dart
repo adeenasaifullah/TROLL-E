@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,21 +19,24 @@ import 'package:provider/provider.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 void main() async {
-SharedPreferences prefs = await SharedPreferences.getInstance();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => ProfileProvider()),
-      ChangeNotifierProvider(create: (_) => UserProvider()),
-    ],
-    child: MyApp(token: prefs.getString('accesstoken')),
-  ),);
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: MyApp(token: prefs.getString('accesstoken')),
+    ),
+  );
 }
+
 //token: context.read<UserProvider>().prefs.getString('accesstoken')
 class MyApp extends StatelessWidget {
   final token;
-  const MyApp({
-    @required this.token,
-    Key? key}) : super(key: key);
+
+  const MyApp({@required this.token, Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -44,27 +45,28 @@ class MyApp extends StatelessWidget {
         designSize: const Size(360, 690),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (context , child) {
+        builder: (context, child) {
           return MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              // This is the theme of your application.
-              //
-              // Try running your application with "flutter run". You'll see the
-              // application has a blue toolbar. Then, without quitting the app, try
-              // changing the primarySwatch below to Colors.green and then invoke
-              // "hot reload" (press "r" in the console where you ran "flutter run",
-              // or simply save your changes to "hot reload" in a Flutter IDE).
-              // Notice that the counter didn't reset back to zero; the application
-              // is not restarted.
-              primarySwatch: Colors.blue,
-            ),
-            home: (token != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
-            //(prefs.getString('accesstoken') != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
-            //const MyHomePage(title: 'Flutter Demo Home Page'),
-          );
-        }
-    );
+              title: 'Flutter Demo',
+              theme: ThemeData(
+                // This is the theme of your application.
+                //
+                // Try running your application with "flutter run". You'll see the
+                // application has a blue toolbar. Then, without quitting the app, try
+                // changing the primarySwatch below to Colors.green and then invoke
+                // "hot reload" (press "r" in the console where you ran "flutter run",
+                // or simply save your changes to "hot reload" in a Flutter IDE).
+                // Notice that the counter didn't reset back to zero; the application
+                // is not restarted.
+                primarySwatch: Colors.blue,
+              ),
+              home: (token != null && JwtDecoder.isExpired(token) == false)
+                  ? HomeScreen(token: token)
+                  : SplashScreen()
+              //(prefs.getString('accesstoken') != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
+              //const MyHomePage(title: 'Flutter Demo Home Page'),
+              );
+        });
   }
 }
 
@@ -136,10 +138,10 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-              Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>  Signup()),
-              );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Signup()),
+                );
               },
               child: const Text("Sign up Screen"),
             ),
@@ -147,17 +149,16 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  ProfileScreen()),
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
                 );
               },
               child: const Text("Edit Profile Screen"),
             ),
-
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  OTP()),
+                  MaterialPageRoute(builder: (context) => OTP()),
                 );
               },
               child: const Text("OTP"),
@@ -166,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  ForgotPassword()),
+                  MaterialPageRoute(builder: (context) => ForgotPassword()),
                 );
               },
               child: const Text("Forgot Password"),
@@ -175,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  HomeScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
               },
               child: const Text("HomeScreen"),
@@ -184,37 +185,34 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  ProfileImage()),
+                  MaterialPageRoute(builder: (context) => ProfileImage()),
                 );
               },
               child: const Text("Profile Image"),
             ),
-
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  Helpcenter()),
+                  MaterialPageRoute(builder: (context) => Helpcenter()),
                 );
               },
               child: const Text("Help Center"),
             ),
-
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  SplashScreen()),
+                  MaterialPageRoute(builder: (context) => SplashScreen()),
                 );
               },
               child: const Text("Splash screen"),
             ),
-
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  Shoppingcart()),
+                  MaterialPageRoute(builder: (context) => const Shoppingcart()),
                 );
               },
               child: const Text("Shop"),
@@ -223,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  ShoppingHistory()),
+                  MaterialPageRoute(builder: (context) => const ShoppingHistory()),
                 );
               },
               child: const Text("Shopping History"),
@@ -237,7 +235,6 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text("Checkout"),
             ),
-
           ],
         ),
       ),

@@ -16,7 +16,11 @@ Future<bool> connectCart({
     String? accessToken = prefs.getString('accesstoken');
         http.Response res =
         await http.post(Uri.parse("http://localhost:3000/addTempReceipt"),
-      headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
+      headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
+            body: {
+              "UID": UID,
+              "userID": userID
+            });
 
       if(res.statusCode ==200) {
         result = Future.value(true);

@@ -119,13 +119,13 @@ class SignupInputWrapper extends StatelessWidget {
                         autoFocus: false,
                       ),
                       SizedBox(height: displayHeight(context) * 0.02),
-                      field(
+                      passfield(
                         validateInput: (password) {
-                          if (passwordController.text.isEmpty) {
+                          if (password == null || password.isEmpty) {
                             return "* Required";
                           }
-                          if (password == null ) {
-                            return "Incorrect Password";
+                          if (password.length < 7 ) {
+                            return "Password must be at least 8 characters long.";
                           } else {
                             return null;
                           }
@@ -141,30 +141,24 @@ class SignupInputWrapper extends StatelessWidget {
                         suffixIcon: Icons.visibility_off,
                         //suffixIcon:  obscureIcon ? Icons.visibility : Icons.visibility_off,
                         autoFocus: false,
-
                       ),
                       SizedBox(height: displayHeight(context) * 0.02),
-                      field(
+                      passfield(
                         validateInput: (cpassword) {
-                          if (confirmController.text.isEmpty) {
+                          if (cpassword == null ||cpassword.isEmpty) {
                             return "* Required";
                           }
-                          if (cpassword == null ) {
-                            return "Incorrect Password";
+                          if (cpassword != confirmController.text) {
+                            return 'Passwords do not match.';
                           } else {
                             return null;
                           }
                         },
-
-                        // onChanged: (val) {
-                        //   setState(() => password = val);
-                        // },
                         textController: confirmController,
                         labelText: 'Confirm Password',
                         suffixIcon: Icons.visibility_off,
                         //suffixIcon:  obscureIcon ? Icons.visibility : Icons.visibility_off,
                         autoFocus: false,
-
                       ),
 
                     ]

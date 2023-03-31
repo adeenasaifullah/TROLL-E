@@ -169,7 +169,7 @@ class _fieldState extends State<field> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: displayWidth(context) * 0.8,
       height: displayHeight(context)*0.075,
       child: TextFormField(
@@ -178,14 +178,14 @@ class _fieldState extends State<field> {
         //onChanged: widget.onChanged,
         validator: widget.validateInput,
         decoration: InputDecoration(
-          fillColor: Color(0xFFF4F1F1),
+          fillColor: const Color(0xFFF4F1F1),
           filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
             borderSide: const BorderSide(width: 6,  color: Color(0xFFF4F1F1)),),
           labelText: widget.labelText,
           labelStyle: GoogleFonts.roboto(
-            color: Color(0xFF283618),
+            color: const Color(0xFF283618),
             fontSize: 14,
           ),
           // hintText: widget.hintText,
@@ -309,7 +309,7 @@ class NavButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         elevation: 20,
         fixedSize: Size(buttonWidth, buttonHeight),
-        primary: Color(0xFF000000),
+        primary: const Color(0xFF000000),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -331,6 +331,6 @@ final otpInputDecoration = InputDecoration(
 OutlineInputBorder outlineInputBorder() {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide(color: Colors.grey),
+    borderSide: const BorderSide(color: Colors.grey),
   );
 }

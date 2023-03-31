@@ -9,7 +9,7 @@ class Login extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           // gradient: LinearGradient(begin: Alignment.topCenter, colors: [
           //   Color(0xFFBAD3D4),
           //   Color(0xFFBAD3D4),

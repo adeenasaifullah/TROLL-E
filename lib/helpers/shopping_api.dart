@@ -14,26 +14,26 @@ Future<bool> connectCart({
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
-        http.Response res =
-        await http.post(Uri.parse("http://localhost:3000/addTempReceipt"),
-      headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
-            body: {
-              "UID": UID,
-              "userID": userID
-            });
+    http.Response res =
+    await http.post(Uri.parse("http://localhost:3000/addTempReceipt"),
+        headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
+        body: {
+          "UID": UID,
+          "userID": userID
+        });
 
-      if(res.statusCode ==200) {
-        result = Future.value(true);
-      }
-      else {
+    if(res.statusCode ==200) {
+      result = Future.value(true);
+    }
+    else {
 
-        result = Future.value(false);
-      }
-      return result;
+      result = Future.value(false);
+    }
+    return result;
   }
   catch(err){
-      return result;
+    return result;
   }
 
-}
 
+}

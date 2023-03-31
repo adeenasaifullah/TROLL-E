@@ -243,9 +243,6 @@ Future<void> forgotpassword({
         context: context,
         onSuccess: () async{
           print("email sent");
-
-
-
           showSnackBar(
               context,
               'Change password link has been sent to your email.'

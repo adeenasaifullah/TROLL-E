@@ -45,7 +45,6 @@ Future<bool> connectCart({
 
     return result;
   }
-
   catch(err){
     return result;
   }

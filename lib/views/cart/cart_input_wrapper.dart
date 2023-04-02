@@ -3,6 +3,8 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../models/Item_model.dart';
+
 class CartInputWrapper extends StatefulWidget {
 
 
@@ -42,12 +44,40 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
         return Center(
             child: Column(
               children: <Widget>[
+                Items.isEmpty?
                 Text(
                   "Scan to add items to the cart",
                   style: new TextStyle(fontSize: 20.sp,),
-                ),
-                Container(
-                  height: 400.h,
+                ):
+                    Expanded(
+                      child: ListView.builder(
+                        //shrinkWrap: true,
+                        itemCount: Items.length,
+                          itemBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+
+                              child: ListTile(
+                                leading: FlutterLogo(size: 72.0),
+                                title: Text(Items[index].name),
+                                subtitle: Text("\Rs ${(Items[index].price).toString()} x${Items[index].quantity}")
+
+                                ),
+
+                      ),
+                            ),
+                          )),
+
+
+                SizedBox(
+                  height: 40.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +89,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                   color: Color(0xFF779394), fontSize: 15.sp, fontWeight: FontWeight.w400)),
                           SizedBox(height: 3.h),
                           Container(
-                            width: 60, height: 25,
+                             width: 60, height: 25,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(color: Color(0xFF779394), width: 1)
@@ -114,9 +144,26 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                         ]
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 20.h,
                 )
+
               ],
             )
         );
   }
 }
+
+
+List <ItemModel> Items = [
+  ItemModel(name: "Sugar", description: "Sweet", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
+  ItemModel(name: "Salt", description: "Salty", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
+  ItemModel(name: "Spice", description: "Spicy", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
+  ItemModel(name: "Butter", description: "Buttery", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
+  ItemModel(name: "Sugar", description: "Sweet", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
+  ItemModel(name: "Salt", description: "Salty", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
+  ItemModel(name: "Spice", description: "Spicy", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
+  ItemModel(name: "Butter", description: "Buttery", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
+
+];

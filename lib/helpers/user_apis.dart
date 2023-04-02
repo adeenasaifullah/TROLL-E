@@ -51,7 +51,7 @@ Future<bool> signUp({
       last_name, password: password, phone_number: phone_number,
           );
 
-    http.Response response = await http.post(Uri.parse('http://10.0.2.2:3000/register'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/register'),
         body: jsonEncode(newuser),
         headers: {"Content-Type":"application/json"},
     );
@@ -94,7 +94,7 @@ Future<bool> signUp({
       "password" : password
     };
     print("making http call line 94");
-    http.Response response = await http.post(Uri.parse('http://10.0.2.2:3000/login'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/login'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
@@ -190,7 +190,7 @@ Future<UserModel?> getProfile({required BuildContext context}) async {
     // print("TRYING TO PRINT prefs.get(accesstoken) HERE");
     // print(prefs.get("accesstoken"));
     http.Response res =
-    await http.get(Uri.parse("http://10.0.2.2:3000/getprofile"),
+    await http.get(Uri.parse("http://localhost:3000/getprofile"),
       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
     // print(" BEFORE HTTP ERROR HANDLE and now res.body!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     // print((res.body));

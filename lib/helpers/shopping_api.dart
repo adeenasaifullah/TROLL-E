@@ -10,30 +10,44 @@ Future<bool> connectCart({
 }) async {
   Future<bool> result=Future.value(false);
   try{
+    print("TRY BLOCK IN CONNECT CART STARTED in shopping_api and this is the first_name${user?.first_name}");
     String? userID=user?.user_id;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
-        http.Response res =
-        await http.post(Uri.parse("http://localhost:3000/addTempReceipt"),
-      headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
-            body: {
-              "UID": UID,
-              "userID": userID
-            });
+    print("ACCESS TOKEN INITIALIZED");
+    var reqBody = {
+      "UID": UID,
+      "userID": userID
+    };
+    http.Response res =
+    await http.post(Uri.parse("http://10.0.2.2:3000/addTempReceipt"),
+        headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
+        body: jsonEncode(reqBody)
+    );
 
-      if(res.statusCode ==200) {
-        result = Future.value(true);
-      }
-      else {
+    print("AFTER HTTP CALL !!!!!!!!!!!!!!!1!!!!");
+    print(res.statusCode);
 
-        result = Future.value(false);
-      }
-      return result;
+    if(res.statusCode == 204) {
+      result = Future.value(true);
+    }
+    else {
+      result = Future.value(false);
+    }
+
+    print("THE RESULT ISSSSSSS " );
+    if(result == Future.value(true)){
+      print("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    }else {
+      print("falseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    }
+
+    return result;
   }
   catch(err){
-      return result;
+    return result;
   }
 
-}
 
+}

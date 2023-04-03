@@ -13,11 +13,11 @@ class ProfileProvider extends ChangeNotifier {
   bool isLoading = true;
 
   void getUserProfile({required BuildContext context}) async {
-    print("INSIDE PROVIDER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     user=await getProfile(context: context);
     isLoading=false;
     notifyListeners();
     //isLoading=true;
 
   }
+
 }

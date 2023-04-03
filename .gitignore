@@ -45,3 +45,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+ios/Podfile
+ios/Flutter/Debug.xcconfig
+ios/Flutter/AppFrameworkInfo.plist
+ios/Flutter/Release.xcconfig
+ios/Runner.xcodeproj/project.pbxproj
+ios/Runner/Info.plist

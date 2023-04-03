@@ -1,4 +1,4 @@
-class ItemModel{
+class ItemModel {
   final String name;
   final String description;
   final String quantity;
@@ -8,18 +8,17 @@ class ItemModel{
   final double price;
   final double discount;
 
-  ItemModel({
-    required this.name,
-    required this.description,
-    required this.quantity,
-    required this.SKU,
-    required this.barcode,
-    required this.Weight,
-    required this.price,
-    required this.discount
-});
+  ItemModel(
+      {required this.name,
+      required this.description,
+      required this.quantity,
+      required this.SKU,
+      required this.barcode,
+      required this.Weight,
+      required this.price,
+      required this.discount});
 
-  static ItemModel fromJson(Map<String, dynamic> json){
+  static ItemModel fromJson(Map<String, dynamic> json) {
     return ItemModel(
         name: json['name'],
         description: json['description'],
@@ -28,11 +27,10 @@ class ItemModel{
         barcode: json['barcode'],
         Weight: json['weight'],
         price: json['price'],
-        discount: json['discount']
-    );
+        discount: json['discount']);
   }
 
-  Map<String, dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['description'] = this.description;
@@ -45,5 +43,4 @@ class ItemModel{
 
     return data;
   }
-
 }

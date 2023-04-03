@@ -242,6 +242,7 @@ Future<void> forgotpassword({
     var userID = jsonResponse['userID'];
     var token = jsonResponse['token'];
     setToken.setPasswordResetDetails(token: token, userID: userID);
+    //print("this is my token: ${token}");
     httpErrorHandle(
         response: response,
         context: context,
@@ -252,9 +253,9 @@ Future<void> forgotpassword({
               'Change password link has been sent to your email.'
           );
           //result = Future.value(true);
-
         }
     );
+
     // return result;
   }catch (error){
     showSnackBar(context, error.toString());
@@ -269,7 +270,7 @@ Future<void> resetpassword({
 }) async {
   // SharedPreferences prefs= await SharedPreferences.getInstance();
   try{
-    final details = Provider.of<ProfileProvider>(context);
+    final details = Provider.of<ProfileProvider>(context, listen:false);
     var userID = details.passwordresetuserid;
     var token = details.passwordresettoken;
     //ProfileProvider setToken = Provider.of<ProfileProvider>(context);
@@ -277,7 +278,7 @@ Future<void> resetpassword({
       "password" : resetpassword,
     };
 
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/changepassword/?userID=${userID}&token=${token}'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/changepassword/${userID}/${token}'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );

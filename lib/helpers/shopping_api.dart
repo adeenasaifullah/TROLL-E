@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/Item_model.dart';
+import '../models/receipt_model.dart';
 import '../models/user_model.dart';
 
 Future<bool> connectCart({

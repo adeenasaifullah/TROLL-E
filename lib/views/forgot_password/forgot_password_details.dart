@@ -2,7 +2,11 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/utility.dart';
+import 'package:troll_e/views/forgot_password/token_verification.dart';
+import 'package:webview_flutter/webview_flutter.dart%20';
 import '../../helpers/user_apis.dart';
 import '../login_signup/Signup.dart';
 
@@ -18,6 +22,8 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
   final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final resetemail = Provider.of<ProfileProvider>(context);
+
     return Padding(
       padding: EdgeInsets.all(30),
       child: Column(
@@ -65,8 +71,11 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
             textSize: 20.sp,
             buttonHeight: displayHeight(context)*0.075,
             buttonWidth: displayWidth(context) * 0.8,
-            onPressed: ()=> {
-              forgotpassword(context: context, email:emailController.text)
+            onPressed: () async {
+              await forgotpassword(context: context, email:emailController.text);
+              String token = resetemail.passwordresettoken;
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TokenVerificationScreen(resetPasswordToken: token,)));
             },
           ),
           SizedBox(height: 20.h,),

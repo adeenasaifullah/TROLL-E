@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/controller/user_provider.dart';
 import 'package:troll_e/models/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -51,7 +52,7 @@ Future<bool> signUp({
       last_name, password: password, phone_number: phone_number,
           );
 
-    http.Response response = await http.post(Uri.parse('http://10.0.2.2:3000/register'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/register'),
         body: jsonEncode(newuser),
         headers: {"Content-Type":"application/json"},
     );
@@ -94,16 +95,14 @@ Future<bool> signUp({
       "password" : password
     };
     print("making http call line 94");
-    http.Response response = await http.post(Uri.parse('http://10.0.2.2:3000/login'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/login'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
     var jsonResponse = jsonDecode(response.body);
-    print("after http call");
     var accessToken = jsonResponse['accesstoken'];
     var refreshToken = jsonResponse['refreshtoken'];
     var userJson = jsonResponse['user'];
-    print("line 106");
     UserModel user = UserModel.fromJson(userJson);
     print("THIS IS THE JSON RESPONSE USER BODY ................................");
     print(jsonResponse['user']);
@@ -185,30 +184,32 @@ Future<UserModel?> getProfile({required BuildContext context}) async {
   UserModel? user;
   try{
 
+    print(" BEFORE SHARED PREF !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
-    // print("TRYING TO PRINT access token  HERE");
-    // print(accessToken);
-    // print("TRYING TO PRINT prefs.get(accesstoken) HERE");
-    // print(prefs.get("accesstoken"));
+    print("TRYING TO PRINT access token  HERE");
+    print(accessToken);
+    print("TRYING TO PRINT prefs.get(accesstoken) HERE");
+    print(prefs.get("accesstoken"));
     http.Response res =
-    await http.get(Uri.parse("http://10.0.2.2:3000/getprofile"),
+    await http.get(Uri.parse("http://localhost:3000/getprofile"),
       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
-    // print(" BEFORE HTTP ERROR HANDLE and now res.body!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    // print((res.body));
-    // print("^^^^^^^^^^^^^^^^^^^^^^^");
+    print(" BEFORE HTTP ERROR HANDLE and now res.body!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    print((res.body));
+    print("^^^^^^^^^^^^^^^^^^^^^^^");
     httpErrorHandle(
         response: res,
         context: context,
 
         onSuccess: () async{
-        //  print(" BEFORE MAP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          print(" BEFORE MAP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
           //SharedPreferences preferences = await SharedPreferences.getInstance();
           Map<String, dynamic> json = jsonDecode(res.body);
           user = UserModel.fromJson(json);
-          // print("............USER FIRST NAMEE ...........................................");
-          // print(user?.first_name);
+          print("............USER FIRST NAMEE ...........................................");
+          print(user?.first_name);
 
 
         }
@@ -229,15 +230,20 @@ Future<void> forgotpassword({
 }) async {
   // SharedPreferences prefs= await SharedPreferences.getInstance();
   try{
-
+    ProfileProvider setToken = Provider.of<ProfileProvider>(context);
     var reqBody = {
       "email" : email,
     };
-    http.Response response = await http.post(Uri.parse('http://10.0.2.2:3000/forgotpassword'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/forgotpassword'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
     var jsonResponse = jsonDecode(response.body);
+    var userID = jsonResponse['userID'];
+    var token = jsonResponse['token'];
+    setToken.setPasswordResetDetails(token: token, userID: userID);
+
+
     httpErrorHandle(
         response: response,
         context: context,
@@ -259,46 +265,45 @@ Future<void> forgotpassword({
   }
 }
 
+Future<void> resetpassword({
+  required BuildContext context,
+  required String resetpassword,
+}) async {
+  // SharedPreferences prefs= await SharedPreferences.getInstance();
+  try{
+    var userID = context.read<ProfileProvider>().passwordresetuserid;
+    var token = context.read<ProfileProvider>().passwordresettoken;
+    ProfileProvider setToken = Provider.of<ProfileProvider>(context);
+    var reqBody = {
+      "password" : resetpassword,
+    };
 
-//
-// Future<UserModel?> getProfile({required BuildContext context}) async {
-//   UserModel? user;
-//   try{
-//     final userProvider = Provider.of<UserProvider>(context);
-//     print(" BEFORE SHARED PREF !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//     //SharedPreferences prefs = await SharedPreferences.getInstance();
-//     String? accessToken = userProvider.prefs.getString('accesstoken');
-//     print("TRYING TO PRINT access token  HERE");
-//     print(accessToken);
-//     print("TRYING TO PRINT prefs.get(accesstoken) HERE");
-//     print(userProvider.prefs.get("accesstoken"));
-//     http.Response res =
-//     await http.get(Uri.parse("http://localhost:3000/getprofile"),
-//       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
-//     print(" BEFORE HTTP ERROR HANDLE and now res.body!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//     print((res.body));
-//     print("^^^^^^^^^^^^^^^^^^^^^^^");
-//     httpErrorHandle(
-//         response: res,
-//         context: context,
-//         onSuccess: () async{
-//           print(" BEFORE MAP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//           //SharedPreferences preferences = await SharedPreferences.getInstance();
-//           Map<String, dynamic> json = jsonDecode(res.body);
-//           user = UserModel.fromJson(json);
-//           print("............USER FIRST NAMEE ...........................................");
-//           print(user?.first_name);
-//
-//
-//         }
-//     );
-//   return user;
-//   }
-//
-//   catch(err){
-//         print(err);
-//         return user;
-//
-//   }
-//
-// }
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/changepassword/?userID=${userID}&token=${token}'),
+      body: jsonEncode(reqBody),
+      headers: {"Content-Type":"application/json"},
+    );
+
+    var jsonResponse = jsonDecode(response.body);
+
+
+    httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () async{
+          print("password changed");
+          showSnackBar(
+              context,
+              'Your password has been changed successfully'
+          );
+          //result = Future.value(true);
+
+        }
+    );
+    // return result;
+  }catch (error){
+    showSnackBar(context, error.toString());
+    //return Future.value(false);
+    //return prefs;
+  }
+}
+

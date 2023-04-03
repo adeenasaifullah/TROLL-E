@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,9 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
-    profileProvider.getUserProfile(context: context);
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
-    final username = profileProvider.user?.first_name;
 
     return Scaffold(
       extendBodyBehindAppBar:true,
@@ -90,14 +87,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Center(
             child:  Column(
               children: [
-               SizedBox(height: 130.h),
+                SizedBox(height: displayHeight(context) * 0.2),
 
                 //Container(height: 150.h,),
                 Expanded(
                   child: Container(
-                     height: displayHeight(context)*0.2,
-                     width: displayWidth(context),
-                    decoration: const BoxDecoration(
+                    height: displayHeight(context)*0.2,
+                    width: displayWidth(context),
+                    decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(60),
@@ -107,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                         children: <Widget>[
                           SizedBox(height: displayHeight(context) * 0.07),
-                          Roboto_subheading(textValue: "Welcome back, $username " , size: 18.sp),
+                          Roboto_subheading(textValue: 'Welcome back, Adeena!', size: 18.sp),
                           SizedBox(height: displayHeight(context) * 0.1,),
                           CircleAvatar(
                             backgroundColor: kPrimaryDarkColor,
@@ -118,11 +115,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: GlowButton(
                                 width: 150.w, height: 150.h,
                                 child: Image.asset('Assets/icons/connect.png', width: 50.w,),
-                                onPressed: () async{
+                                onPressed: (){
 // true means its glowing
                                   if(cartConnected == true)
                                   {
-                                    print("CART IS CONNECTED ALREADY LINE 124 HOMESCREEN");
                                     //dk why if a user is connected
                                     // setState(() {
                                     //   cartConnected  = false;
@@ -130,17 +126,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }
                                   else
                                   {
-                                    String uid = await scanQR();
-                                    await shoppingProvider.connect(uid, profileProvider.user);
-                                    print("THIS IS THE QR CODE : $qr_code");
-                                    print("this is shopping provider result");
-                                    print(shoppingProvider.result);
+                                    String uid = scanQR() as String;
+                                    shoppingProvider.connect(uid, profileProvider.user);
                                    // cartConnected = shoppingProvider.result;
 
                                         setState(() {
                                           cartConnected = shoppingProvider.result;
-                                          print("CART CONNECTED SET STATE ");
-                                          print(cartConnected);
                                     //  cartConnected  = true;
                                     });
                                   }
@@ -170,13 +161,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
 
                           ),
-                          FloatingActionButton(onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Shoppingcart()),
-                            );
-                          })
                           // NavButton(
                           //   buttonText: 'Start Shopping',
                           //   textSize: 20.sp,

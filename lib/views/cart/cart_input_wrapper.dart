@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:troll_e/utility.dart';
-
-import '../../controller/item_provider.dart';
-import '../../controller/profile_provider.dart';
-import '../../models/Item_model.dart';
 
 class CartInputWrapper extends StatefulWidget {
 
@@ -232,7 +226,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                   color: const Color(0xFF779394), fontSize: 15.sp, fontWeight: FontWeight.w400)),
                           SizedBox(height: 3.h),
                           Container(
-                             width: 60, height: 25,
+                            width: 60, height: 25,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(color: const Color(0xFF779394), width: 1)
@@ -287,11 +281,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                         ]
                     ),
                   ],
-                ),
-                SizedBox(
-                  height: 20.h,
                 )
-
               ],
             )
         )
@@ -299,16 +289,3 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
     );
   }
 }
-
-
-List <ItemModel> Items = [
-  ItemModel(name: "Sugar", description: "Sweet", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
-  ItemModel(name: "Salt", description: "Salty", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
-  ItemModel(name: "Spice", description: "Spicy", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
-  ItemModel(name: "Butter", description: "Buttery", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
-  ItemModel(name: "Sugar", description: "Sweet", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
-  ItemModel(name: "Salt", description: "Salty", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
-  ItemModel(name: "Spice", description: "Spicy", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
-  ItemModel(name: "Butter", description: "Buttery", quantity: "2", SKU: "SKU", barcode: "barcode", Weight: 5, price: 200, discount: 10),
-
-];

@@ -7,6 +7,7 @@ import 'package:troll_e/views/forgot_password/change_password.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';
 import '../../controller/user_provider.dart';
 import '../../helpers/user_apis.dart';
+import '../forgot_password/token_verification.dart';
 import '../homescreen/homescreen.dart';
 import 'Signup.dart';
 import '/utility.dart';

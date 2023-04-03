@@ -6,7 +6,7 @@ class ReceiptModel{
   final double totalDiscount;
   final double gst;
    bool isDeleted = false;
-   List <ItemModel> items = [];
+   List <ItemModel>? items = [];
 
    ReceiptModel({
     required this.date,
@@ -32,7 +32,7 @@ class ReceiptModel{
      data['netTotal'] = this.netTotal;
      data['totalDiscount'] = this.totalDiscount;
      data['gst'] = this.gst;
-     data['items'] = this.items.map((v) => v.toJson()).toList();
+     data['items'] = this.items?.map((v) => v.toJson()).toList();
 
      return data;
    }

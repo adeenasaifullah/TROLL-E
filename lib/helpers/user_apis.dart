@@ -238,6 +238,7 @@ Future<void> forgotpassword({
       headers: {"Content-Type":"application/json"},
     );
     var jsonResponse = jsonDecode(response.body);
+
     httpErrorHandle(
         response: response,
         context: context,

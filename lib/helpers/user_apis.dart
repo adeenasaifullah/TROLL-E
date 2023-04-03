@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/controller/user_provider.dart';
 import 'package:troll_e/models/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -229,7 +230,7 @@ Future<void> forgotpassword({
 }) async {
   // SharedPreferences prefs= await SharedPreferences.getInstance();
   try{
-
+    ProfileProvider setToken = Provider.of<ProfileProvider>(context);
     var reqBody = {
       "email" : email,
     };
@@ -238,6 +239,11 @@ Future<void> forgotpassword({
       headers: {"Content-Type":"application/json"},
     );
     var jsonResponse = jsonDecode(response.body);
+    var userID = jsonResponse['userID'];
+    var token = jsonResponse['token'];
+    setToken.setPasswordResetDetails(token: token, userID: userID);
+
+
     httpErrorHandle(
         response: response,
         context: context,
@@ -259,46 +265,44 @@ Future<void> forgotpassword({
   }
 }
 
+Future<void> resetpassword({
+  required BuildContext context,
+  required String email,
+}) async {
+  // SharedPreferences prefs= await SharedPreferences.getInstance();
+  try{
+    ProfileProvider setToken = Provider.of<ProfileProvider>(context);
+    var reqBody = {
+      "email" : email,
+    };
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/forgotpassword'),
+      body: jsonEncode(reqBody),
+      headers: {"Content-Type":"application/json"},
+    );
+    var jsonResponse = jsonDecode(response.body);
+    var userID = jsonResponse['userID'];
+    var token = jsonResponse['token'];
+    setToken.setPasswordResetDetails(token: token, userID: userID);
 
-//
-// Future<UserModel?> getProfile({required BuildContext context}) async {
-//   UserModel? user;
-//   try{
-//     final userProvider = Provider.of<UserProvider>(context);
-//     print(" BEFORE SHARED PREF !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//     //SharedPreferences prefs = await SharedPreferences.getInstance();
-//     String? accessToken = userProvider.prefs.getString('accesstoken');
-//     print("TRYING TO PRINT access token  HERE");
-//     print(accessToken);
-//     print("TRYING TO PRINT prefs.get(accesstoken) HERE");
-//     print(userProvider.prefs.get("accesstoken"));
-//     http.Response res =
-//     await http.get(Uri.parse("http://localhost:3000/getprofile"),
-//       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
-//     print(" BEFORE HTTP ERROR HANDLE and now res.body!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//     print((res.body));
-//     print("^^^^^^^^^^^^^^^^^^^^^^^");
-//     httpErrorHandle(
-//         response: res,
-//         context: context,
-//         onSuccess: () async{
-//           print(" BEFORE MAP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//           //SharedPreferences preferences = await SharedPreferences.getInstance();
-//           Map<String, dynamic> json = jsonDecode(res.body);
-//           user = UserModel.fromJson(json);
-//           print("............USER FIRST NAMEE ...........................................");
-//           print(user?.first_name);
-//
-//
-//         }
-//     );
-//   return user;
-//   }
-//
-//   catch(err){
-//         print(err);
-//         return user;
-//
-//   }
-//
-// }
+
+    httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () async{
+          print("email sent");
+          showSnackBar(
+              context,
+              'Change password link has been sent to your email.'
+          );
+          //result = Future.value(true);
+
+        }
+    );
+    // return result;
+  }catch (error){
+    showSnackBar(context, error.toString());
+    //return Future.value(false);
+    //return prefs;
+  }
+}
+

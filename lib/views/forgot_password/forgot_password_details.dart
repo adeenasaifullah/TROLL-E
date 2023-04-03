@@ -2,7 +2,10 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/utility.dart';
+import 'package:webview_flutter/webview_flutter.dart%20';
 import '../../helpers/user_apis.dart';
 import '../login_signup/Signup.dart';
 
@@ -65,8 +68,27 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
             textSize: 20.sp,
             buttonHeight: displayHeight(context)*0.075,
             buttonWidth: displayWidth(context) * 0.8,
-            onPressed: ()=> {
-              forgotpassword(context: context, email:emailController.text)
+            onPressed: () async {
+              await forgotpassword(context: context, email:emailController.text);
+              String userID = context.read<ProfileProvider>().passwordresetuserid;
+              String token = context.read<ProfileProvider>().passwordresettoken;
+            Navigator.push(
+            context,
+            MaterialPageRoute(
+            builder: (context) => WebView(
+            initialUrl: 'http://localhost:3000/reset-password?userID=${userID}&token=${token}',
+            javascriptMode: JavascriptMode.unrestricted, // Enable JavaScript
+            navigationDelegate: (NavigationRequest request) {
+            // Handle navigation requests, e.g. open links in browser
+            if (request.url.startsWith('https://localhost:3000/')) {
+            return NavigationDecision.navigate;
+            } else {
+            return NavigationDecision.prevent;
+            }
+            },
+            ),
+            ),
+            );
             },
           ),
           SizedBox(height: 20.h,),

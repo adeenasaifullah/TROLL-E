@@ -11,6 +11,8 @@ class ProfileProvider extends ChangeNotifier {
   UserModel? user;
   bool isChanged = false;
   bool isLoading = true;
+  String passwordresettoken = '';
+  String passwordresetuserid = '';
 
   void getUserProfile({required BuildContext context}) async {
     print("INSIDE PROVIDER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -20,4 +22,10 @@ class ProfileProvider extends ChangeNotifier {
     //isLoading=true;
 
   }
+  void setPasswordResetDetails({required String token, required String userID}) async{
+    passwordresettoken = token;
+    passwordresetuserid = userID;
+    notifyListeners();
+  }
 }
+

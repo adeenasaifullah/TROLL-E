@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../utility.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
+  late final String? token;
+
+  ChangePasswordScreen({required this.token});
   @override
   _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
 }

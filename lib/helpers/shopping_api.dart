@@ -54,6 +54,32 @@ Future<bool> connectCart({
 }
 
 
+Future<ItemModel?> getAllProducts() async{
+  ItemModel? products;
+  try{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accesstoken');
+
+    http.Response res =
+    await http.get(Uri.parse("http://10.0.2.2:3000/allProducts"),
+      headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
+
+    );
+
+    print("GET ALL PRODUCT RES.STATUS CODE IS");
+    print(res.statusCode);
+    if(res.statusCode==200) {
+      Map<String, dynamic> json = jsonDecode(res.body);
+      products = ItemModel.fromJson(json);
+    }
+
+    return products;
+  }
+  catch(err){
+    print("GET ALL PRODUCT CATCH BLOCK");
+  }
+}
+
 Future<ReceiptModel?> getTempReceipt({
   required UserModel? user,
 }) async{
@@ -63,15 +89,22 @@ Future<ReceiptModel?> getTempReceipt({
     String? accessToken = prefs.getString('accesstoken');
     String? userID = user?.user_id;
 
+    print("user ID is:");
+    print(userID);
     http.Response res =
-    await http.get(Uri.parse("http://10.0.2.2:3000/getTempReceipt/:$userID"),
+    await http.get(Uri.parse("http://10.0.2.2:3000/getTempReceipt/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
 
     );
+
+    print("GET TEMP RECEIPT RES.STATUS CODE IS");
+    print(res.statusCode);
       if(res.statusCode==200) {
         Map<String, dynamic> json = jsonDecode(res.body);
         tempReceipt = ReceiptModel.fromJson(json);
       }
+      print("GET TEMP RECEIPT RES.STATUS CODE IS");
+      print(res.statusCode);
     return tempReceipt;
   }
   catch(err){
@@ -82,7 +115,7 @@ Future<ReceiptModel?> getTempReceipt({
 Future<void> addItem({
   required UserModel? user,
   required String productBarcode,
-  required num productQuantity
+  required num? productQuantity
 }) async {
   try {
 
@@ -90,12 +123,14 @@ Future<void> addItem({
     String? accessToken = prefs.getString('accesstoken');
     String? userID = user?.user_id;
 
+    print("user ID is:");
+    print(userID);
     var reqBody = {
       "productBarcode": productBarcode,
       "productQuantity": productQuantity
     };
     http.Response res =
-    await http.post(Uri.parse("http://10.0.2.2:3000/addItemToCart/:$userID"),
+    await http.put(Uri.parse("http://10.0.2.2:3000/addItemToCart/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
         body: jsonEncode(reqBody)
     );

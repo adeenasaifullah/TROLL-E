@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/Item_model.dart';
+import '../models/receipt_model.dart';
 import '../models/user_model.dart';
 
 Future<bool> connectCart({
@@ -49,5 +51,61 @@ Future<bool> connectCart({
     return result;
   }
 
+}
+
+
+Future<ReceiptModel?> getTempReceipt({
+  required UserModel? user,
+}) async{
+  ReceiptModel? tempReceipt;
+  try{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accesstoken');
+    String? userID = user?.user_id;
+
+    http.Response res =
+    await http.get(Uri.parse("http://10.0.2.2:3000/getTempReceipt/:$userID"),
+        headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
+
+    );
+      if(res.statusCode==200) {
+        Map<String, dynamic> json = jsonDecode(res.body);
+        tempReceipt = ReceiptModel.fromJson(json);
+      }
+    return tempReceipt;
+  }
+  catch(err){
+      print("GET TEMP RECEIPT CATCH BLOCK");
+  }
+}
+
+Future<void> addItem({
+  required UserModel? user,
+  required String productBarcode,
+  required num productQuantity
+}) async {
+  try {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accesstoken');
+    String? userID = user?.user_id;
+
+    var reqBody = {
+      "productBarcode": productBarcode,
+      "productQuantity": productQuantity
+    };
+    http.Response res =
+    await http.post(Uri.parse("http://10.0.2.2:3000/addItemToCart/:$userID"),
+        headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
+        body: jsonEncode(reqBody)
+    );
+
+    print("AFTER HTTP CALL STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
+    print(res.statusCode);
+
+  }
+  catch(err){
+  print("INSIDE CATCH BLOCK OF ADDITEM");
+  }
 
 }

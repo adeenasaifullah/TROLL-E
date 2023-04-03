@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../utility.dart';
 import 'shopping_history.dart';
 import 'package:collection/collection.dart';
 
@@ -44,7 +46,8 @@ class _SingleHistoryState extends State<SingleHistory> {
           ),
         ],
         centerTitle: true,
-        title: Text((dateFormat.format(widget.reciept.date)).toString(), style: TextStyle(color: Colors.black),),
+        title: Roboto_heading(textValue: (dateFormat.format(widget.reciept.date)).toString(), size: 20.sp),
+        //Text((dateFormat.format(widget.reciept.date)).toString(), style: TextStyle(color: Colors.black),),
 
         backgroundColor: Color(0xFFBAD3D4),
       ),

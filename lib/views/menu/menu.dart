@@ -6,6 +6,9 @@ import 'package:troll_e/helpers/user_apis.dart';
 import 'package:troll_e/utility.dart';
 import 'package:troll_e/views/login_signup/login.dart';
 import 'package:troll_e/views/profile/profile_details.dart';
+import 'package:troll_e/views/shopping_history/shopping_history.dart';
+
+import '../help_center/help_center.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);
@@ -62,11 +65,13 @@ class Menu extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.history_outlined) ,
             title: Text("Shopping History"),
-            onTap: ()=> null,),
+            onTap: ()=> Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ShoppingHistory())),),
           ListTile(
             leading: Icon(Icons.help_outline_outlined) ,
             title: Text("Help Center"),
-            onTap: ()=> null,),
+            onTap: ()=> Navigator.of(context).push(MaterialPageRoute(
+                   builder: (context) => Helpcenter())),),
           ListTile(
             leading: Icon(Icons.logout) ,
             title: Text("Logout"),

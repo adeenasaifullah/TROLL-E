@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/utility.dart';
+import 'package:troll_e/views/forgot_password/token_verification.dart';
 import 'package:webview_flutter/webview_flutter.dart%20';
 import '../../helpers/user_apis.dart';
 import '../login_signup/Signup.dart';
@@ -21,6 +22,8 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
   final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final resetemail = Provider.of<ProfileProvider>(context);
+
     return Padding(
       padding: EdgeInsets.all(30),
       child: Column(
@@ -70,25 +73,9 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
             buttonWidth: displayWidth(context) * 0.8,
             onPressed: () async {
               await forgotpassword(context: context, email:emailController.text);
-              String userID = context.read<ProfileProvider>().passwordresetuserid;
-              String token = context.read<ProfileProvider>().passwordresettoken;
-            Navigator.push(
-            context,
-            MaterialPageRoute(
-            builder: (context) => WebView(
-            initialUrl: 'http://localhost:3000/reset-password?userID=${userID}&token=${token}',
-            javascriptMode: JavascriptMode.unrestricted, // Enable JavaScript
-            navigationDelegate: (NavigationRequest request) {
-            // Handle navigation requests, e.g. open links in browser
-            if (request.url.startsWith('https://localhost:3000/')) {
-            return NavigationDecision.navigate;
-            } else {
-            return NavigationDecision.prevent;
-            }
-            },
-            ),
-            ),
-            );
+              String token = resetemail.passwordresettoken;
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TokenVerificationScreen(resetPasswordToken: token,)));
             },
           ),
           SizedBox(height: 20.h,),

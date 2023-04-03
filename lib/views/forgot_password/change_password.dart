@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:troll_e/helpers/user_apis.dart';
+import 'package:troll_e/views/login_signup/login.dart';
 
 import '../../utility.dart';
 
@@ -106,10 +108,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         if (_formKey.currentState != null &&
                             _formKey.currentState!.validate()) {
                           // Perform change password operation
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(
-                                'Password changed successfully.')),
-                          );
+                         resetpassword(context: context, resetpassword: _newPasswordController.text);
+                         Navigator.of(context).push(MaterialPageRoute(
+                             builder: (context) => Login()));
                         }
                       },
                     ),

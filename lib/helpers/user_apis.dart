@@ -267,32 +267,33 @@ Future<void> forgotpassword({
 
 Future<void> resetpassword({
   required BuildContext context,
-  required String email,
+  required String resetpassword,
 }) async {
   // SharedPreferences prefs= await SharedPreferences.getInstance();
   try{
+    var userID = context.read<ProfileProvider>().passwordresetuserid;
+    var token = context.read<ProfileProvider>().passwordresettoken;
     ProfileProvider setToken = Provider.of<ProfileProvider>(context);
     var reqBody = {
-      "email" : email,
+      "password" : resetpassword,
     };
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/'),
+
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/changepassword/?userID=${userID}&token=${token}'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
+
     var jsonResponse = jsonDecode(response.body);
-    var userID = jsonResponse['userID'];
-    var token = jsonResponse['token'];
-    setToken.setPasswordResetDetails(token: token, userID: userID);
 
 
     httpErrorHandle(
         response: response,
         context: context,
         onSuccess: () async{
-          print("email sent");
+          print("password changed");
           showSnackBar(
               context,
-              'Change password link has been sent to your email.'
+              'Your password has been changed successfully'
           );
           //result = Future.value(true);
 

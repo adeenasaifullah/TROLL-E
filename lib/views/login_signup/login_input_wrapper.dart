@@ -108,7 +108,7 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => TokenVerificationScreen(resetPasswordToken: '',)));
+                          builder: (context) => ForgotPassword()));
                     },
                     child: Text(
                       "Forgot Password?",

@@ -18,14 +18,16 @@ class ForgotPasswordDetails extends StatefulWidget {
 }
 
 class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
-
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final resetemail = Provider.of<ProfileProvider>(context);
+    final resetemail = Provider.of<ProfileProvider>(context, listen: false);
 
     return Padding(
       padding: EdgeInsets.all(30),
+    child: Form(
+    key: _formKey,
       child: Column(
         children: <Widget>[
           SizedBox(height: 100.h),
@@ -34,6 +36,7 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10)
               ),
+
               child: Column(
                   children: <Widget>[
                     field(
@@ -72,10 +75,16 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
             buttonHeight: displayHeight(context)*0.075,
             buttonWidth: displayWidth(context) * 0.8,
             onPressed: () async {
-              await forgotpassword(context: context, email:emailController.text);
+            if (_formKey.currentState != null &&
+            _formKey.currentState!.validate()) {
+              await forgotpassword(context: context, email: emailController.text);
               String token = resetemail.passwordresettoken;
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TokenVerificationScreen(resetPasswordToken: token,)));
+              if ((token.isNotEmpty)) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        TokenVerificationScreen(resetPasswordToken: token,)));
+              }
+             }
             },
           ),
           SizedBox(height: 20.h,),
@@ -92,6 +101,7 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
 
         ],
       ),
+    ),
     );
   }
 }

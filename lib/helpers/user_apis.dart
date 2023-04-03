@@ -230,7 +230,7 @@ Future<void> forgotpassword({
 }) async {
   // SharedPreferences prefs= await SharedPreferences.getInstance();
   try{
-    ProfileProvider setToken = Provider.of<ProfileProvider>(context);
+    final setToken = Provider.of<ProfileProvider>(context, listen: false);
     var reqBody = {
       "email" : email,
     };
@@ -242,8 +242,6 @@ Future<void> forgotpassword({
     var userID = jsonResponse['userID'];
     var token = jsonResponse['token'];
     setToken.setPasswordResetDetails(token: token, userID: userID);
-
-
     httpErrorHandle(
         response: response,
         context: context,
@@ -271,9 +269,10 @@ Future<void> resetpassword({
 }) async {
   // SharedPreferences prefs= await SharedPreferences.getInstance();
   try{
-    var userID = context.read<ProfileProvider>().passwordresetuserid;
-    var token = context.read<ProfileProvider>().passwordresettoken;
-    ProfileProvider setToken = Provider.of<ProfileProvider>(context);
+    final details = Provider.of<ProfileProvider>(context);
+    var userID = details.passwordresetuserid;
+    var token = details.passwordresettoken;
+    //ProfileProvider setToken = Provider.of<ProfileProvider>(context);
     var reqBody = {
       "password" : resetpassword,
     };

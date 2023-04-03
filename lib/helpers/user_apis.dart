@@ -275,7 +275,7 @@ Future<void> resetpassword({
     var reqBody = {
       "email" : email,
     };
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/forgotpassword'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );

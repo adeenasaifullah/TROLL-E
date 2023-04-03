@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:troll_e/views/forgot_password/change_password.dart';
 import '../../utility.dart';
 
 class TokenVerificationScreen extends StatefulWidget {
@@ -15,8 +16,8 @@ class TokenVerificationScreen extends StatefulWidget {
 
 class _TokenVerificationScreenState extends State<TokenVerificationScreen> {
   final _formKey = GlobalKey<FormState>();
-  //late String _enteredToken;
-  late final TextEditingController enteredToken = TextEditingController();
+  late String enteredToken;
+  //late final TextEditingController enteredToken = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,28 +55,31 @@ class _TokenVerificationScreenState extends State<TokenVerificationScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(height: displayHeight(context) * 0.02),
-                      field(
-                        validateInput: (value) {
-                            if (value == null || value.isEmpty) {
+                      TextFormField(
+                        decoration: InputDecoration(
+                          fillColor: const Color(0xFFF4F1F1),
+                          filled: true,
+                          labelText: 'Enter Token',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: const BorderSide(width: 6,  color: Color(0xFFF4F1F1)),),
+                          labelStyle: GoogleFonts.roboto(
+                            color: const Color(0xFF283618),
+                            fontSize: 14,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter the token';
-                            }
-                            if (value != widget.resetPasswordToken) {
+                          }
+                          if (value != widget.resetPasswordToken) {
                             return 'Incorrect token. Please try again';
-                            }
-                            return null;
-                            },
-                            // onSaved: (value) {
-                            // enteredToken = value!;
-                            // },
-
-                        // onChanged: (val) {
-                        //   setState(() => email = val);
-                        // },
-                        textController: enteredToken,
-                        labelText: 'Token',
-                        //hintText: 'email',
-                        // prefixIcon: Icon(Icons.email_outlined, color: Color(0xFF838383)),
-                        autoFocus: false,
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          enteredToken = value!;
+                        },
                       ),
                       SizedBox(height: displayHeight(context) * 0.045),
                       NavButton(
@@ -86,7 +90,8 @@ class _TokenVerificationScreenState extends State<TokenVerificationScreen> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            // Navigate to next screen or perform further actions
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ChangePasswordScreen()));
                           }
                         },
                       ),

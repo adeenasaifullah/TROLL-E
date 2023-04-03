@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:troll_e/controller/item_provider.dart';
-import 'package:troll_e/controller/shopping_provider.dart';
 import 'package:troll_e/controller/user_provider.dart';
 import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
@@ -30,8 +28,6 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => ShoppingProvider()),
-        ChangeNotifierProvider(create: (_) => ItemProvider()),
       ],
       child: MyApp(token: prefs.getString('accesstoken')),
     ),
@@ -59,8 +55,9 @@ class MyApp extends StatelessWidget {
 
                 primarySwatch: Colors.blue,
               ),
-              home: (token != null && JwtDecoder.isExpired(token) == false)  ? HomeScreen(token: token) : SplashScreen()
-            //home: Shoppingcart(),
+              home: (token != null && JwtDecoder.isExpired(token) == false)
+                  ? HomeScreen(token: token)
+                  : SplashScreen()
               //(prefs.getString('accesstoken') != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
               //const MyHomePage(title: 'Flutter Demo Home Page'),
               );
@@ -182,15 +179,15 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text("Splash screen"),
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => const Shoppingcart()),
-            //     );
-            //   },
-            //   child: const Text("Shop"),
-            // ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Shoppingcart()),
+                );
+              },
+              child: const Text("Shop"),
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

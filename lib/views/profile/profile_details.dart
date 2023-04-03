@@ -37,27 +37,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     print("INSIDE PROFILE DETAIL SCREEEN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
     return  Scaffold(
+
+      extendBodyBehindAppBar:true,
       drawer: Menu(),
-      appBar: AppBar(
-        // leading: IconButton(
-        //     icon: Icon(Icons.menu, color: Colors.black, size: 20.0),
-        //     onPressed: (){
-        //       const Menu();
-        //     }
-        // ),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
-      ),
-
-      //
-      //   centerTitle: true,
-      //   title: Roboto_heading(textValue: 'Profile', size: 20.sp),
-      //   backgroundColor: Color(0xFFBAD3D4),
-      // ),
-      //
-       extendBodyBehindAppBar:true,
-
       body: profileProvider.isLoading
           ? const Center(
         child: CircularProgressIndicator(),
@@ -65,7 +47,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           :  Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
             Expanded(
                 child: SingleChildScrollView(
                     child: Form(

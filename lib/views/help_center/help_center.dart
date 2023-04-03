@@ -21,7 +21,6 @@ class _HelpcenterState extends State<Helpcenter>{
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor:  Color(0xFFBAD3D4),
-          centerTitle: true,
           title: Roboto_heading(textValue: 'Help Center', size: 20.sp),
         ),
         //body: Body(),

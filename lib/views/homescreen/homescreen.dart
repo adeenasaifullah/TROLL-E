@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter/cupertino.dart';
@@ -89,14 +90,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Center(
             child:  Column(
               children: [
-                SizedBox(height: displayHeight(context) * 0.2),
+               SizedBox(height: 130.h),
 
                 //Container(height: 150.h,),
                 Expanded(
                   child: Container(
-                    height: displayHeight(context)*0.2,
-                    width: displayWidth(context),
-                    decoration: BoxDecoration(
+                     height: displayHeight(context)*0.2,
+                     width: displayWidth(context),
+                    decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(60),
@@ -169,6 +170,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
 
                           ),
+                          FloatingActionButton(onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Shoppingcart()),
+                            );
+                          })
                           // NavButton(
                           //   buttonText: 'Start Shopping',
                           //   textSize: 20.sp,

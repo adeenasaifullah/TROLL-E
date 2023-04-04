@@ -8,8 +8,8 @@ class ShoppingProvider extends ChangeNotifier {
   bool result=false;
   bool isLoading = true;
 
-  void connect(String uid, UserModel? user) {
-    result =  connectCart(UID: uid,user: user) as bool;
+  Future<void> connect(String uid, UserModel? user) async {
+    result = await  connectCart(UID: uid,user: user);
     isLoading=false;
     notifyListeners();
     isLoading=true;

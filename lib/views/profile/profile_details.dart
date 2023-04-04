@@ -38,8 +38,16 @@ class _ProfileDetailsState extends State<ProfileDetails> {
 
     return  Scaffold(
 
-      extendBodyBehindAppBar:true,
       drawer: Menu(),
+      appBar: AppBar(
+
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+
+      extendBodyBehindAppBar:true,
+
       body: profileProvider.isLoading
           ? const Center(
         child: CircularProgressIndicator(),

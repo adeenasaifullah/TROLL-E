@@ -16,17 +16,20 @@ Future<bool> connectCart({
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
+    print("ACCESS TOKEN INITIALIZED");
+    var reqBody = {
+      "UID": UID,
+      "userID": userID
+    };
     http.Response res =
-    await http.post(Uri.parse("http://localhost:3000/addTempReceipt"),
+    await http.post(Uri.parse("https://troll-e-backend-8bwb.vercel.app/addTempReceipt"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
-        body: {
-          "UID": UID,
-          "userID": userID
-        });
+        body: jsonEncode(reqBody)
+    );
 
-    if(res.statusCode ==200) {
+    if(res.statusCode ==204) {
       result = Future.value(true);
-    }
+     }
     else {
 
       result = Future.value(false);
@@ -47,7 +50,7 @@ Future<ItemModel?> getAllProducts() async{
     String? accessToken = prefs.getString('accesstoken');
 
     http.Response res =
-    await http.get(Uri.parse("http://10.0.2.2:3000/allProducts"),
+    await http.get(Uri.parse("https://troll-e-backend-8bwb.vercel.app/allProducts"),
       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
 
     );
@@ -78,7 +81,7 @@ Future<ReceiptModel?> getTempReceipt({
     print("user ID is:");
     print(userID);
     http.Response res =
-    await http.get(Uri.parse("http://10.0.2.2:3000/getTempReceipt/$userID"),
+    await http.get(Uri.parse("https://troll-e-backend-8bwb.vercel.app/getTempReceipt/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
 
     );
@@ -116,7 +119,7 @@ Future<void> addItem({
       "productQuantity": productQuantity
     };
     http.Response res =
-    await http.put(Uri.parse("http://10.0.2.2:3000/addItemToCart/$userID"),
+    await http.put(Uri.parse("https://troll-e-backend-8bwb.vercel.app/addItemToCart/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
         body: jsonEncode(reqBody)
     );

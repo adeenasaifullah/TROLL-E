@@ -57,8 +57,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   profileProvider.getUserProfile(context: context);
   final itemProvider = Provider.of<ItemProvider>(context);
   items =  itemProvider.getReceipt(user: profileProvider.user) as List<ItemModel>?;
-
   }
+
   @override
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);

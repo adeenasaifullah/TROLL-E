@@ -52,7 +52,7 @@ Future<bool> signUp({
       last_name, password: password, phone_number: phone_number,
           );
 
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/register'),
+    http.Response response = await http.post(Uri.parse('https://troll-e-backend-8bwb.vercel.app/register'),
         body: jsonEncode(newuser),
         headers: {"Content-Type":"application/json"},
     );
@@ -85,9 +85,6 @@ Future<bool> signUp({
 }) async {
    // SharedPreferences prefs= await SharedPreferences.getInstance();
   try{
-    print("initializing userprovider line 86");
-   //  final userProvider = Provider.of<UserProvider>(context);
-    print("initializing prefs line 87");
   //  SharedPreferences prefs = await SharedPreferences.getInstance();
   //  await userProvider.setSharedPreferences();
     var reqBody = {
@@ -95,7 +92,7 @@ Future<bool> signUp({
       "password" : password
     };
     print("making http call line 94");
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/login'),
+    http.Response response = await http.post(Uri.parse('https://troll-e-backend-8bwb.vercel.app/login'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
@@ -104,29 +101,15 @@ Future<bool> signUp({
     var refreshToken = jsonResponse['refreshtoken'];
     var userJson = jsonResponse['user'];
     UserModel user = UserModel.fromJson(userJson);
-    print("THIS IS THE JSON RESPONSE USER BODY ................................");
-    print(jsonResponse['user']);
    // Future<bool> result = Future.value(false);
     httpErrorHandle(
         response: response,
         context: context,
         onSuccess: () async{
-          print("inside onsucess line 108");
-          //SharedPreferences preferences = await SharedPreferences.getInstance();
-          // prefs.setString('accesstoken', accessToken);
-          // prefs.setString('refreshtoken', refreshToken);
-          print("line 115 setCurrentUser");
           userProvider.setCurrentUser(user);
-          print("THIS IS THE USER");
-          print(user.first_name);
+
           await userProvider.setSharedPreferences(accessToken, refreshToken);
 
-
-
-          // prefs.setString('accesstoken', accessToken);
-          // prefs.setString('refreshtoken', refreshToken);
-           print("LOGINNNNN userprovider accesstoken !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-          print(userProvider.prefs.getString("accesstoken"));
 
           //
           // showSnackBar(
@@ -183,33 +166,19 @@ void logout(BuildContext context) async {
 Future<UserModel?> getProfile({required BuildContext context}) async {
   UserModel? user;
   try{
-
-    print(" BEFORE SHARED PREF !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
+print("inside getprofile user api");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
-    print("TRYING TO PRINT access token  HERE");
-    print(accessToken);
-    print("TRYING TO PRINT prefs.get(accesstoken) HERE");
-    print(prefs.get("accesstoken"));
     http.Response res =
-    await http.get(Uri.parse("http://localhost:3000/getprofile"),
+    await http.get(Uri.parse("https://troll-e-backend-8bwb.vercel.app/getprofile"),
       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
-    print(" BEFORE HTTP ERROR HANDLE and now res.body!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    print((res.body));
-    print("^^^^^^^^^^^^^^^^^^^^^^^");
     httpErrorHandle(
         response: res,
         context: context,
 
         onSuccess: () async{
-          print(" BEFORE MAP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-          //SharedPreferences preferences = await SharedPreferences.getInstance();
           Map<String, dynamic> json = jsonDecode(res.body);
           user = UserModel.fromJson(json);
-          print("............USER FIRST NAMEE ...........................................");
-          print(user?.first_name);
 
 
         }
@@ -234,7 +203,7 @@ Future<void> forgotpassword({
     var reqBody = {
       "email" : email,
     };
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/forgotpassword'),
+    http.Response response = await http.post(Uri.parse('https://troll-e-backend-8bwb.vercel.app/forgotpassword'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
@@ -278,7 +247,7 @@ Future<void> resetpassword({
       "password" : resetpassword,
     };
 
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/changepassword/${userID}/${token}'),
+    http.Response response = await http.post(Uri.parse('https://troll-e-backend-8bwb.vercel.app/changepassword/${userID}/${token}'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );

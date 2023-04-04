@@ -1,8 +1,12 @@
 import 'dart:isolate';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:troll_e/views/shopping_history/single_history.dart';
+
+import '../../utility.dart';
+import '../menu/menu.dart';
 
 
 class ShoppingHistory extends StatefulWidget {
@@ -36,14 +40,17 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Menu(),
+
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         leading: IconButton(
             icon: Icon(Icons.menu, color: Colors.black, size: 20.0),
             onPressed: (){
             }
         ),
         centerTitle: true,
-        title: Text('Shopping History', style: TextStyle(color: Colors.black,),),
+        title: Roboto_heading(textValue: 'Shopping History', size: 20.sp),
         backgroundColor: Color(0xFFBAD3D4),
       ),
       body: Column(

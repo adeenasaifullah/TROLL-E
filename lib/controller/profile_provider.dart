@@ -12,7 +12,6 @@ class ProfileProvider extends ChangeNotifier {
   String passwordresetuserid = '';
 
   void getUserProfile({required BuildContext context}) async {
-    print("INSIDE PROVIDER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     user=await getProfile(context: context);
     isLoading=false;
     notifyListeners();

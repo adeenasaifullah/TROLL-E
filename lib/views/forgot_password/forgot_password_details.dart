@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/utility.dart';
 import 'package:troll_e/views/forgot_password/token_verification.dart';
-import 'package:webview_flutter/webview_flutter.dart%20';
+//import 'package:webview_flutter/webview_flutter.dart%20';
 import '../../helpers/user_apis.dart';
 import '../login_signup/Signup.dart';
 

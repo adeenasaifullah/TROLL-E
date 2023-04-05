@@ -11,6 +11,7 @@ import 'package:flutter_glow/flutter_glow.dart';
 
 import '../../controller/profile_provider.dart';
 import '../../controller/shopping_provider.dart';
+import '../../models/user_model.dart';
 import '../cart/shopping_cart.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,6 +23,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  late String username;
   bool cartConnected = false;
   String qr_code = "";
 
@@ -42,13 +45,22 @@ class _HomeScreenState extends State<HomeScreen> {
       return qr_code;
     }
   }
-
+  @override
+  void initState()
+  {
+    //super.initState();
+    Provider.of<ProfileProvider>(context, listen: false).getUserProfile(context: context);
+    //username = Provider.of<ProfileProvider>(context).user?.first_name!;
+    //context.read<ProfileProvider>().getUserProfile(context: context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    final profileProvider = Provider.of<ProfileProvider>(context);
+    //final profileProvider = Provider.of<ProfileProvider>(context);
+    final username = Provider.of<ProfileProvider>(context).user?.first_name;
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
-    profileProvider.getUserProfile(context: context);
-    final username = profileProvider.user?.first_name;
+    //profileProvider.getUserProfile(context: context);
+    //final username = Provider.of<ProfileProvider>(context).user?.first_name;
 
     return Scaffold(
       extendBodyBehindAppBar:true,
@@ -111,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                         children: <Widget>[
                           SizedBox(height: displayHeight(context) * 0.07),
-                          Roboto_subheading(textValue: "Welcome back, $username " , size: 18.sp),
+                          Roboto_subheading(textValue: "Welcome back, ${username} " , size: 18.sp),
                           SizedBox(height: displayHeight(context) * 0.1,),
                           CircleAvatar(
                             backgroundColor: kPrimaryDarkColor,
@@ -134,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   else
                                   {
                                     String uid = await scanQR();
-                                    await shoppingProvider.connect(uid, profileProvider.user);
+                                    await shoppingProvider.connect(uid, Provider.of<ProfileProvider>(context).user);
                                     print("THIS IS THE QR CODE : $qr_code");
                                     print("this is shopping provider result");
                                     print(shoppingProvider.result);

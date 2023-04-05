@@ -2,11 +2,13 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:troll_e/helpers/user_apis.dart';
 import 'package:troll_e/utility.dart';
 import 'package:troll_e/views/login_signup/login.dart';
 import 'package:troll_e/views/profile/profile_details.dart';
 
+import '../../controller/profile_provider.dart';
 import '../../models/shopping_history.dart';
 import '../help_center/help_center.dart';
 
@@ -15,13 +17,16 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileProvider = Provider.of<ProfileProvider>(context);
+    final username = profileProvider.user?.first_name;
+    final email = profileProvider.user?.email;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text("William Windsor", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),),
-            accountEmail: Text("William@gmail.com", style: TextStyle(color: Colors.black)),
+            accountName: Text(profileProvider.user?.first_name == null ? ' ' :' $username', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),),
+            accountEmail: Text(profileProvider.user?.first_name == null ? ' ' :' $email', style: TextStyle(color: Colors.black)),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.asset("name",
@@ -41,9 +46,7 @@ class Menu extends StatelessWidget {
                     Colors.white,
                   ],
                 )
-
             ),
-
           ),
           ListTile(
             leading: Icon(Icons.home_outlined) ,

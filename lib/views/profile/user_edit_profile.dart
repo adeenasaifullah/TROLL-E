@@ -23,7 +23,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-     drawer: Menu(),
+      extendBodyBehindAppBar:true,
+      drawer: Menu(),
       appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: kPrimaryColor,

@@ -67,7 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
       ),
       //   ),
-      body: Container(
+      body: profileProvider.isLoading
+          ? const Center(
+        child: CircularProgressIndicator(),
+      )
+          :
+      Container(
 
         width: double.infinity,
         decoration:  const BoxDecoration(

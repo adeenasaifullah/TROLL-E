@@ -44,25 +44,23 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   }
 
   void initState()  {
-
-
-     callGetReceipt();
+    Provider.of<ProfileProvider>(context, listen: false).getUserProfile(context: context);
+    callGetReceipt();
     // TODO: implement initState
     super.initState();
   }
-  late ProfileProvider profileProvider;
 
   void callGetReceipt() async {
-  profileProvider = Provider.of<ProfileProvider>(context);
-  profileProvider.getUserProfile(context: context);
-  final itemProvider = Provider.of<ItemProvider>(context);
-  items =  itemProvider.getReceipt(user: profileProvider.user) as List<ItemModel>?;
+   await Provider.of<ItemProvider>(context,listen: false).getReceipt(user: Provider.of<ProfileProvider>(context).user);
+
+    // final profileProvider = Provider.of<ProfileProvider>(context);
+ //  final itemProvider = Provider.of<ItemProvider>(context);
+ //  items =  itemProvider.getReceipt(user: profileProvider.user) as List<ItemModel>?;
   }
 
   @override
   Widget build(BuildContext context) {
-    profileProvider = Provider.of<ProfileProvider>(context);
-    profileProvider.getUserProfile(context: context);
+    final profileProvider = Provider.of<ProfileProvider>(context);
     final itemProvider = Provider.of<ItemProvider>(context);
     //itemProvider.getReceipt(user: profileProvider.user);
 
@@ -139,7 +137,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                         await _scanBR();
                         print("THIS IS THE BARCODE SCANNED :");
                         print(_result);
-                        itemProvider.addItemToTemp(user: profileProvider.user, barcode: _result);
+                        itemProvider.addItemToTemp(user: Provider.of<ProfileProvider>(context, listen:false).user, barcode: _result, context: context);
                         },
                       icon: (Image.asset('Assets/icons/scanner.png')),
                       label: const Text(''),
@@ -258,7 +256,11 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                        onPressed: () { _scanBR(); },
+                        onPressed: () async {
+                        await  _scanBR();
+                        itemProvider.addItemToTemp(user: Provider.of<ProfileProvider>(context, listen:false).user, barcode: _result, context: context);
+
+                        },
                         icon: (Image.asset('Assets/icons/scanner.png')),
                         label: const Text(''),
                       ),

@@ -2,6 +2,8 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/models/Item_model.dart';
 
 import '../helpers/shopping_api.dart';
@@ -20,6 +22,9 @@ class ItemProvider extends ChangeNotifier{
     isLoading=true;
     tempReceipt=  await getTempReceipt(user: user) ;
      itemlist = await tempReceipt?.items;
+     print("I AM PRINTING ITEM LIST IN GET RECEIPT PROVIDER METHOD");
+     print(itemlist![1]);
+     print(itemlist![2]);
      isLoading=false;
     notifyListeners();
     return itemlist;
@@ -45,19 +50,20 @@ class ItemProvider extends ChangeNotifier{
 
   Future<void> addItemToTemp({
     required UserModel? user,
-    required String barcode,}) async {
+    required String barcode,
+  required BuildContext context}) async {
     isLoading=true;
-    for (final item in itemlist!) {
-      if (item.barcode == barcode) {
-        //secondScan();
-        break;
-      }
-      else{
-        await addItem(user: user, productBarcode: barcode, productQuantity: 1);
-      }
-    }
+    // for (final item in itemlist!) {
+    //   if (item.barcode == barcode) {
+    //     //secondScan();
+    //     break;
+    //   }
+    //   else{
+     await addItem(user: user, productBarcode: barcode, productQuantity: 1);
+    //  }
+   // }
     print("item provider after calling add item");
-  //  await getReceipt(user: user);
+    await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
     notifyListeners();
     isLoading=false;
 

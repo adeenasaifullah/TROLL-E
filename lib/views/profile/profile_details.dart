@@ -28,12 +28,17 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   TextEditingController mobnum = TextEditingController();
 
   @override
+  void initState()
+  {
+    //super.initState();
+    Provider.of<ProfileProvider>(context, listen: false).getUserProfile(context: context);
+    super.initState();
+  }
 
 
   @override
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
-    final getuser = profileProvider.getUserProfile(context: context);
     print("INSIDE PROFILE DETAIL SCREEEN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
     return  Scaffold(

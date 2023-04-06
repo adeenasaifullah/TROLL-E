@@ -48,15 +48,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState()
   {
-    //super.initState();
     Provider.of<ProfileProvider>(context, listen: false).getUserProfile(context: context);
-    //username = Provider.of<ProfileProvider>(context).user?.first_name!;
-    //context.read<ProfileProvider>().getUserProfile(context: context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    final profileProvider = Provider.of<ProfileProvider>(context);
     final username = Provider.of<ProfileProvider>(context).user?.first_name;
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
     //profileProvider.getUserProfile(context: context);
@@ -79,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       ),
       //   ),
-      body: profileProvider.isLoading
+      body: Provider.of<ProfileProvider>(context).isLoading
           ? const Center(
         child: CircularProgressIndicator(),
       )
@@ -146,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   else
                                   {
                                     String uid = await scanQR();
-                                    await shoppingProvider.connect(uid, Provider.of<ProfileProvider>(context).user);
+                                    await shoppingProvider.connect(uid, Provider.of<ProfileProvider>(context, listen:false).user);
                                     print("THIS IS THE QR CODE : $qr_code");
                                     print("this is shopping provider result");
                                     print(shoppingProvider.result);
@@ -165,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 120.h),
+                          SizedBox(height: 80.h),
                           GlowButton(
                             child: Text("Start Shopping" , style:  TextStyle(color: Colors.white),),
                             width: 300.w, height: 50.h,
@@ -183,6 +180,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
 
                           ),
+                          FloatingActionButton(onPressed: () {
+                            Navigator.push( context,
+                            MaterialPageRoute(builder: (context) =>  Shoppingcart()),
+                          );
+                          },
+
+                          )
 
                           // NavButton(
                           //   buttonText: 'Start Shopping',

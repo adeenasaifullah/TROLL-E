@@ -52,7 +52,7 @@ Future<bool> signUp({
       last_name, password: password, phone_number: phone_number,
           );
 
-    http.Response response = await http.post(Uri.parse('https://troll-e-backend-8bwb.vercel.app/register'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/register'),
         body: jsonEncode(newuser),
         headers: {"Content-Type":"application/json"},
     );
@@ -92,7 +92,7 @@ Future<bool> signUp({
       "password" : password
     };
     print("making http call line 94");
-    http.Response response = await http.post(Uri.parse('https://troll-e-backend-8bwb.vercel.app/login'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/login'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
@@ -168,7 +168,7 @@ print("inside getprofile user api");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
     http.Response res =
-    await http.get(Uri.parse("https://troll-e-backend-8bwb.vercel.app/getprofile"),
+    await http.get(Uri.parse("http://localhost:3000/getprofile"),
       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
     httpErrorHandle(
         response: res,
@@ -196,7 +196,7 @@ Future<void> forgotpassword({
     var reqBody = {
       "email" : email,
     };
-    http.Response response = await http.post(Uri.parse('https://troll-e-backend-8bwb.vercel.app/forgotpassword'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/forgotpassword'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
@@ -240,7 +240,7 @@ Future<void> resetpassword({
       "password" : resetpassword,
     };
 
-    http.Response response = await http.post(Uri.parse('https://troll-e-backend-8bwb.vercel.app/changepassword/${userID}/${token}'),
+    http.Response response = await http.post(Uri.parse('http://localhost:3000/changepassword/${userID}/${token}'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );

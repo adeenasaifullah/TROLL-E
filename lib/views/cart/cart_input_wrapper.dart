@@ -3,7 +3,6 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../../controller/item_provider.dart';
 import '../../controller/profile_provider.dart';
 import '../../models/Item_model.dart';
@@ -48,10 +47,11 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
     callGetReceipt();
     // TODO: implement initState
     super.initState();
+    print("TOTAL ITEMSS IN A LISTTTT  ${Provider.of<ItemProvider>(context, listen:false).itemlist?.length}");
   }
 
   void callGetReceipt() async {
-   await Provider.of<ItemProvider>(context,listen: false).getReceipt(user: Provider.of<ProfileProvider>(context).user);
+   await Provider.of<ItemProvider>(context,listen: false).getReceipt(user: Provider.of<ProfileProvider>(context, listen:false).user);
 
     // final profileProvider = Provider.of<ProfileProvider>(context);
  //  final itemProvider = Provider.of<ItemProvider>(context);
@@ -61,7 +61,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   @override
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
-    final itemProvider = Provider.of<ItemProvider>(context);
+    final itemProvider = Provider.of<ItemProvider>(context, listen:false);
     //itemProvider.getReceipt(user: profileProvider.user);
 
     return Scaffold(
@@ -70,6 +70,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 150.h,),
+
             Center(
               child: Text(
                 "Your Cart is Empty\nScan to add items to the cart",

@@ -17,7 +17,8 @@ class ItemModel {
       {
         required this.productID,
         required this.grossTotal,
-        required this.productQuantity
+        required this.productQuantity,
+        required this.isDeleted,
       //   required this.name,
       // required this.description,
       // required this.quantity,
@@ -32,7 +33,8 @@ class ItemModel {
     return ItemModel(
         productID :json["productID"],
         grossTotal: json["grossTotal"],
-        productQuantity:json["productQuantity"]
+        productQuantity:json["productQuantity"],
+        isDeleted:json["isDeleted"]
         // name: json['name'],
         // description: json['description'],
         // quantity: json['quantity'],
@@ -50,6 +52,7 @@ Map<String, dynamic> toJson() {
   data['productID']=this.productID;
   data['productQuantity']=this.productQuantity;
   data['grossTotal']=this.grossTotal;
+  data['isDeleted']=this.isDeleted;
   return data;
 }
   //

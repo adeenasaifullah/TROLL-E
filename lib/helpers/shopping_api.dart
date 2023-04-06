@@ -22,7 +22,7 @@ Future<bool> connectCart({
       "userID": userID
     };
     http.Response res =
-    await http.post(Uri.parse("https://troll-e-backend-8bwb.vercel.app/addTempReceipt"),
+    await http.post(Uri.parse("http:/localhost:3000/addTempReceipt"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
         body: jsonEncode(reqBody)
     );
@@ -50,7 +50,7 @@ Future<ItemModel?> getAllProducts() async{
     String? accessToken = prefs.getString('accesstoken');
 
     http.Response res =
-    await http.get(Uri.parse("https://troll-e-backend-8bwb.vercel.app/allProducts"),
+    await http.get(Uri.parse("http://localhost:3000/allProducts"),
       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
 
     );
@@ -72,8 +72,10 @@ Future<ItemModel?> getAllProducts() async{
 Future<ReceiptModel?> getTempReceipt({
   required UserModel? user,
 }) async{
-  ReceiptModel? tempReceipt;
+
   try{
+    ReceiptModel? tempReceipt;
+    // print(tempReceipt.)
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
     String? userID = user?.user_id;
@@ -81,7 +83,7 @@ Future<ReceiptModel?> getTempReceipt({
     print("user ID is:");
     print(userID);
     http.Response res =
-    await http.get(Uri.parse("https://troll-e-backend-8bwb.vercel.app/getTempReceipt/$userID"),
+    await http.get(Uri.parse("http://localhost:3000/getTempReceipt/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
 
     );
@@ -93,17 +95,22 @@ Future<ReceiptModel?> getTempReceipt({
     print(res.body);
 
       if(res.statusCode==200) {
-        Map<String, dynamic> json = jsonDecode(res.body);
+        Map<String, dynamic> Receipt = jsonDecode(res.body);
         print("NOW IM PRINTING JSON IN 200 STATUS CODE");
-        print(json);
-        tempReceipt = ReceiptModel.fromJson(json);
+        //print(json);
+        tempReceipt = ReceiptModel.fromJson(Receipt);
         print("NOW PRINT TEMP RECEIPT");
           print(tempReceipt);
+        print("PRINT TEMPRECEIPT?.ITEMS");
+        print("PRINT TEMPWEIGHTTTTTTT");
+        print(tempReceipt?.tempWeight);
+        print("PRINT TOTALWEIGHTTTTTTT");
+        print(tempReceipt?.totalWeight);
       }
       print("RES.BODY IS:");
       print(res.body);
-      print("PRINT TEMPRECEIPT?.ITEMS");
-      print(tempReceipt?.items);
+
+
     return tempReceipt;
   }
   catch(err){
@@ -125,7 +132,7 @@ Future<void> increaseQuantity({
       "increaseProductQuantity": productQuantity
     };
     http.Response res =
-    await http.put(Uri.parse("https://troll-e-backend-8bwb.vercel.app/increaseQuantity/$userID"),
+    await http.put(Uri.parse("http://localhost:3000/increaseQuantity/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
         body: jsonEncode(reqBody)
     );
@@ -154,7 +161,7 @@ Future<void> decreaseQuantity({
       "removeProductQuantity": productQuantity
     };
     http.Response res =
-    await http.put(Uri.parse("https://troll-e-backend-8bwb.vercel.app/decreaseQuantity/$userID"),
+    await http.put(Uri.parse("http://localhost:3000/decreaseQuantity/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
         body: jsonEncode(reqBody)
     );
@@ -188,7 +195,7 @@ Future<void> addItem({
       "productQuantity": productQuantity
     };
     http.Response res =
-    await http.put(Uri.parse("https://troll-e-backend-8bwb.vercel.app/addItemToCart/$userID"),
+    await http.put(Uri.parse("http://localhost:3000/addItemToCart/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
         body: jsonEncode(reqBody)
     );

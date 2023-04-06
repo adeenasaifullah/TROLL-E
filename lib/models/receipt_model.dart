@@ -22,14 +22,15 @@ class ReceiptModel{
 
    static ReceiptModel fromJson(Map<String, dynamic> json){
      return ReceiptModel(
-       date: json['receipt']['date'],
-       netTotal: json['receipt']['netTotal'],
-       totalDiscount: json['receipt']['totalDiscount'],
-       totalWeight: json['receipt']['totalWeight'],
-       tempWeight: json['tempWeight'],
-       items: (json['receipt']['items'] as List)
+       date: json['tempreceipt']['receipt']['date'],
+       netTotal: json['tempreceipt']['receipt']['netTotal'],
+       totalDiscount: json['tempreceipt']['receipt']['totalDiscount'],
+       totalWeight: json['tempreceipt']['receipt']['totalWeight'],
+       tempWeight: json['tempreceipt']['tempWeight'],
+       items: (json['tempreceipt']['receipt']['items'] as List)
            .map((e) => ItemModel.fromJson(e as Map<String, dynamic>))
            .toList(),
+        // json['Routines'] as List).map((e) => RoutineModel.fromJson(e as Map<String, dynamic>)).toList(),
          // date: json['date'],
          // netTotal: json['netTotal'],
          // totalDiscount: json['totalDiscount'],

@@ -109,15 +109,12 @@ Future<bool> signUp({
           userProvider.setCurrentUser(user);
 
           await userProvider.setSharedPreferences(accessToken, refreshToken);
-
-
           //
           // showSnackBar(
           //     context,
           //     'You have successfully logged In!'
           // );
           //result = Future.value(true);
-
         }
     );
     // return result;
@@ -127,6 +124,7 @@ Future<bool> signUp({
     //return prefs;
   }
 }
+
 
 void logout(BuildContext context) async {
   try {
@@ -175,21 +173,16 @@ print("inside getprofile user api");
     httpErrorHandle(
         response: res,
         context: context,
-
         onSuccess: () async{
           Map<String, dynamic> json = jsonDecode(res.body);
           user = UserModel.fromJson(json);
-
-
         }
     );
     return user;
   }
-
   catch(err){
     print(err);
     return user;
-
   }
 }
 

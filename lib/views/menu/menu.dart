@@ -11,6 +11,7 @@ import 'package:troll_e/views/profile/profile_details.dart';
 import '../../controller/profile_provider.dart';
 import '../../models/shopping_history.dart';
 import '../help_center/help_center.dart';
+import '../homescreen/homescreen.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);
@@ -51,7 +52,8 @@ class Menu extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.home_outlined) ,
             title: Text("Home"),
-            onTap: ()=> null,),
+            onTap: ()=> Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => HomeScreen())),),
 
           // Divider(
           //   color: Color(0xFF838383),

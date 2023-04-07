@@ -1,7 +1,7 @@
 import 'Item_model.dart';
 
 class ReceiptObject {
-  //final double totalWeight;
+  final double totalWeight;
   final DateTime date;
   final double netTotal;
   final double totalDiscount;
@@ -10,7 +10,7 @@ class ReceiptObject {
   final List<ItemModel> items;
 
   ReceiptObject({
-    //required this.totalWeight,
+    required this.totalWeight,
     required this.date,
     required this.netTotal,
     required this.totalDiscount,
@@ -21,7 +21,7 @@ class ReceiptObject {
 
   static ReceiptObject fromJson(Map<String, dynamic> json) {
     return ReceiptObject(
-      //totalWeight: json['totalWeight'],
+      totalWeight: json['totalWeight'],
       date: DateTime.parse(json['date']),
       netTotal: json['netTotal'],
       totalDiscount: json['totalDiscount'],
@@ -35,7 +35,7 @@ class ReceiptObject {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-   // data['totalWeight'] = this.totalWeight;
+    data['totalWeight'] = this.totalWeight;
     data['date'] = this.date.toIso8601String();
     data['netTotal'] = this.netTotal;
     data['totalDiscount'] = this.totalDiscount;

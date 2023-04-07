@@ -1,6 +1,7 @@
 
 import 'package:troll_e/models/receipt_model.dart';
 import 'package:troll_e/models/shopping_history.dart';
+import 'package:troll_e/models/shopping_history.dart';
 
 class UserModel {
    String? user_id;
@@ -31,7 +32,7 @@ class UserModel {
         last_name: json['last_name'],
         password: json['password'],
         phone_number: json['phone_number'],
-        shoppingHistory: ShoppingHistoryModel.fromJson(json['shoppingHistory'])
+        shoppingHistory: json['shoppingHistory']
     );
   }
 

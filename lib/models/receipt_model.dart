@@ -16,7 +16,7 @@ class ReceiptModel {
   static ReceiptModel fromJson(Map<String, dynamic> json) {
     return ReceiptModel(
       userID: json['userID'],
-      tempWeight: json['tempWeight'] ?? 0,
+      tempWeight: json['tempWeight'] ?? 0.0,
       receipt: ReceiptObject.fromJson(json['receipt']),
       UID: json['UID'],
     );

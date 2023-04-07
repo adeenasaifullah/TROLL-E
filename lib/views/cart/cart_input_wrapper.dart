@@ -52,7 +52,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
 
   void callGetReceipt() async {
    await Provider.of<ItemProvider>(context,listen: false).getReceipt(user: Provider.of<ProfileProvider>(context, listen:false).user);
-
+   print("CALLGETRECEIPT INIT STATE");
     // final profileProvider = Provider.of<ProfileProvider>(context);
  //  final itemProvider = Provider.of<ItemProvider>(context);
  //  items =  itemProvider.getReceipt(user: profileProvider.user) as List<ItemModel>?;

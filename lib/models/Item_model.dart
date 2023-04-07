@@ -1,6 +1,6 @@
 class ItemModel {
  final String productID;
- final num productQuantity;
+ final int productQuantity;
  final double grossTotal;
   bool isDeleted=false;
 

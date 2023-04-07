@@ -132,6 +132,7 @@ class _LoginInputWrapperState extends State<LoginInputWrapper>{
                //print(userProvider.prefs.getString('accesstoken'));
               //if(value != false){
                userProvider.prefs = await SharedPreferences.getInstance();
+               print(userProvider.prefs.get('accesstoken'));
                 if (userProvider.prefs.getString('accesstoken') != null){
                     Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => HomeScreen(token: userProvider.prefs.getString("accesstoken"),)));

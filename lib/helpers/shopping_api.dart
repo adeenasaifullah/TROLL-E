@@ -72,9 +72,8 @@ Future<ItemModel?> getAllProducts() async{
 Future<ReceiptModel?> getTempReceipt({
   required UserModel? user,
 }) async{
-
+  ReceiptModel? tempReceipt;
   try{
-    ReceiptModel? tempReceipt;
     // print(tempReceipt.)
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');

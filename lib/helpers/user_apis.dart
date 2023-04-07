@@ -97,11 +97,15 @@ Future<bool> signUp({
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
+    print("THIS IS RES.STATUS IN LOGIN LINE 100");
+    print(response.statusCode);
+    print(response.body);
 
     var jsonResponse = jsonDecode(response.body);
     var accessToken = jsonResponse['accesstoken'];
     var refreshToken = jsonResponse['refreshtoken'];
     var userJson = jsonResponse['user'];
+    print("before userjson from");
     UserModel user = UserModel.fromJson(userJson);
     print("AFTER HTTP CALL LINE 99 LOGIN>>>>>>>>>>>");
    // Future<bool> result = Future.value(false);
@@ -109,8 +113,13 @@ Future<bool> signUp({
         response: response,
         context: context,
         onSuccess: () async{
-          userProvider.setCurrentUser(user);
+     //     userProvider.setCurrentUser(user);
 
+            print("THIS IS ACCESS TOKEN");
+          SharedPreferences prefs  =  await SharedPreferences.getInstance();
+          prefs.setString('accesstoken', accessToken);
+          print(prefs.get('accesstoken'));
+          prefs.setString("refreshtoken", refreshToken);
           await userProvider.setSharedPreferences(accessToken, refreshToken);
           //
           // showSnackBar(

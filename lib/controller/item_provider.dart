@@ -21,7 +21,7 @@ class ItemProvider extends ChangeNotifier{
   Future<List<ItemModel>?> getReceipt({UserModel? user}) async{
     isLoading=true;
     tempReceipt=  await getTempReceipt(user: user) ;
-     itemlist = await tempReceipt?.items;
+     itemlist = await tempReceipt?.receipt.items;
      print("I AM PRINTING ITEM LIST IN GET RECEIPT PROVIDER METHOD");
      print(itemlist![1]);
      print(itemlist![2]);

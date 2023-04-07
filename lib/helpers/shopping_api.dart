@@ -50,7 +50,7 @@ Future<ItemModel?> getAllProducts() async{
     String? accessToken = prefs.getString('accesstoken');
 
     http.Response res =
-    await http.get(Uri.parse("http://localhost:3000/allProducts"),
+    await http.get(Uri.parse("http://3.106.170.176:3000/allProducts"),
       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
 
     );
@@ -83,7 +83,7 @@ Future<ReceiptModel?> getTempReceipt({
     print("user ID is:");
     print(userID);
     http.Response res =
-    await http.get(Uri.parse("http://localhost:3000/getTempReceipt/$userID"),
+    await http.get(Uri.parse("http://3.106.170.176:3000/getTempReceipt/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
 
     );
@@ -105,7 +105,7 @@ Future<ReceiptModel?> getTempReceipt({
         print("PRINT TEMPWEIGHTTTTTTT");
         print(tempReceipt?.tempWeight);
         print("PRINT TOTALWEIGHTTTTTTT");
-        print(tempReceipt?.totalWeight);
+        //print(tempReceipt?.receipt.totalWeight);
       }
       print("RES.BODY IS:");
       print(res.body);
@@ -132,7 +132,7 @@ Future<void> increaseQuantity({
       "increaseProductQuantity": productQuantity
     };
     http.Response res =
-    await http.put(Uri.parse("http://localhost:3000/increaseQuantity/$userID"),
+    await http.put(Uri.parse("http://3.106.170.176:3000/increaseQuantity/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
         body: jsonEncode(reqBody)
     );
@@ -161,7 +161,7 @@ Future<void> decreaseQuantity({
       "removeProductQuantity": productQuantity
     };
     http.Response res =
-    await http.put(Uri.parse("http://localhost:3000/decreaseQuantity/$userID"),
+    await http.put(Uri.parse("http://3.106.170.176:3000/decreaseQuantity/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
         body: jsonEncode(reqBody)
     );
@@ -195,7 +195,7 @@ Future<void> addItem({
       "productQuantity": productQuantity
     };
     http.Response res =
-    await http.put(Uri.parse("http://localhost:3000/addItemToCart/$userID"),
+    await http.put(Uri.parse("http://3.106.170.176:3000/addItemToCart/$userID"),
         headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},
         body: jsonEncode(reqBody)
     );

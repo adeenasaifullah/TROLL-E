@@ -1,58 +1,33 @@
-import 'Item_model.dart';
+import 'package:troll_e/models/receipt_object_model.dart';
 
-class ReceiptModel{
-  final DateTime date;
-  final double netTotal;
-  final double totalDiscount;
- // final double gst;
-   bool isDeleted = false;
-   List <ItemModel>? items = [];
-   final double totalWeight;
-   final double tempWeight;
+class ReceiptModel {
+  final String userID;
+  final double tempWeight;
+  final ReceiptObject receipt;
+  final String UID;
 
-   ReceiptModel( {
-    required this.date,
-     required this.netTotal,
-     required this.totalDiscount,
-  //   required this.gst,
-     required this.items,
-     required this.totalWeight,
-     required this.tempWeight,
-});
+  ReceiptModel({
+    required this.userID,
+    required this.tempWeight,
+    required this.receipt,
+    required this.UID,
+  });
 
-   static ReceiptModel fromJson(Map<String, dynamic> json){
-     return ReceiptModel(
-       date: json['tempreceipt']['receipt']['date'],
-       netTotal: json['tempreceipt']['receipt']['netTotal'],
-       totalDiscount: json['tempreceipt']['receipt']['totalDiscount'],
-       totalWeight: json['tempreceipt']['receipt']['totalWeight'],
-       tempWeight: json['tempreceipt']['tempWeight'],
-       items: (json['tempreceipt']['receipt']['items'] as List)
-           .map((e) => ItemModel.fromJson(e as Map<String, dynamic>))
-           .toList(),
-        // json['Routines'] as List).map((e) => RoutineModel.fromJson(e as Map<String, dynamic>)).toList(),
-         // date: json['date'],
-         // netTotal: json['netTotal'],
-         // totalDiscount: json['totalDiscount'],
-         // //gst: json['gst'],
-         // totalWeight: json["totalWeight"],
-         // tempWeight:json["tempWeight"],
-         // items: (json['items']as List).map((e) => ItemModel.fromJson(e as Map<String, dynamic>)).toList(),
-         //
-     );
-   }
+  static ReceiptModel fromJson(Map<String, dynamic> json) {
+    return ReceiptModel(
+      userID: json['userID'],
+      tempWeight: json['tempWeight'] ?? 0,
+      receipt: ReceiptObject.fromJson(json['receipt']),
+      UID: json['UID'],
+    );
+  }
 
-   Map<String, dynamic> toJson() {
-     final Map<String, dynamic> data = new Map<String, dynamic>();
-     data['date'] = this.date;
-     data['netTotal'] = this.netTotal;
-     data['totalDiscount'] = this.totalDiscount;
-    // data['gst'] = this.gst;
-     data["tempWeight"]=this.tempWeight;
-     data["totalWeight"]=this.totalWeight;
-     data['items'] = this.items?.map((v) => v.toJson()).toList();
-
-     return data;
-   }
-
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userID'] = this.userID;
+    data['tempWeight'] = this.tempWeight;
+    data['receipt'] = this.receipt.toJson();
+    data['UID'] = this.UID;
+    return data;
+  }
 }

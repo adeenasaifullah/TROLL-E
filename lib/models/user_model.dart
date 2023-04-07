@@ -11,7 +11,7 @@ class UserModel {
    String? google_id;
    String password;
    String? image;
-   List <ReceiptModel>? shoppingHistory = [];
+   ShoppingHistoryModel? shoppingHistory;
 
   UserModel({
     this.user_id,
@@ -20,7 +20,7 @@ class UserModel {
     required this.last_name,
     required this.password,
     required this.phone_number,
-     this.shoppingHistory
+     this.shoppingHistory,
   });
 
   static UserModel fromJson(Map<String, dynamic> json) {
@@ -31,8 +31,7 @@ class UserModel {
         last_name: json['last_name'],
         password: json['password'],
         phone_number: json['phone_number'],
-        shoppingHistory: (json['shoppingHistory']['receipt'] as List).map((e) =>
-            ReceiptModel.fromJson(e as Map<String, dynamic>)).toList()
+        shoppingHistory: ShoppingHistoryModel.fromJson(json['shoppingHistory'])
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/controller/user_provider.dart';
+import 'package:troll_e/models/shopping_history.dart';
 import 'package:troll_e/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import '../models/receipt_model.dart';
@@ -47,12 +48,12 @@ Future<bool> signUp({
   required String phone_number,
 }) async {
     try{
+
       UserModel newuser =
       UserModel(email: email, first_name: first_name, last_name:
-      last_name, password: password, phone_number: phone_number,
-          );
+      last_name, password: password, phone_number: phone_number, );
 
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/register'),
+    http.Response response = await http.post(Uri.parse('http://3.106.170.176:3000/register'),
         body: jsonEncode(newuser),
         headers: {"Content-Type":"application/json"},
     );
@@ -92,15 +93,17 @@ Future<bool> signUp({
       "password" : password
     };
     print("making http call line 94");
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/login'),
+    http.Response response = await http.post(Uri.parse('http://3.106.170.176:3000/login'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
+
     var jsonResponse = jsonDecode(response.body);
     var accessToken = jsonResponse['accesstoken'];
     var refreshToken = jsonResponse['refreshtoken'];
     var userJson = jsonResponse['user'];
     UserModel user = UserModel.fromJson(userJson);
+    print("AFTER HTTP CALL LINE 99 LOGIN>>>>>>>>>>>");
    // Future<bool> result = Future.value(false);
     httpErrorHandle(
         response: response,
@@ -168,7 +171,7 @@ print("inside getprofile user api");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
     http.Response res =
-    await http.get(Uri.parse("http://localhost:3000/getprofile"),
+    await http.get(Uri.parse("http://3.106.170.176:3000/getprofile"),
       headers: { "Content-type": "application/json", "Authorization": "Bearer $accessToken",},);
     httpErrorHandle(
         response: res,
@@ -196,7 +199,7 @@ Future<void> forgotpassword({
     var reqBody = {
       "email" : email,
     };
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/forgotpassword'),
+    http.Response response = await http.post(Uri.parse('http://3.106.170.176:3000/forgotpassword'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );
@@ -240,7 +243,7 @@ Future<void> resetpassword({
       "password" : resetpassword,
     };
 
-    http.Response response = await http.post(Uri.parse('http://localhost:3000/changepassword/${userID}/${token}'),
+    http.Response response = await http.post(Uri.parse('http://3.106.170.176:3000/changepassword/${userID}/${token}'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type":"application/json"},
     );

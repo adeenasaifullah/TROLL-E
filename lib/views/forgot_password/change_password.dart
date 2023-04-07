@@ -108,7 +108,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         if (_formKey.currentState != null &&
                             _formKey.currentState!.validate()) {
                           // Perform change password operation
-                         resetpassword(context: context, resetpassword: _newPasswordController.text);
+                         resetPassword(context: context, resetPassword: _newPasswordController.text);
                          Navigator.of(context).push(MaterialPageRoute(
                              builder: (context) => Login()));
                         }

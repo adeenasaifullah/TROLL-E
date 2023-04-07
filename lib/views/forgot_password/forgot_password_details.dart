@@ -77,8 +77,8 @@ class _ForgotPasswordDetailsState extends State<ForgotPasswordDetails> {
             onPressed: () async {
             if (_formKey.currentState != null &&
             _formKey.currentState!.validate()) {
-              await forgotpassword(context: context, email: emailController.text);
-              String token = resetemail.passwordresettoken;
+              await forgotPassword(context: context, email: emailController.text);
+              String token = resetemail.passwordResetToken;
               if ((token.isNotEmpty)) {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>

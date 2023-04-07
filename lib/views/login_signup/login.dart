@@ -4,39 +4,44 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login_input_wrapper.dart';
 
 class Login extends StatelessWidget {
+  const Login({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
-          // gradient: LinearGradient(begin: Alignment.topCenter, colors: [
-          //   Color(0xFFBAD3D4),
-          //   Color(0xFFBAD3D4),
-          //   // Color(0xFFBAD3D4),
-          // ]),
-            color: kPrimaryColor
-        ),
+            // gradient: LinearGradient(begin: Alignment.topCenter, colors: [
+            //   Color(0xFFBAD3D4),
+            //   Color(0xFFBAD3D4),
+            //   // Color(0xFFBAD3D4),
+            // ]),
+            color: kPrimaryColor),
         child: Column(
           children: <Widget>[
             SizedBox(height: displayHeight(context) * 0.07),
             Roboto_heading(textValue: 'Login', size: 26.sp),
             SizedBox(height: displayHeight(context) * 0.01),
             Roboto_subheading(textValue: 'Sign in to continue', size: 14.sp),
-            SizedBox(height: displayHeight(context) * 0.1,),
+            SizedBox(
+              height: displayHeight(context) * 0.1,
+            ),
             //Header(),
-            Expanded(child: Container(
-              height: displayHeight(context)*0.2,
-              width: displayWidth(context),
-              decoration: BoxDecoration(
+            Expanded(
+              child: Container(
+                height: displayHeight(context) * 0.2,
+                width: displayWidth(context),
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50),
                     topRight: Radius.circular(50),
-                  )
+                  ),
+                ),
+                child: LoginInputWrapper(),
               ),
-              child: LoginInputWrapper(),
-            ))
+            )
           ],
         ),
       ),

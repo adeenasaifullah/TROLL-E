@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
@@ -7,28 +6,25 @@ import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/models/Item_model.dart';
 
 import '../helpers/shopping_api.dart';
-import '../models/receipt_model.dart';
+import '../models/temp_receipt_model.dart';
 import '../models/user_model.dart';
 
+class ItemProvider extends ChangeNotifier {
+  List<ItemModel>? itemList = [];
+  TempReceiptModel? tempReceipt;
 
-class ItemProvider extends ChangeNotifier{
-  List<ItemModel>? itemlist=[];
-  ReceiptModel? tempReceipt ;
-  bool isLoading=false;
-
+  bool isLoading = false;
 
   //2NS ATTEMPT
-  Future<List<ItemModel>?> getReceipt({UserModel? user}) async{
-    isLoading=true;
-    tempReceipt=  await getTempReceipt(user: user) ;
-     itemlist = await tempReceipt?.receipt.items;
-     print("I AM PRINTING ITEM LIST IN GET RECEIPT PROVIDER METHOD");
-     print(itemlist![1]);
-     print(itemlist![2]);
-     isLoading=false;
+  Future<List<ItemModel>?> getReceipt({UserModel? user}) async {
+    isLoading = true;
+    tempReceipt = await getTempReceipt(user: user);
+    itemList = tempReceipt?.receipt.items;
+    print("I AM PRINTING ITEM LIST IN GET RECEIPT PROVIDER METHOD");
+    print(itemList![0]);
+    isLoading = false;
     notifyListeners();
-    return itemlist;
-
+    return itemList;
   }
 
 //1ST ATTEMPT
@@ -48,31 +44,32 @@ class ItemProvider extends ChangeNotifier{
   //   notifyListeners();
   // }
 
-  Future<void> addItemToTemp({
-    required UserModel? user,
-    required String barcode,
-  required BuildContext context}) async {
-    isLoading=true;
+  Future<void> addItemToTemp(
+      {required UserModel? user,
+      required String barcode,
+      required BuildContext context}) async {
+    isLoading = true;
     // for (final item in itemlist!) {
     //   if (item.barcode == barcode) {
     //     //secondScan();
     //     break;
     //   }
     //   else{
-     await addItem(user: user, productBarcode: barcode, productQuantity: 1);
+    await addItem(user: user, productBarcode: barcode, productQuantity: 1);
     //  }
-   // }
+    // }
     print("item provider after calling add item");
-    await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
+    await getReceipt(
+        user: (Provider.of<ProfileProvider>(context, listen: false).user));
     notifyListeners();
-    isLoading=false;
-
+    isLoading = false;
   }
-  void totalweight(){
-    //calculate the total weight of all the items
-   }
 
-   void total(){
+  void totalweight() {
+    //calculate the total weight of all the items
+  }
+
+  void total() {
     // calculate the total amount of all the items
-   }
+  }
 }

@@ -34,14 +34,14 @@ class ReceiptObject {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['totalWeight'] = this.totalWeight;
-    data['date'] = this.date.toIso8601String();
-    data['netTotal'] = this.netTotal;
-    data['totalDiscount'] = this.totalDiscount;
-    data['isDeleted'] = this.isDeleted;
-    data['items'] = this.items.map((v) => v.toJson()).toList();
-    if (this.gst != null) data['gst'] = this.gst;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['totalWeight'] = totalWeight;
+    data['date'] = date.toIso8601String();
+    data['netTotal'] = netTotal;
+    data['totalDiscount'] = totalDiscount;
+    data['isDeleted'] = isDeleted;
+    data['items'] = items.map((v) => v.toJson()).toList();
+    if (gst != null) data['gst'] = gst;
     return data;
   }
 }

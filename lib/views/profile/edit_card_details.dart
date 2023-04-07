@@ -16,13 +16,11 @@ class _EditCardDetailsState extends State<EditCardDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+          backgroundColor: kPrimaryColor,
           iconTheme: IconThemeData(color: Colors.black),
-        title:  Roboto_heading(textValue: 'Edit Card Details', size: 20.sp)
-      ),
+          title: Roboto_heading(textValue: 'Edit Card Details', size: 20.sp)),
       body: CardDetails(),
       // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile),
-
     );
   }
 }

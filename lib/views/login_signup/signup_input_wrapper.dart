@@ -14,7 +14,7 @@ class SignupInputWrapper extends StatelessWidget {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
-  final _signUpFormKey = GlobalKey<FormState>();
+  static final _signUpFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     bool result;

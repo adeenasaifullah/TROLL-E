@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final username = Provider.of<ProfileProvider>(context).user?.first_name;
+    final username = Provider.of<ProfileProvider>(context).user?.firstName;
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
     //profileProvider.getUserProfile(context: context);
     //final username = Provider.of<ProfileProvider>(context).user?.first_name;

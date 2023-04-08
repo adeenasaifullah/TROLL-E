@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,12 +55,11 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
               title: 'Flutter Demo',
               theme: ThemeData(
-
                 primarySwatch: Colors.blue,
               ),
               home: (token != null && JwtDecoder.isExpired(token) == false)
                   ? HomeScreen(token: token)
-                  : SplashScreen()
+                  : const SplashScreen()
               //(prefs.getString('accesstoken') != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
               //const MyHomePage(title: 'Flutter Demo Home Page'),
               );
@@ -186,7 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ShoppingHistory()),
+                  MaterialPageRoute(
+                      builder: (context) => const ShoppingHistory()),
                 );
               },
               child: const Text("Shopping History"),

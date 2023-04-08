@@ -9,30 +9,32 @@ class OTP extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-
-            color: kPrimaryColor
+        decoration: const BoxDecoration(
+          color: kPrimaryColor,
         ),
         child: Column(
           children: <Widget>[
             SizedBox(height: 50.h),
             Roboto_heading(textValue: 'OTP Verification', size: 26.sp),
             SizedBox(height: 15.h),
-            Roboto_subheading(textValue: 'We sent your code to +92 398 860 ***', size: 14.sp),
+            Roboto_subheading(
+                textValue: 'We sent your code to +92 398 860 ***', size: 14.sp),
             buildTimer(),
             SizedBox(height: 60.h),
             //Header(),
-            Expanded(child: Container(
-              width: displayWidth(context),
-              decoration: BoxDecoration(
+            Expanded(
+              child: Container(
+                width: displayWidth(context),
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(60),
                     topRight: Radius.circular(60),
-                  )
+                  ),
+                ),
+                child: const OTPForm(),
               ),
-              child: OTPForm(),
-            ))
+            )
           ],
         ),
       ),
@@ -43,13 +45,14 @@ class OTP extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Roboto_subheading(textValue: 'This code will be expired in ', size: 16),
+        const Roboto_subheading(
+            textValue: 'This code will be expired in ', size: 16),
         TweenAnimationBuilder(
           tween: Tween(begin: 30.0, end: 0.0),
-          duration: Duration(seconds: 30),
+          duration: const Duration(seconds: 30),
           builder: (_, dynamic value, child) => Text(
             "00:${value.toInt()}",
-            style: TextStyle(color: Colors.red),
+            style: const TextStyle(color: Colors.red),
           ),
         ),
       ],

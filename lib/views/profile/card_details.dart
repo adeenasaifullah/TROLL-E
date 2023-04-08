@@ -1,4 +1,3 @@
-
 import "package:flutter_credit_card/credit_card_form.dart";
 import "package:flutter_credit_card/credit_card_model.dart";
 import "package:flutter_credit_card/flutter_credit_card.dart";
@@ -19,9 +18,9 @@ class _CardDetailsState extends State<CardDetails> {
   String cvvNumber = '';
   String expiryDate = '';
   bool showBackView = false;
-  final GlobalKey<FormState> formKey=GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  void onCreditCardModel(CreditCardModel creditCardModel){
+  void onCreditCardModel(CreditCardModel creditCardModel) {
     setState(() {
       cardNumber = creditCardModel.cardNumber;
       cardHolderName = creditCardModel.cardHolderName;
@@ -33,25 +32,27 @@ class _CardDetailsState extends State<CardDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
+    return SafeArea(
       child: Column(
         children: [
-          SizedBox(height: 5.h,),
+          SizedBox(
+            height: 5.h,
+          ),
           CreditCardWidget(
             cardNumber: cardNumber,
             expiryDate: expiryDate,
-             backgroundImage: 'Assets/images/cardbg.png',
+            backgroundImage: 'Assets/images/cardbg.png',
             cardHolderName: cardHolderName,
             cvvCode: cvvNumber,
             showBackView: showBackView,
-           // cardBgColor: Color(0xFFBAD3D4),
+            // cardBgColor: Color(0xFFBAD3D4),
             textStyle: TextStyle(
               color: Colors.black,
               fontSize: 14.0.sp,
               fontWeight: FontWeight.w300,
             ),
             animationDuration: Duration(milliseconds: 1200),
-            onCreditCardWidgetChange: (CreditCardBrand ) {  },
+            onCreditCardWidgetChange: (CreditCardBrand) {},
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -65,12 +66,10 @@ class _CardDetailsState extends State<CardDetails> {
                 cursorColor: Colors.black,
                 themeColor: Colors.black,
 
-                cardNumberDecoration:
-                InputDecoration(
-                  //  border: OutlineInputBorder(),
+                cardNumberDecoration: InputDecoration(
+                    //  border: OutlineInputBorder(),
                     labelText: "Card Number",
-                    hintText: "xxxx xxxx xxxx xxxx"
-                ),
+                    hintText: "xxxx xxxx xxxx xxxx"),
 //                   expiryDateDecoration: InputDecoration(
 //                       border: OutlineInputBorder(),
 //                       labelText: "Expiry Date",
@@ -89,21 +88,20 @@ class _CardDetailsState extends State<CardDetails> {
               ),
             ),
           ),
-          Padding( padding: EdgeInsets.fromLTRB(1, 15, 1, 20),
-            child:  NavButton(
+          Padding(
+            padding: EdgeInsets.fromLTRB(1, 15, 1, 20),
+            child: NavButton(
               buttonText: 'Save Changes',
               textSize: 20.sp,
               buttonHeight: 50.h,
               buttonWidth: 320.w,
-              onPressed: ()=> {
+              onPressed: () => {
                 //do something
               },
-            ),)
+            ),
+          )
         ],
       ),
-
     );
   }
 }
-
-

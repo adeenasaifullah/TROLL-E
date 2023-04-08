@@ -1,25 +1,23 @@
+import 'package:troll_e/models/temp_receipt_model.dart';
+import 'package:troll_e/models/receipt_object_model.dart';
 
-import 'package:troll_e/models/receipt_model.dart';
+class ShoppingHistoryModel {
+  List<ReceiptObject> receipts = [];
 
-class ShoppingHistory{
-  List<ReceiptModel> history = [];
+  ShoppingHistoryModel({required this.receipts});
 
-  ShoppingHistory({
-     required this.history
-});
-
-  static ShoppingHistory fromJson(Map<String, dynamic> json){
-    return ShoppingHistory(
-      history: (json['receipt'] as List).map((e) =>
-          ReceiptModel.fromJson(e as Map<String, dynamic>)).toList(),
+  static ShoppingHistoryModel fromJson(Map<String, dynamic> json) {
+    return ShoppingHistoryModel(
+      receipts: (json['receipt'] as List)
+          .map((e) => ReceiptObject.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
-   Map<String, dynamic> toJson(){
-    final Map<String, dynamic> data =  Map<String, dynamic>();
-    data['receipt'] = this.history.map((v) => v.toJson()).toList();
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['receipt'] = receipts.map((v) => v.toJson()).toList();
 
     return data;
-   }
-
+  }
 }

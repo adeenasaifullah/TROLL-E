@@ -1,51 +1,52 @@
-
-import 'package:troll_e/models/receipt_model.dart';
+import 'package:troll_e/models/temp_receipt_model.dart';
+import 'package:troll_e/models/shopping_history.dart';
 import 'package:troll_e/models/shopping_history.dart';
 
 class UserModel {
-   String? user_id;
+  String? userId;
   final String email;
-  final String first_name;
-  final String last_name;
-  final String phone_number;
-   String? google_id;
-   String password;
-   String? image;
-   List <ReceiptModel>? shoppingHistory = [];
+  final String firstName;
+  final String lastName;
+  final String phoneNumber;
+  String? googleId;
+  String password;
+  String? image;
+  var shoppingHistory;
 
   UserModel({
-    this.user_id,
+    this.userId,
     required this.email,
-    required this.first_name,
-    required this.last_name,
+    required this.firstName,
+    required this.lastName,
     required this.password,
-    required this.phone_number,
-     this.shoppingHistory
+    required this.phoneNumber,
+    this.shoppingHistory,
   });
 
   static UserModel fromJson(Map<String, dynamic> json) {
+    if (json['shoppingHistory'] != null) {
+      ShoppingHistoryModel.fromJson(json['shoppingHistory']);
+    }
+
     return UserModel(
-      user_id: json['_id'],
+        userId: json['_id'],
         email: json['email'],
-        first_name: json['first_name'],
-        last_name: json['last_name'],
+        firstName: json['first_name'],
+        lastName: json['last_name'],
         password: json['password'],
-        phone_number: json['phone_number'],
-        shoppingHistory: (json['shoppingHistory']['receipt'] as List).map((e) =>
-            ReceiptModel.fromJson(e as Map<String, dynamic>)).toList()
-    );
+        phoneNumber: json['phone_number'],
+        shoppingHistory: json['shoppingHistory']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['email'] = this.email;
-    data['first_name'] = this.first_name;
-    data['last_name'] = this.last_name;
-    data['password'] = this.password;
-    data['phone_number'] = this.phone_number;
+    data['email'] = email;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['password'] = password;
+    data['phone_number'] = phoneNumber;
     //data['shoppingHistory'] = {'receipt': this.shoppingHistory.map((v) => v.toJson()).toList(),
     //};
     return data;
   }
-
 }

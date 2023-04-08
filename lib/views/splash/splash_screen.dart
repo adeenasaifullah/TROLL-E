@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -13,40 +11,44 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin  {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   late AnimationController animation;
   late Animation<double> _fadeInFadeOut;
 
   @override
   void initState() {
     super.initState();
-    animation = AnimationController(vsync: this, duration: Duration(seconds: 2),);
+    animation = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
     _fadeInFadeOut = Tween<double>(begin: 0.0, end: 1).animate(animation);
 
-    animation.addStatusListener((status){
-      if(status == AnimationStatus.completed){
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder:
-                (context) =>
-                Signup()
-            )
-
-      );
-       }
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Signup(),
+          ),
+        );
+      }
       // else if(status == AnimationStatus.dismissed){
       //   animation.forward();
       // }
     });
     animation.forward();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: FadeTransition(
-            opacity: _fadeInFadeOut,
-            child: Image(image: AssetImage('Assets/images/TROLL-E.png'))
+      body: Center(
+        child: FadeTransition(
+          opacity: _fadeInFadeOut,
+          child: const Image(
+            image: AssetImage('Assets/images/TROLL-E.png'),
           ),
         ),
       ),

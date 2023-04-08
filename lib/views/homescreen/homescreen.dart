@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +11,7 @@ import 'package:flutter_glow/flutter_glow.dart';
 
 import '../../controller/profile_provider.dart';
 import '../../controller/shopping_provider.dart';
+import '../../models/user_model.dart';
 import '../cart/shopping_cart.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,6 +23,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  late String username;
   bool cartConnected = false;
   String qr_code = "";
 
@@ -43,13 +45,19 @@ class _HomeScreenState extends State<HomeScreen> {
       return qr_code;
     }
   }
+  @override
+  void initState()
+  {
+    Provider.of<ProfileProvider>(context, listen: false).getUserProfile(context: context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final profileProvider = Provider.of<ProfileProvider>(context);
-    profileProvider.getUserProfile(context: context);
+    final username = Provider.of<ProfileProvider>(context).user?.firstName;
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
-    final username = profileProvider.user?.first_name;
+    //profileProvider.getUserProfile(context: context);
+    //final username = Provider.of<ProfileProvider>(context).user?.first_name;
 
     return Scaffold(
       extendBodyBehindAppBar:true,
@@ -68,7 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
       ),
       //   ),
-      body: Container(
+      body: Provider.of<ProfileProvider>(context).isLoading
+          ? const Center(
+        child: CircularProgressIndicator(),
+      )
+          :
+      Container(
 
         width: double.infinity,
         decoration:  const BoxDecoration(
@@ -90,14 +103,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Center(
             child:  Column(
               children: [
-               SizedBox(height: 130.h),
+                SizedBox(height: displayHeight(context) * 0.2),
 
                 //Container(height: 150.h,),
                 Expanded(
                   child: Container(
-                     height: displayHeight(context)*0.2,
-                     width: displayWidth(context),
-                    decoration: const BoxDecoration(
+                    height: displayHeight(context)*0.2,
+                    width: displayWidth(context),
+                    decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(60),
@@ -107,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                         children: <Widget>[
                           SizedBox(height: displayHeight(context) * 0.07),
-                          Roboto_subheading(textValue: "Welcome back, $username " , size: 18.sp),
+                          Roboto_subheading(textValue: "Welcome back, ${username} " , size: 18.sp),
                           SizedBox(height: displayHeight(context) * 0.1,),
                           CircleAvatar(
                             backgroundColor: kPrimaryDarkColor,
@@ -118,11 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: GlowButton(
                                 width: 150.w, height: 150.h,
                                 child: Image.asset('Assets/icons/connect.png', width: 50.w,),
-                                onPressed: () async{
+                                onPressed: () async {
 // true means its glowing
                                   if(cartConnected == true)
                                   {
-                                    print("CART IS CONNECTED ALREADY LINE 124 HOMESCREEN");
                                     //dk why if a user is connected
                                     // setState(() {
                                     //   cartConnected  = false;
@@ -131,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   else
                                   {
                                     String uid = await scanQR();
-                                    await shoppingProvider.connect(uid, profileProvider.user);
+                                    await shoppingProvider.connect(uid, Provider.of<ProfileProvider>(context, listen:false).user);
                                     print("THIS IS THE QR CODE : $qr_code");
                                     print("this is shopping provider result");
                                     print(shoppingProvider.result);
@@ -139,8 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                         setState(() {
                                           cartConnected = shoppingProvider.result;
-                                          print("CART CONNECTED SET STATE ");
-                                          print(cartConnected);
                                     //  cartConnected  = true;
                                     });
                                   }
@@ -152,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 120.h),
+                          SizedBox(height: 80.h),
                           GlowButton(
                             child: Text("Start Shopping" , style:  TextStyle(color: Colors.white),),
                             width: 300.w, height: 50.h,
@@ -171,12 +181,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           ),
                           FloatingActionButton(onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Shoppingcart()),
-                            );
-                          })
+                            Navigator.push( context,
+                            MaterialPageRoute(builder: (context) =>  Shoppingcart()),
+                          );
+                          },
+
+                          )
+
                           // NavButton(
                           //   buttonText: 'Start Shopping',
                           //   textSize: 20.sp,

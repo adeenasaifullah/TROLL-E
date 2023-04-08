@@ -3,8 +3,10 @@ import 'package:troll_e/models/receipt_object_model.dart';
 class TempReceiptModel {
   final String userID;
   final double tempWeight;
-  var receipt;
+  // var receipt;
   final String uid;
+  ReceiptObject receipt;
+
 
   TempReceiptModel({
     required this.userID,
@@ -14,15 +16,25 @@ class TempReceiptModel {
   });
 
   static TempReceiptModel fromJson(Map<String, dynamic> json) {
-    if (json['receipt'] != null) {
-      ReceiptObject.fromJson(json['receipt']);
-    }
+
     return TempReceiptModel(
-      userID: json['userID'],
-      tempWeight: json['tempWeight'] ?? 0.0,
-      receipt: json['receipt'],
-      uid: json['UID'],
-    );
+        receipt: ReceiptObject.fromJson(json['tempreceipt']['receipt']),
+        userID: json['tempreceipt']['userID'],
+        tempWeight: json['tempreceipt']['tempWeight'].toDouble(),
+        uid: json['tempreceipt']['UID'],
+        );
+
+
+
+    // if (json['receipt'] != null) {
+    //   ReceiptObject.fromJson(json['receipt']);
+    // }
+    // return TempReceiptModel(
+    //   userID: json['userID'],
+    //   tempWeight: json['tempWeight'] ?? 0.0,
+    //   receipt: json['receipt'],
+    //   uid: json['UID'],
+    // );
   }
 
   Map<String, dynamic> toJson() {

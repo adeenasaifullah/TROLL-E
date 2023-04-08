@@ -95,7 +95,7 @@ Future<TempReceiptModel?> getTempReceipt({
       //print(json);
       tempReceipt = TempReceiptModel.fromJson(Receipt);
       print("NOW PRINT TEMP RECEIPT");
-      print(tempReceipt);
+      print(tempReceipt.receipt);
       print("PRINT TEMPRECEIPT?.ITEMS");
       print("PRINT TEMPWEIGHTTTTTTT");
       print(tempReceipt?.tempWeight);

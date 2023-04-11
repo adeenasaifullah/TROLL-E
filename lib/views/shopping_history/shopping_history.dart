@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:troll_e/views/shopping_history/single_history.dart';
 
+import '../../controller/profile_provider.dart';
 import '../../utility.dart';
 import '../menu/menu.dart';
 
@@ -66,7 +68,18 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
   ];
 
   @override
+  void initState() {
+    //super.initState();
+    Provider.of<ProfileProvider>(context, listen: false)
+        .getUserProfile(context: context);
+    super.initState();
+    //print("Total receipts in shopping history are ${Provider.of<ProfileProvider>(context, listen:false).user?.shoppingHistory.toString()}");
+
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
       drawer: const Menu(),
       appBar: AppBar(
@@ -78,7 +91,29 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
         title: Roboto_heading(textValue: 'Shopping History', size: 20.sp),
         backgroundColor: const Color(0xFFBAD3D4),
       ),
-      body: Column(
+    body:
+    //     Column(
+    //     mainAxisAlignment: MainAxisAlignment.center,
+    //     children: [
+    //     SizedBox(
+    //     height: 150.h,
+    //   ),
+    //   Center(
+    //     child: Text(
+    //       "You don't have an previously saved receipts.",
+    //       textAlign: TextAlign.center,
+    //       style: TextStyle(
+    //         fontSize: 20.sp,
+    //         color: kPrimaryDarkColor,
+    //         fontWeight: FontWeight.bold,
+    //         fontStyle: FontStyle.italic,
+    //       ),
+    //     ),
+    //   ),
+    //   ]
+    // )
+
+      Column(
         children: [
           Expanded(
             child: ListView.builder(

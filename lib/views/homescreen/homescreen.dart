@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState()
   {
-    Provider.of<ProfileProvider>(context, listen: false).getUserProfile(context: context);
+    context.read<ProfileProvider>().getUserProfile(context: context);
     super.initState();
   }
 

@@ -23,4 +23,8 @@ class ProfileProvider extends ChangeNotifier {
     passwordResetUserid = userID;
     notifyListeners();
   }
+
+   getShoppingHistory(){
+    return user?.shoppingHistory;
+  }
 }

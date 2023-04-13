@@ -21,7 +21,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   String _result = "";
   final TextEditingController weightController = TextEditingController();
   final TextEditingController costController = TextEditingController();
-  List<ItemModel>? items = [];
+ // List<ItemModel>? items = [];
 
   _scanBR() async {
     try {

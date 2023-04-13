@@ -5,6 +5,7 @@ class ItemModel {
   bool isDeleted = false;
   final String productName;
   final String productDescription;
+  String image = "";
 // Aiman pls add image here
 
   ItemModel(
@@ -13,7 +14,8 @@ class ItemModel {
       required this.productQuantity,
       required this.isDeleted,
       required this.productName,
-      required this.productDescription});
+      required this.productDescription,
+      required this.image});
 
   static ItemModel fromJson(Map<String, dynamic> json) {
     return ItemModel(
@@ -22,7 +24,8 @@ class ItemModel {
         productQuantity: json["productQuantity"],
         isDeleted: json["isDeleted"],
         productName: json["productName"],
-        productDescription: json["productDescription"]);
+        productDescription: json["productDescription"],
+        image: json['image']);
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +36,7 @@ class ItemModel {
     data['isDeleted'] = isDeleted;
     data['productName'] = productName;
     data['productDescription'] = productDescription;
+    data['image']=image;
     return data;
   }
 }

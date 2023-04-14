@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,8 +11,10 @@ import 'package:troll_e/views/Login_Signup/Signup.dart';
 import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/views/forgot_password/change_password.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';
+import 'package:troll_e/views/google_auth/google_auth_success_screen.dart';
 import 'package:troll_e/views/homescreen/homescreen.dart';
 import 'package:troll_e/views/login_signup/login.dart';
+import 'package:troll_e/views/login_signup/login_input_wrapper.dart';
 import 'package:troll_e/views/login_signup/profile_image.dart';
 import 'package:troll_e/views/otp/otp.dart';
 import 'package:troll_e/views/profile/user_edit_profile.dart';
@@ -20,6 +24,8 @@ import 'package:troll_e/views/cart/shopping_cart.dart';
 import 'package:troll_e/views/shopping_history/shopping_history.dart';
 import 'package:provider/provider.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+
+import 'models/user_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +63,37 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
+              onGenerateRoute: (RouteSettings settings) {
+            if (settings.name!.startsWith('troll-e://')) {
+              final uri = Uri.parse(settings.name!);
+              if (uri.host == 'google-auth-success') {
+                if (uri.queryParameters.containsKey('access_token') && uri.queryParameters.containsKey('user')) {
+                  final String? accessToken = uri.queryParameters['access_token'];
+                  final userJson = uri.queryParameters['user'];
+                  if (userJson != null) {
+                  final thisuser = jsonDecode(Uri.decodeFull(userJson));
+                  final UserModel user = UserModel.fromJson(thisuser);}
+                  return MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        GoogleAuthSuccessScreen(
+                          initialUrl: settings.arguments as String,
+                        ),
+                  );
+                }
+              }
+              else if (uri.host == 'google-auth-failure')
+                {
+                if (uri.queryParameters.containsKey('error')) {
+                final errorMessage = uri.queryParameters['error'];
+
+                return MaterialPageRoute(
+                  builder: (BuildContext context) => LoginInputWrapper(),
+                );
+
+                }
+          }
+                return null;
+              }},
               home: (token != null && JwtDecoder.isExpired(token) == false)
                   ? HomeScreen(token: token)
                   : const SplashScreen()

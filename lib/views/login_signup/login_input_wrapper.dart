@@ -11,6 +11,7 @@ import '../forgot_password/token_verification.dart';
 import '../homescreen/homescreen.dart';
 import 'Signup.dart';
 import '/utility.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 
 class LoginInputWrapper extends StatefulWidget {
   const LoginInputWrapper({super.key});
@@ -165,10 +166,23 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                     ),
                     SizedBox(height: displayHeight(context) * 0.01),
 
-                    Image(
-                      image: const AssetImage('Assets/images/google.png'),
-                      height: displayHeight(context) * 0.1,
-                      width: displayWidth(context) * 0.1,
+                    InkWell(
+                      child: Image(
+                        image: const AssetImage('Assets/images/google.png'),
+                        height: displayHeight(context) * 0.1,
+                        width: displayWidth(context) * 0.1,
+                      ),
+                      onTap: () async {
+                        // Launch Google OAuth authentication flow
+                        String googleAuthUrl = 'https://your-nodejs-backend.com/auth/google';
+                        String redirectUrl = 'your-flutter-app://google-auth-success';
+                        String? result = await FlutterWebAuth.authenticate(url: googleAuthUrl, callbackUrlScheme: redirectUrl);
+
+                        // Navigate to GoogleAuthSuccessScreen when authentication is successful
+                        if (result != null) {
+                          Navigator.pushNamed(context, 'your-flutter-app://google-auth-success', arguments: result);
+                        }
+                      },
                     ),
                     //SizedBox(height: displayHeight(context) * 0.02),
                     TextButton(

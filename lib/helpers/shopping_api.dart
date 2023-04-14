@@ -95,11 +95,11 @@ Future<TempReceiptModel?> getTempReceipt({
       //print(json);
       tempReceipt = TempReceiptModel.fromJson(Receipt);
       print("NOW PRINT TEMP RECEIPT");
-      print(tempReceipt.receipt);
+      print(tempReceipt.receipt.items[0].grossTotal);
       print("PRINT TEMPRECEIPT?.ITEMS");
-      print("PRINT TEMPWEIGHTTTTTTT");
-      print(tempReceipt?.tempWeight);
       print("PRINT TOTALWEIGHTTTTTTT");
+      print(tempReceipt?.receipt.totalWeight);
+
       //print(tempReceipt?.receipt.totalWeight);
     }
     print("RES.BODY IS:");

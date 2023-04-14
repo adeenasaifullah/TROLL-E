@@ -16,15 +16,12 @@ class ItemProvider extends ChangeNotifier {
   bool isLoading = false;
 
   //2NS ATTEMPT
-  Future<List<ItemModel>?> getReceipt({UserModel? user}) async {
+  Future<void> getReceipt({UserModel? user}) async {
     isLoading = true;
     tempReceipt = await getTempReceipt(user: user);
-    itemList = tempReceipt?.receipt.items;
-    print("I AM PRINTING ITEM LIST IN GET RECEIPT PROVIDER METHOD");
-    print(itemList![0]);
     isLoading = false;
+    itemList = tempReceipt?.receipt.items;
     notifyListeners();
-    return itemList;
   }
 
 //1ST ATTEMPT

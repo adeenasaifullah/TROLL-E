@@ -1,3 +1,4 @@
+import 'package:troll_e/models/receipt_object_model.dart';
 import 'package:troll_e/models/temp_receipt_model.dart';
 import 'package:troll_e/models/shopping_history.dart';
 import 'package:troll_e/models/shopping_history.dart';
@@ -11,7 +12,8 @@ class UserModel {
   String? googleId;
   String password;
   String? image;
-  var shoppingHistory;
+  // var shoppingHistory;
+  List<ReceiptObject>? shoppingHistory;
 
   UserModel({
     this.userId,
@@ -20,14 +22,16 @@ class UserModel {
     required this.lastName,
     required this.password,
     required this.phoneNumber,
-    this.shoppingHistory,
+    // this.shoppingHistory,
+     this.shoppingHistory,
   });
 
   static UserModel fromJson(Map<String, dynamic> json) {
-    if (json['shoppingHistory'] != null) {
-      ShoppingHistoryModel.fromJson(json['shoppingHistory']);
-    }
-
+    // if (json['shoppingHistory'] != null) {
+    //   ShoppingHistoryModel.fromJson(json['shoppingHistory']);
+    // }
+    var shoppingHistoryJson = json['shoppingHistory']['receipt'] as List<dynamic>;
+    var shoppingHistory = shoppingHistoryJson.map((receiptJson) => ReceiptObject.fromJson(receiptJson)).toList();
     return UserModel(
         userId: json['_id'],
         email: json['email'],
@@ -35,7 +39,7 @@ class UserModel {
         lastName: json['last_name'],
         password: json['password'],
         phoneNumber: json['phone_number'],
-        shoppingHistory: json['shoppingHistory']);
+        shoppingHistory: shoppingHistory);
   }
 
   Map<String, dynamic> toJson() {

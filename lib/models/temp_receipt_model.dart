@@ -8,6 +8,7 @@ class TempReceiptModel {
   ReceiptObject receipt;
 
 
+
   TempReceiptModel({
     required this.userID,
     required this.tempWeight,
@@ -15,7 +16,13 @@ class TempReceiptModel {
     required this.uid,
   });
 
-  static TempReceiptModel fromJson(Map<String, dynamic> json) {
+   static TempReceiptModel fromJson(Map<String, dynamic> json) {
+  //   return TempReceiptModel(
+  //     receipt: ReceiptObject.fromJson(json['receipt']),
+  //     userID: json['userID'],
+  //     tempWeight: json['tempWeight'].toDouble(),
+  //     uid: json['UID'],
+  //   );
 
     return TempReceiptModel(
         receipt: ReceiptObject.fromJson(json['tempreceipt']['receipt']),

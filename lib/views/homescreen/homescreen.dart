@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState()
   {
-    Provider.of<ProfileProvider>(context, listen: false).getUserProfile(context: context);
+    context.read<ProfileProvider>().getUserProfile(context: context);
     super.initState();
   }
 
@@ -129,8 +129,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: Colors.white,
                               radius: 100.r,
                               child: GlowButton(
-                                width: 150.w, height: 150.h,
-                                child: Image.asset('Assets/icons/connect.png', width: 50.w,),
+                                width: 170.w, height: 150.h,
+                                child: Image.asset('Assets/icons/cart.png', width: 50.w,),
                                 onPressed: () async {
 // true means its glowing
                                   if(cartConnected == true)

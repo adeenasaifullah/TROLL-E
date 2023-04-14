@@ -76,6 +76,39 @@ Future<bool> signUp({
   }
 }
 
+Future<ShoppingHistoryModel?> getHistory({UserModel? user}) async {
+  ShoppingHistoryModel? history;
+  try{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accesstoken');
+    print("THIS IS ACCESS TOKEN IN GET HISTORY");
+    print(accessToken);
+    String? userID = user?.userId;
+
+    http.Response res = await http.get(
+      Uri.parse("http://3.106.170.176:3000/getHistory/$userID"),
+      headers: {
+        "Authorization": "Bearer $accessToken",
+      },
+    );
+
+    print("This id STATUS CODE FOR GET HISTORY ${res.statusCode}");
+    if (res.statusCode == 200) {
+      print("NOW IM PRINTING JSON IN 200 STATUS CODE");
+      Map<String, dynamic> Receipt = jsonDecode(res.body);
+
+      //print(json);
+      history = ShoppingHistoryModel.fromJson(Receipt);
+    }
+    return history;
+
+  }
+catch(err){
+print("INSIDE CATCH BLOCK OF GETHISTORY");
+  return history;
+}
+}
+
 Future<void> login(
     {required BuildContext context,
     required String email,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:troll_e/controller/history_provider.dart';
 import 'package:troll_e/controller/item_provider.dart';
 import 'package:troll_e/controller/shopping_provider.dart';
 import 'package:troll_e/controller/user_provider.dart';
@@ -36,7 +37,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ShoppingProvider()),
-        ChangeNotifierProvider(create: (_) => ItemProvider())
+        ChangeNotifierProvider(create: (_) => ItemProvider()),
+        ChangeNotifierProvider(create: (_) => HistoryProvider()),
       ],
       child: MyApp(token: prefs.getString('accesstoken')),
     ),

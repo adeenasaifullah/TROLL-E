@@ -8,7 +8,7 @@ class ShoppingHistoryModel {
 
   static ShoppingHistoryModel fromJson(Map<String, dynamic> json) {
     return ShoppingHistoryModel(
-      receipts: (json['receipt'] as List)
+      receipts: (json['shoppingHistory']['receipt'] as List)
           .map((e) => ReceiptObject.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

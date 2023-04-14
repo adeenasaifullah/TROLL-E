@@ -10,6 +10,7 @@ import '../../controller/profile_provider.dart';
 import '../../models/shopping_history.dart';
 import '../help_center/help_center.dart';
 import '../homescreen/homescreen.dart';
+import '../shopping_history/shopping_history.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);
@@ -84,9 +85,9 @@ class Menu extends StatelessWidget {
           ListTile(
               leading: const Icon(Icons.history_outlined),
               title: const Text("Shopping History"),
-              onTap: () => {}
-              // Navigator.of(context).push(MaterialPageRoute(
-              // builder: (context) => ShoppingHistory())),
+              onTap: () =>
+              Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ShoppingHistory())),
               ),
           ListTile(
             leading: const Icon(Icons.help_outline_outlined),

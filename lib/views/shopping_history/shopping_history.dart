@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:isolate';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -86,8 +85,6 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
 
   @override
   Widget build(BuildContext context) {
-    //final Historyprovider = Provider.of<HistoryProvider>(context);
-    //final userHistory = Historyprovider.history?.receipts;
    final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;
    return Scaffold(
       drawer:  Menu(),
@@ -101,6 +98,31 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
     body:  Provider.of<ProfileProvider>(context).isLoading
         ? const Center(
       child: CircularProgressIndicator(),
+    )
+        : history?.length == 0
+        ? Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 150.h,
+        ),
+        Center(
+          child: Text(
+            "You Do Not Have A \n Shopping History Right Now",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.sp,
+              color: kPrimaryDarkColor,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 240.h,
+        ), // add some spacing between the widgets
+
+      ],
     )
         :
     //     profileProvider.user?.shoppingHistory == null ?
@@ -145,12 +167,12 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
                         icon: const Icon(Icons.arrow_forward_ios,
                             color: Colors.grey, size: 15.0),
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  SingleHistory(reciept: history![index]),
-                            ),
-                          );
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //     builder: (context) =>
+                          //         SingleHistory(reciept: history![index]),
+                          //   ),
+                          // );
                         }),
                   ),
                   const Divider(thickness: 1.7, indent: 15, endIndent: 15),

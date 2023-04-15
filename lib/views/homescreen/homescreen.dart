@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:troll_e/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:troll_e/views/cart/second_scan_dialogbox.dart';
 import 'package:troll_e/views/menu/menu.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_glow/flutter_glow.dart';
@@ -135,10 +136,6 @@ class _HomeScreenState extends State<HomeScreen> {
 // true means its glowing
                                   if(cartConnected == true)
                                   {
-                                    //dk why if a user is connected
-                                    // setState(() {
-                                    //   cartConnected  = false;
-                                    // });
                                   }
                                   else
                                   {
@@ -185,8 +182,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             MaterialPageRoute(builder: (context) =>  Shoppingcart()),
                           );
                           },
-
-                          )
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              primary: Colors.black,
+                              backgroundColor: kPrimaryColor
+                            ),
+                            onPressed: () {
+                              SecondScan s= SecondScan();
+                              s.showLogoutDialog(context);
+                              },
+                            child: const Text('alert box'),
+                          ),
 
                           // NavButton(
                           //   buttonText: 'Start Shopping',

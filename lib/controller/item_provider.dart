@@ -18,9 +18,13 @@ class ItemProvider extends ChangeNotifier {
   //2NS ATTEMPT
   Future<void> getReceipt({UserModel? user}) async {
     isLoading = true;
+    print("before getreceipt");
     tempReceipt = await getTempReceipt(user: user);
-    isLoading = false;
+    print("after getreceipt");
     itemList = tempReceipt?.receipt.items;
+    print("THIS IS THE GET RECEIPT IN PROVIDER SO PRODUCTNAME HERE IS");
+    print(itemList?[0].productName);
+    isLoading = false;
     notifyListeners();
   }
 
@@ -41,25 +45,32 @@ class ItemProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> addItemToTemp(
+  Future<bool> addItemToTemp(
       {required UserModel? user,
       required String barcode,
       required BuildContext context}) async {
+    bool firstscan=true;
     isLoading = true;
-    // for (final item in itemlist!) {
+    //  for (final item in itemList!) {
     //   if (item.barcode == barcode) {
-    //     //secondScan();
+    // //this means item has been scanned before so return back to the screen with false value
+    //      firstscan=false;
     //     break;
     //   }
     //   else{
-    await addItem(user: user, productBarcode: barcode, productQuantity: 1);
+     await addItem(user: user, productBarcode: barcode, productQuantity: 1);
     //  }
-    // }
+    //  }
     print("item provider after calling add item");
     await getReceipt(
         user: (Provider.of<ProfileProvider>(context, listen: false).user));
     notifyListeners();
     isLoading = false;
+    return firstscan;
+  }
+
+  void secondScan({required BuildContext context}){
+
   }
 
   void totalweight() {

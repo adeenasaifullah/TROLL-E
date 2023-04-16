@@ -7,7 +7,7 @@ class ItemModel {
   final String productDescription;
 
  // String image = "";
-  //String barcode;
+  final String barcode;
 // Aiman pls add image here
 
   ItemModel(
@@ -18,7 +18,7 @@ class ItemModel {
      required this.isDeleted,
       required this.productName,
       required this.productDescription,
-    //  required this.barcode,
+     required this.barcode,
     //  required this.image
       });
 
@@ -28,7 +28,7 @@ class ItemModel {
       productDescription: json['productDescription'],
        productID: json["productID"],
       grossTotal: json["grossTotal"],
-    //   barcode: json['barcode'],
+      barcode: json['barcode'],
        productQuantity: json["productQuantity"],
        isDeleted: json["isDeleted"],
         productName: json["productName"],
@@ -42,6 +42,7 @@ class ItemModel {
    data['productQuantity'] = productQuantity;
    data['grossTotal'] = grossTotal;
    data['isDeleted'] = isDeleted;
+   data['barcode']=barcode;
     data['productName'] = productName;
     data['productDescription'] = productDescription;
    // data['image']=image;

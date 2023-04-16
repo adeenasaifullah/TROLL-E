@@ -118,8 +118,8 @@ Future<TempReceiptModel?> getTempReceipt({
 
 Future<void> increaseQuantity(
     {UserModel? user,
-    required String productBarcode,
-    required num? productQuantity}) async {
+    required String? productBarcode,
+    required int? productQuantity}) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
@@ -145,8 +145,8 @@ Future<void> increaseQuantity(
 
 Future<void> decreaseQuantity(
     {UserModel? user,
-    required String productBarcode,
-    required num? productQuantity}) async {
+    required String? productBarcode,
+    required int? productQuantity}) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');

@@ -164,15 +164,15 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
                     ),
                     subtitle: Text("Total: Rs ${history?[index].netTotal}"),
                     trailing: IconButton(
-                        icon: const Icon(Icons.arrow_forward_ios,
-                            color: Colors.grey, size: 15.0),
+                        icon:  Icon(Icons.arrow_forward_ios,
+                            color: Colors.grey, size: 15.sp),
                         onPressed: () {
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>
-                          //         SingleHistory(reciept: history![index]),
-                          //   ),
-                          // );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  SingleHistory(reciept: history![index]),
+                            ),
+                          );
                         }),
                   ),
                   const Divider(thickness: 1.7, indent: 15, endIndent: 15),

@@ -1,13 +1,13 @@
 import 'Item_model.dart';
 
 class ReceiptObject {
-  final double totalWeight;
+   double totalWeight;
   final DateTime date;
-  final double netTotal;
-  final double totalDiscount;
+   double netTotal;
+   double totalDiscount;
   final double? gst;
   final bool isDeleted;
-  final List<ItemModel> items;
+   List<ItemModel> items;
 
   ReceiptObject({
     required this.totalWeight,
@@ -15,11 +15,19 @@ class ReceiptObject {
     required this.netTotal,
     required this.totalDiscount,
     required this.isDeleted,
-    required this.items,
+    required  this.items,
     this.gst,
   });
 
   static ReceiptObject fromJson(Map<String, dynamic> json) {
+    print("entered fromjson receipt object");
+    List<ItemModel> items = List.from(json['items'])
+        .map((itemJson) => ItemModel.fromJson(itemJson))
+        .toList();
+    print(items[0].productName);
+    print(items[0].productDescription);
+
+    print("called list item model in receipt object");
     return ReceiptObject(
       totalWeight: json['totalWeight'],
       date: DateTime.parse(json['date']),
@@ -27,9 +35,10 @@ class ReceiptObject {
       totalDiscount: json['totalDiscount'],
       gst: json['gst'],
       isDeleted: json['isDeleted'],
-      items: (json['items'] as List<dynamic>)
-          .map((e) => ItemModel.fromJson(e))
-          .toList(),
+      items: items
+      // (json['items'] as List<dynamic>)
+      //     .map((e) => ItemModel.fromJson(e))
+      //     .toList(),
     );
   }
 
@@ -40,8 +49,8 @@ class ReceiptObject {
     data['netTotal'] = netTotal;
     data['totalDiscount'] = totalDiscount;
     data['isDeleted'] = isDeleted;
-    data['items'] = items.map((v) => v.toJson()).toList();
-    if (gst != null) data['gst'] = gst;
+ //   data['items'] = items.map((v) => v.toJson()).toList();
+   // if (gst != null) data['gst'] = gst;
     return data;
   }
 }

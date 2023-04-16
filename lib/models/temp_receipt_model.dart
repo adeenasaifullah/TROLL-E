@@ -23,7 +23,7 @@ class TempReceiptModel {
   //     tempWeight: json['tempWeight'].toDouble(),
   //     uid: json['UID'],
   //   );
-
+     print("entered fromjson temp receipt model");
     return TempReceiptModel(
         receipt: ReceiptObject.fromJson(json['tempreceipt']['receipt']),
         userID: json['tempreceipt']['userID'],

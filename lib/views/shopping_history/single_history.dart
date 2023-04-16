@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:troll_e/models/receipt_object_model.dart';
 import '../../utility.dart';
 import 'shopping_history.dart';
 import 'package:collection/collection.dart';
 
 class SingleHistory extends StatefulWidget {
-  Reciept reciept;
+  ReceiptObject? reciept;
 
-  SingleHistory({Key? key, required this.reciept}) : super(key: key);
+  SingleHistory({Key? key,  this.reciept}) : super(key: key);
 
   @override
   _SingleHistoryState createState() => _SingleHistoryState();
@@ -47,7 +48,7 @@ class _SingleHistoryState extends State<SingleHistory> {
         ],
         centerTitle: true,
         title: Roboto_heading(
-            textValue: (dateFormat.format(widget.reciept.date)).toString(),
+            textValue: ((widget.reciept?.date)).toString(),
             size: 20.sp),
         backgroundColor: const Color(0xFFBAD3D4),
       ),
@@ -56,7 +57,7 @@ class _SingleHistoryState extends State<SingleHistory> {
           Padding(
             padding: const EdgeInsets.only(top: 18.0),
             child: Text(
-              "Total: Rs ${widget.reciept.total}",
+              "Total: Rs ${widget.reciept?.netTotal}",
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
@@ -66,13 +67,13 @@ class _SingleHistoryState extends State<SingleHistory> {
             child: Row(
               children: [
                 const Text(
-                  "Total Items/ Quantity",
+                  "Total Items",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const Spacer(
                   flex: 2, // <-- SEE HERE
                 ),
-                Text("${widget.reciept.products.length}/ 10")
+                Text("${widget.reciept?.items.length}")
               ],
             ),
           ),
@@ -86,7 +87,7 @@ class _SingleHistoryState extends State<SingleHistory> {
                 const Spacer(
                   flex: 2, // <-- SEE HERE
                 ),
-                Text(widget.reciept.products.length.toString())
+                Text(widget.reciept!.totalDiscount.toString())
               ],
             ),
           ),
@@ -122,32 +123,34 @@ class _SingleHistoryState extends State<SingleHistory> {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-              itemCount: widget.reciept.products.length,
+              itemCount: widget.reciept?.items.length,
               itemBuilder: (context, index) => Column(
                 children: [
                   ListTile(
                     title: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(widget.reciept.products[index].name,
+                      child: Text(widget.reciept!.items[index].productName,
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     subtitle: Row(
                       children: [
                         Text(
-                            widget.reciept.products[index].quantity.toString()),
+                            widget.reciept!.items[index].productQuantity.toString()),
                         const Spacer(
                           flex: 2, // <-- SEE HERE
                         ),
-                        Text(widget.reciept.products[index].price.toString()),
+                        //WE NEED TO ADD PRODUCT KI PRICE
+                        Text('price'),
                         const Spacer(
                           flex: 2, // <-- SEE HERE
                         ),
                         Text(
-                            widget.reciept.products[index].discount.toString()),
+                          //WE NEED TO ADD PRODUCT KA DISCOUNT
+                            'DISCOUNT'),
                         const Spacer(
                           flex: 2, // <-- SEE HERE
                         ),
-                        Text(widget.reciept.products[index].itemTotal
+                        Text(widget.reciept!.items[index].grossTotal
                             .toString()),
                       ],
                     ),

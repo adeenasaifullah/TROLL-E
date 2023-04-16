@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:troll_e/views/homescreen/homescreen.dart';
+import 'package:troll_e/views/login_signup/login.dart';
 import 'package:troll_e/views/login_signup/signup.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const Signup(),
+            builder: (context) => const Login(),
           ),
         );
       }

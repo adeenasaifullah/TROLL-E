@@ -3,6 +3,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:troll_e/helpers/shopping_api.dart';
 import '../../controller/item_provider.dart';
 import '../../controller/profile_provider.dart';
 import '../../models/Item_model.dart';
@@ -21,6 +22,10 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   String _result = "";
   final TextEditingController weightController = TextEditingController();
   final TextEditingController costController = TextEditingController();
+  final TextEditingController increase_qty = TextEditingController();
+  final TextEditingController decrease_qty = TextEditingController();
+  final _checkinput = GlobalKey<FormState>();
+
   List<ItemModel>? items = [];
 
   _scanBR() async {
@@ -50,6 +55,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   void callGetReceipt() async {
     await Provider.of<ItemProvider>(context, listen: false).getReceipt(
         user: Provider.of<ProfileProvider>(context, listen: false).user);
+
     // final profileProvider = Provider.of<ProfileProvider>(context);
     //  final itemProvider = Provider.of<ItemProvider>(context);
     //  items =  itemProvider.getReceipt(user: profileProvider.user) as List<ItemModel>?;
@@ -63,9 +69,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
       body: itemProvider.isLoading
           ? const Center(
               child: CircularProgressIndicator(),
-            )
-          : itemProvider.itemList?.length == 0
-              ? Column(
+            ) : itemProvider.itemList?.length == 0 ?
+      Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
@@ -139,12 +144,13 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               await _scanBR();
                               print("THIS IS THE BARCODE SCANNED :");
                               print(_result);
-                              itemProvider.addItemToTemp(
+                              bool firstScan = await itemProvider.addItemToTemp(
                                   user: Provider.of<ProfileProvider>(context,
                                           listen: false)
                                       .user,
                                   barcode: _result,
                                   context: context);
+
                             },
                             icon: (Image.asset('Assets/icons/scanner.png')),
                             label: const Text(''),
@@ -188,7 +194,10 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                     ),
                   ],
                 )
-              : Center(
+              :
+      Center(
+                  child: Form(
+                  key: _checkinput,
                   child: Column(
                     children: <Widget>[
                       Expanded(
@@ -206,27 +215,27 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               ),
                               child: ListTile(
                                 leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20), // Image border
-                                  child: SizedBox.fromSize(
-                                    size: const Size.fromRadius(48),
-                                  child: const FlutterLogo(),
-                                  // (itemProvider.itemList?[index]?.image).toString() != null
-                                  //     ? Image.network((itemProvider.itemList?[index]?.image).toString())
-                                  //     : (Image.asset('Assets/icons/noimage.png')),
-                                  )
-                                ),
+                                    borderRadius: BorderRadius.circular(20),
+                                    // Image border
+                                    child: SizedBox.fromSize(
+                                      size: const Size.fromRadius(48),
+                                      child:
+                                          //FlutterLogo()
+                                          //  (itemProvider.itemList?[index]?.image).toString() != null
+                                          //      ?
+                                          //    Image.network((itemProvider.itemList?[index]?.image).toString())
+                                          //    :
+                                          (Image.asset(
+                                              'Assets/icons/cart.png')),
+                                    )),
                                 title: itemProvider.itemList != null
-                                    ? Text(itemProvider
-                                            .itemList?[index]?.productName ??
-                                        '')
+                                    ? Text(itemProvider.itemList?[index]?.productName ??'')
                                     : const Text(''),
                                 subtitle: itemProvider.itemList != null
-                                    ? Text(itemProvider.itemList?[index]
-                                            ?.productDescription ??
-                                        '')
+                                    ? Text(itemProvider.itemList?[index]?.productDescription ??'')
                                     : const Text(''),
                                 dense: true,
-                                visualDensity: VisualDensity(vertical: 3),
+                                visualDensity: const VisualDensity(vertical: 3),
                               ),
                             ),
                           ),
@@ -249,21 +258,19 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               ),
                               SizedBox(height: 3.h),
                               Container(
-                                width: 60,
-                                height: 25,
+                                width: 60.w,
+                                height: 25.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   border: Border.all(
                                     color: const Color(0xFF779394),
-                                    width: 1,
+                                    width: 1.w,
                                   ),
                                 ),
                                 alignment: Alignment.center,
                                 // child: const Center(
                                 child: Text(
-                                  itemProvider.tempReceipt?.receipt.totalWeight
-                                          .toString() ??
-                                      '0',
+                                  itemProvider.tempReceipt?.receipt.totalWeight.toString() ?? '0',
                                   style: GoogleFonts.robotoCondensed(
                                     color: const Color(0xFF779394),
                                     fontSize: 15.sp,
@@ -286,12 +293,230 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               ),
                               onPressed: () async {
                                 await _scanBR();
-                                itemProvider.addItemToTemp(
-                                    user: Provider.of<ProfileProvider>(context,
-                                            listen: false)
-                                        .user,
-                                    barcode: _result,
-                                    context: context);
+                                bool firstScan = await itemProvider.addItemToTemp(user: Provider.of<ProfileProvider>(context).user,  barcode: _result,context: context);
+                                if (firstScan == false) {
+                                  //context.mounted is being used cuz it said Don't use 'BuildContext's across async gaps
+                                  //and onPressed is async so i think i need to do this
+                                  if (!context.mounted) return;
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                          'What would you like to do?',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        content: const Text(
+                                          "Do you want to increase or decrease the item quantity?",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          Center(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              children: [
+                                                TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    backgroundColor:
+                                                    const Color(0xFF000000),
+                                                    primary: Colors.white,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:BorderRadius.circular(10.0),
+                                                    ),
+                                                    padding: EdgeInsets.symmetric(
+                                                        vertical: 16.h,
+                                                        horizontal: 32.w),
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pop(); // close the previous dialog box
+                                                    showDialog(context: context,builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: const Text("Enter Quantity to Increase",
+                                                          style: TextStyle(fontWeight: FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextFormField(
+                                                            controller:increase_qty,
+                                                            decoration:InputDecoration(
+                                                              fillColor:const Color( 0xFFF4F1F1),
+                                                              filled: true,
+                                                              border:OutlineInputBorder(
+                                                                borderRadius:BorderRadius.circular(10.0),
+                                                                borderSide: const BorderSide(width: 6,
+                                                                    color: Color(0xFFF4F1F1)),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 20.h,),
+                                                          ElevatedButton(
+                                                            style:ElevatedButton.styleFrom(
+                                                              backgroundColor:const Color( 0xFF000000),
+                                                              shape:RoundedRectangleBorder(
+                                                                borderRadius:BorderRadius.circular(10.0),
+                                                              ),
+                                                              padding: EdgeInsets.symmetric(vertical:16.h,horizontal:32.w),
+                                                            ),
+                                                            onPressed: () async {
+                                                              if (_checkinput.currentState!.validate()) {
+
+                                                                await increaseQuantity(user:Provider.of<ProfileProvider>(
+                                                                    context).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
+                                                                if (!context.mounted) return;
+                                                                Navigator.of(context).pop();
+                                                                showDialog(context: context, builder: (BuildContext context) {
+                                                                  Future.delayed(const Duration(seconds: 1), () {
+                                                                    Navigator.of(context).pop();
+                                                                  });
+                                                                  return const AlertDialog(
+                                                                    title: Text("Quantity Increased!"),
+                                                                  );
+                                                                },
+                                                                );
+                                                              }
+                                                            },
+                                                            child:  Text("Save",
+                                                              style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize: 15.sp,
+                                                                fontWeight:FontWeight.bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                    );
+                                                  },
+                                                  child: const Text('Increase'),
+                                                ),
+                                                SizedBox(width: 16.w),
+                                                TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    primary: Colors.white,
+                                                    backgroundColor: const Color(0xFF000000),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:BorderRadius.circular(10.0),
+                                                    ),
+                                                    padding:  EdgeInsets.symmetric(vertical: 16.h,horizontal: 32.w),
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  onPressed: () async {
+                                                    //need to check if item qty is one or not (bool qty_one returns true if qty was one else false
+                                                    //if one then directly remove and show prompt that Item Removed!
+                                                    //else ask for quantity to decrease
+
+                                                    bool qtyOne = await itemProvider.remove(
+                                                        user: Provider.of<ProfileProvider>(
+                                                          context,)
+                                                            .user,
+                                                        barcode: _result);
+                                                    if (qtyOne == true) {
+                                                      if (!context.mounted) return;
+                                                      Navigator.of(context).pop();
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                        context) {
+                                                          Future.delayed( Duration(seconds: 1), () {
+                                                            Navigator.of(context).pop();
+                                                          });
+                                                          return const AlertDialog(
+                                                            title: Text("Item Removed!"),
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      if (!context.mounted) return;
+                                                      Navigator.of(context).pop(); // closes the previous dialog box
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                        context) {
+                                                          return AlertDialog(
+                                                            title: const Text(
+                                                              "Enter Quantity to Decrease",
+                                                              style: TextStyle(
+                                                                fontWeight:FontWeight.w600,
+                                                              ),
+                                                            ),
+                                                            actions: <Widget>[
+                                                              TextFormField(controller: decrease_qty,
+                                                                decoration:InputDecoration(
+                                                                  fillColor:const Color( 0xFFF4F1F1),
+                                                                  filled: true,
+                                                                  border:OutlineInputBorder(
+                                                                    borderRadius:BorderRadius.circular( 10.0),
+                                                                    borderSide:const BorderSide(width:6, color:Color(0xFFF4F1F1)),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 20.h,),
+                                                              ElevatedButton(
+                                                                style:ElevatedButton.styleFrom(backgroundColor:const Color(0xFF000000),
+                                                                  shape:RoundedRectangleBorder(
+                                                                    borderRadius:BorderRadius.circular( 10.0),
+                                                                  ),
+                                                                  padding:  EdgeInsets.symmetric(
+                                                                      vertical: 16.h, horizontal:32.w),
+                                                                ),
+                                                                onPressed: () async {
+                                                                  if (_checkinput.currentState!.validate()) {
+
+                                                                    await decreaseQuantity(user:Provider.of<ProfileProvider>(
+                                                                        context).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
+                                                                    if (!context.mounted) return;
+                                                                    Navigator.of(context).pop();
+                                                                    showDialog( context:context,
+                                                                      builder:(BuildContext context) {
+                                                                        Future.delayed(Duration(  seconds: 1),() {
+                                                                          Navigator.of(context).pop();
+                                                                        });
+                                                                        return const AlertDialog(
+                                                                          title: Text("Quantity Decreased!"),
+                                                                        );
+                                                                      },
+                                                                    );
+                                                                  }
+                                                                },
+                                                                child:  Text("Save",
+                                                                  style:TextStyle(
+                                                                    color: Colors .black,
+                                                                    fontSize: 15.sp,
+                                                                    fontWeight: FontWeight.bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+                                                    }
+                                                  },
+                                                  child: const Text('Decrease'),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               icon: (Image.asset('Assets/icons/scanner.png')),
                               label: const Text(''),
@@ -338,7 +563,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                       )
                     ],
                   ),
-                ),
+                )),
     );
   }
 }

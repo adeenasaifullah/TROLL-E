@@ -17,7 +17,7 @@ Future<bool> connectCart(
     print("ACCESS TOKEN INITIALIZED");
     var reqBody = {"UID": uid, "userID": userID};
     http.Response res =
-        await http.post(Uri.parse("http:/localhost:3000/addTempReceipt"),
+        await http.post(Uri.parse("http://3.106.170.176:3000/addTempReceipt"),
             headers: {
               "Content-type": "application/json",
               "Authorization": "Bearer $accessToken",

@@ -205,7 +205,16 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: ListTile(
-                                leading: const FlutterLogo(size: 72.0),
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20), // Image border
+                                  child: SizedBox.fromSize(
+                                    size: const Size.fromRadius(48),
+                                  child: const FlutterLogo(),
+                                  // (itemProvider.itemList?[index]?.image).toString() != null
+                                  //     ? Image.network((itemProvider.itemList?[index]?.image).toString())
+                                  //     : (Image.asset('Assets/icons/noimage.png')),
+                                  )
+                                ),
                                 title: itemProvider.itemList != null
                                     ? Text(itemProvider
                                             .itemList?[index]?.productName ??
@@ -216,6 +225,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                             ?.productDescription ??
                                         '')
                                     : const Text(''),
+                                dense: true,
+                                visualDensity: VisualDensity(vertical: 3),
                               ),
                             ),
                           ),

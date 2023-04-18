@@ -82,7 +82,6 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
       super.initState();
     }
 
-
   @override
   Widget build(BuildContext context) {
    final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;

@@ -2,22 +2,18 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:troll_e/views/shopping_history/shopping_history.dart';
 import 'package:flutter_gif/flutter_gif.dart';
 
+import '../../controller/profile_provider.dart';
+import '../../models/receipt_object_model.dart';
+import '../shopping_history/shopping_history.dart';
+
 class Checkout extends StatefulWidget {
 
-  Reciept reciept= Reciept(date: DateTime(1989, 11, 9), total: 21000,
-      products: [
-        Product(name: "Ponam Sugar 5 Kg", price: 2500, discount: 0, quantity: 2, itemTotal: 5000),
-        Product(name: "Ponam Sugar 2 Kg", price: 1000, discount: 0, quantity: 3, itemTotal: 2000),
-        Product(name: "Ponam Sugar 5 Kg", price: 2500, discount: 0, quantity: 2, itemTotal: 5000),
-        Product(name: "Ponam Sugar 2 Kg", price: 1000, discount: 0, quantity: 3, itemTotal: 2000),
-        Product(name: "Ponam Sugar 5 Kg", price: 2500, discount: 0, quantity: 2, itemTotal: 5000),
-        Product(name: "Ponam Sugar 2 Kg", price: 1000, discount: 0, quantity: 3, itemTotal: 2000)
-      ]);
-
-  Checkout({Key? key}) : super(key: key);
+  ReceiptObject? reciept;
+  Checkout({Key? key, this.reciept}) : super(key: key);
 
   @override
   _CheckoutState createState() => _CheckoutState();
@@ -38,6 +34,8 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
     super.initState();
   }
   Widget build(BuildContext context) {
+    final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;
+    int? n = history?.length;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -45,7 +43,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
           onPressed: () {},
         ),
         centerTitle: true,
-        title: Text((dateFormat.format(widget.reciept.date)).toString(), style: TextStyle(color: Colors.black,),),
+        title: Text(((history?[n!-1].date)).toString(), style: TextStyle(color: Colors.black,),),
 
         backgroundColor: const Color(0xFFBAD3D4),
       ),
@@ -92,7 +90,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.only(top: 5.0, bottom: 5.0) ,
-              itemCount: widget.reciept.products.length,
+              itemCount: history?[n!-1].items.length,
               itemBuilder: (context, index) => Column(
                 children: [
 
@@ -100,23 +98,23 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
 
                     title: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(widget.reciept.products[index].name, style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text(history![n!-1].items[index].productName, style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     subtitle: Row(
                       children: [
-                        Text(widget.reciept.products[index].quantity.toString()),
+                        Text(history![n!-1].items[index].productQuantity.toString()),
                         Spacer(
                           flex: 2, // <-- SEE HERE
                         ),
-                        Text(widget.reciept.products[index].price.toString()),
+                        Text('PRICE'),
                         Spacer(
                           flex: 2, // <-- SEE HERE
                         ),
-                        Text(widget.reciept.products[index].discount.toString()),
+                        Text('0.00'),
                         Spacer(
                           flex: 2, // <-- SEE HERE
                         ),
-                        Text(widget.reciept.products[index].itemTotal.toString()),
+                        Text(history![n!-1].items[index].grossTotal.toString()),
                       ],
                     ),
                   ),
@@ -131,14 +129,3 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
     );
   }
 }
-
-
-Reciept example = Reciept(date: DateTime(1989, 11, 9), total: 21000,
-    products: [
-      Product(name: "Ponam Sugar 5 Kg", price: 2500, discount: 0, quantity: 2, itemTotal: 5000),
-      Product(name: "Ponam Sugar 2 Kg", price: 1000, discount: 0, quantity: 3, itemTotal: 2000),
-      Product(name: "Ponam Sugar 5 Kg", price: 2500, discount: 0, quantity: 2, itemTotal: 5000),
-      Product(name: "Ponam Sugar 2 Kg", price: 1000, discount: 0, quantity: 3, itemTotal: 2000),
-      Product(name: "Ponam Sugar 5 Kg", price: 2500, discount: 0, quantity: 2, itemTotal: 5000),
-      Product(name: "Ponam Sugar 2 Kg", price: 1000, discount: 0, quantity: 3, itemTotal: 2000)
-    ]);

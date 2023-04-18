@@ -1,11 +1,11 @@
 class ItemModel {
  final String productID;
- final int productQuantity;
- final double grossTotal;
+ final num productQuantity;
+ final num grossTotal;
  bool isDeleted = false;
   final String productName;
   final String productDescription;
-  final String price;
+  final num price;
 
  // String image = "";
   final String barcode;
@@ -20,21 +20,21 @@ class ItemModel {
       required this.productName,
       required this.productDescription,
      required this.barcode,
-        required this.price,
+        required this.price
     //  required this.image
       });
 
   static ItemModel fromJson(Map<String, dynamic> json) {
     print("entered fromjson itemmodel");
     return ItemModel(
-      productDescription: json['productDescription'],
-       productID: json["productID"],
-      grossTotal: json["grossTotal"],
-      barcode: json['barcode'],
-       productQuantity: json["productQuantity"],
-       isDeleted: json["isDeleted"],
-        productName: json["productName"],
-      price: json["price"],
+      productDescription: json['productDescription'] as String? ?? '',
+       productID: json["productID"] as String? ?? '',
+      grossTotal: json["grossTotal"] as num? ?? 0.0,
+      barcode: json['barcode'] as String? ?? '',
+       productQuantity: json["productQuantity"] as num? ?? 0.0,
+       isDeleted: json["isDeleted"] as bool? ?? false,
+        productName: json["productName"] as String? ?? '',
+     price:json['price'] as num? ?? 0.0
      //   image: json['image']
          );
   }
@@ -46,6 +46,7 @@ class ItemModel {
    data['grossTotal'] = grossTotal;
    data['isDeleted'] = isDeleted;
    data['barcode']=barcode;
+   data['price']=price;
     data['productName'] = productName;
     data['productDescription'] = productDescription;
     data['price'] = price;

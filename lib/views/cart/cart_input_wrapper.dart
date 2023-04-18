@@ -3,6 +3,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/helpers/shopping_api.dart';
 import '../../controller/item_provider.dart';
 import '../../controller/profile_provider.dart';
@@ -69,7 +70,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
       body: itemProvider.isLoading
           ? const Center(
               child: CircularProgressIndicator(),
-            ) : itemProvider.itemList?.length == 0 ?
+            ) : itemProvider.itemList.isEmpty ?
       Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -89,7 +90,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                       ),
                     ),
                     SizedBox(
-                      height: 240.h,
+                      height: 250.h,
                     ), // add some spacing between the widgets
                     // Expanded( // add Expanded to take the remaining space
                     //   child:
@@ -108,13 +109,13 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                             ),
                             SizedBox(height: 3.h),
                             Container(
-                              width: 60,
-                              height: 25,
+                              width: 60.w,
+                              height: 25.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
-                                  color: const Color(0xFF779394),
-                                  width: 1,
+                                  color:  const Color(0xFF779394),
+                                  width: 1.w,
                                 ),
                               ),
                               alignment: Alignment.center,
@@ -150,6 +151,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                       .user,
                                   barcode: _result,
                                   context: context);
+                             print( "the result of first time scan is");
+                              print(firstScan);
 
                             },
                             icon: (Image.asset('Assets/icons/scanner.png')),
@@ -169,13 +172,13 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                             ),
                             SizedBox(height: 3.h),
                             Container(
-                              width: 70,
-                              height: 25,
+                              width: 70.w,
+                              height: 25.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
                                   color: const Color(0xFF779394),
-                                  width: 1,
+                                  width: 1.w,
                                 ),
                               ),
                               alignment: Alignment.center,
@@ -202,7 +205,6 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                     children: <Widget>[
                       Expanded(
                         child: ListView.builder(
-                          //shrinkWrap: true,
                           itemCount: itemProvider.itemList?.length,
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -210,72 +212,74 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               height: 100.h,
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  width: 1,
+                                  width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: SizedBox(
-                                height: 100.h,
                                 child: ListTile(
                                   leading:
-                                  Container(
-                                    height: 100.h,
-                                    width: 100.w,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover, image: AssetImage('Assets/images/bg3.jpeg')),
-                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                  //Image.asset('Assets/images/bg3.jpeg', fit: BoxFit.cover,),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        height: 70.h,
+                                        width: 70.w,
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover, image: AssetImage('Assets/images/bg3.jpeg')),
+                                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                        ),
+                                     ),
+                                    ],
+                                 ),
+                                 //    SizedBox(
+                                 //      height: 90.h,
+                                 //      child: ClipRRect(
+                                 //        borderRadius: BorderRadius.circular(8),
+                                 //          child:
+                                 //              //FlutterLogo()
+                                 //              //  (itemProvider.itemList?[index]?.image).toString() != null
+                                 //              //      ?
+                                 //              //    Image.network((itemProvider.itemList?[index]?.image).toString())
+                                 //              //    :
+                                 //              (Image.asset(
+                                 //                  'Assets/images/bg3.jpeg', height: 80,)),
+                                 //       ),
+                                 //    ),
+                                  title: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text((itemProvider.itemList![index]?.productName).toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+                                        SizedBox(height: 4.h),
+                                        Text((itemProvider.itemList![index]?.productDescription).toString()),
+                                        SizedBox(height: 15.h),
+                                        Container(
+                                          width: 30.w,
+                                          height: 20.h,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(15),
+                                            border: Border.all(
+                                              color: const Color(0xFF779394),
+                                              width: 1.w,
+                                            ),
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            (itemProvider.itemList![index]?.price).toString(),
+                                            style: GoogleFonts.robotoCondensed(
+                                              color: const Color(0xFF779394),
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  //   SizedBox(
-                                  //     height: 90.h,
-                                  //     child: ClipRRect(
-                                  //       borderRadius: BorderRadius.circular(8),
-                                  //         child:
-                                  //             //FlutterLogo()
-                                  //             //  (itemProvider.itemList?[index]?.image).toString() != null
-                                  //             //      ?
-                                  //             //    Image.network((itemProvider.itemList?[index]?.image).toString())
-                                  //             //    :
-                                  //             (Image.asset(
-                                  //                 'Assets/images/bg3.jpeg')),
-                                  //      ),
-                                  //   ),
-
-                                  title: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text((itemProvider.itemList![index]?.productName).toString(), style: TextStyle(fontWeight: FontWeight.bold)),
-                                      SizedBox(height: 4.h),
-                                      Text((itemProvider.itemList![index]?.productDescription).toString()),
-                                      SizedBox(height: 15.h),
-                                      Container(
-                                        width: 30.w,
-                                        height: 20.h,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15),
-                                          border: Border.all(
-                                            color: const Color(0xFF779394),
-                                            width: 1.w,
-                                          ),
-                                        ),
-                                        alignment: Alignment.center,
-                                        // child: const Center(
-                                        child: Text(
-                                          (itemProvider.itemList![index]?.price).toString(),
-                                          style: GoogleFonts.robotoCondensed(
-                                            color: const Color(0xFF779394),
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                   trailing: Text("Qty: ${itemProvider.itemList![index]?.productQuantity}"),
-
                                 ),
-                              ),
                             ),
                           ),
                         ),
@@ -332,7 +336,10 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               ),
                               onPressed: () async {
                                 await _scanBR();
-                                bool firstScan = await itemProvider.addItemToTemp(user: Provider.of<ProfileProvider>(context).user,  barcode: _result,context: context);
+                                print("calling additemto temp on cartinput screen");
+                                bool firstScan = await itemProvider.addItemToTemp(user: Provider.of<ProfileProvider>(context, listen: false).user,  barcode: _result,context: context);
+                                print("this is the firstscan value - true means first time scanned false means otherwise");
+                                print(firstScan);
                                 if (firstScan == false) {
                                   //context.mounted is being used cuz it said Don't use 'BuildContext's across async gaps
                                   //and onPressed is async so i think i need to do this
@@ -344,13 +351,13 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                         title: const Text(
                                           'What would you like to do?',
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                         content: const Text(
                                           "Do you want to increase or decrease the item quantity?",
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
                                         actions: <Widget>[
@@ -368,11 +375,11 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                       borderRadius:BorderRadius.circular(10.0),
                                                     ),
                                                     padding: EdgeInsets.symmetric(
-                                                        vertical: 16.h,
-                                                        horizontal: 32.w),
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
+                                                        vertical: 10.h,
+                                                        horizontal:15.w),
+                                                    textStyle:  TextStyle(
+                                                      fontSize: 15.sp,
+                                                      fontWeight: FontWeight.w400
                                                     ),
                                                   ),
                                                   onPressed: () {
@@ -382,7 +389,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                         (BuildContext context) {
                                                       return AlertDialog(
                                                         title: const Text("Enter Quantity to Increase",
-                                                          style: TextStyle(fontWeight: FontWeight.w600,
+                                                          style: TextStyle(fontWeight: FontWeight.w500,
                                                           ),
                                                         ),
                                                         actions: <Widget>[
@@ -393,7 +400,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                               filled: true,
                                                               border:OutlineInputBorder(
                                                                 borderRadius:BorderRadius.circular(10.0),
-                                                                borderSide: const BorderSide(width: 6,
+                                                                borderSide:  BorderSide(width: 6.w,
                                                                     color: Color(0xFFF4F1F1)),
                                                               ),
                                                             ),
@@ -405,13 +412,15 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                               shape:RoundedRectangleBorder(
                                                                 borderRadius:BorderRadius.circular(10.0),
                                                               ),
-                                                              padding: EdgeInsets.symmetric(vertical:16.h,horizontal:32.w),
+                                                              padding: EdgeInsets.symmetric(
+                                                                  vertical: 10.h,
+                                                                  horizontal:25.w),
                                                             ),
                                                             onPressed: () async {
                                                               if (_checkinput.currentState!.validate()) {
 
-                                                                await increaseQuantity(user:Provider.of<ProfileProvider>(
-                                                                    context).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
+                                                                await itemProvider.increaseItemQuantity(user:Provider.of<ProfileProvider>(
+                                                                    context,listen: false).user , barcode: _result,product_qty : int.parse(increase_qty.text) , context: context);
                                                                 if (!context.mounted) return;
                                                                 Navigator.of(context).pop();
                                                                 showDialog(context: context, builder: (BuildContext context) {
@@ -429,7 +438,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                               style: TextStyle(
                                                                 color: Colors.white,
                                                                 fontSize: 15.sp,
-                                                                fontWeight:FontWeight.bold,
+                                                                fontWeight:FontWeight.w400,
                                                               ),
                                                             ),
                                                           ),
@@ -448,10 +457,12 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius:BorderRadius.circular(10.0),
                                                     ),
-                                                    padding:  EdgeInsets.symmetric(vertical: 16.h,horizontal: 32.w),
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
+                                                    padding: EdgeInsets.symmetric(
+                                                        vertical: 10.h,
+                                                        horizontal:15.w),
+                                                    textStyle:  TextStyle(
+                                                        fontSize: 15.sp,
+                                                        fontWeight: FontWeight.w400
                                                     ),
                                                   ),
                                                   onPressed: () async {
@@ -460,8 +471,9 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                     //else ask for quantity to decrease
 
                                                     bool qtyOne = await itemProvider.remove(
+                                                      context: context,
                                                         user: Provider.of<ProfileProvider>(
-                                                          context,)
+                                                          context, listen: false)
                                                             .user,
                                                         barcode: _result);
                                                     if (qtyOne == true) {
@@ -490,7 +502,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                             title: const Text(
                                                               "Enter Quantity to Decrease",
                                                               style: TextStyle(
-                                                                fontWeight:FontWeight.w600,
+                                                                fontWeight:FontWeight.w500,
                                                               ),
                                                             ),
                                                             actions: <Widget>[
@@ -511,13 +523,14 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                     borderRadius:BorderRadius.circular( 10.0),
                                                                   ),
                                                                   padding:  EdgeInsets.symmetric(
-                                                                      vertical: 16.h, horizontal:32.w),
+                                                                    vertical: 10.h,
+                                                                    horizontal:25.w),
                                                                 ),
                                                                 onPressed: () async {
                                                                   if (_checkinput.currentState!.validate()) {
 
-                                                                    await decreaseQuantity(user:Provider.of<ProfileProvider>(
-                                                                        context).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
+                                                                    await itemProvider.decreaseItemQuantity(user:Provider.of<ProfileProvider>(
+                                                                        context, listen: false).user , context: context ,barcode: _result, product_qty: int.parse(decrease_qty.text));
                                                                     if (!context.mounted) return;
                                                                     Navigator.of(context).pop();
                                                                     showDialog( context:context,
@@ -534,9 +547,9 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                 },
                                                                 child:  Text("Save",
                                                                   style:TextStyle(
-                                                                    color: Colors .black,
+                                                                    color: Colors .white,
                                                                     fontSize: 15.sp,
-                                                                    fontWeight: FontWeight.bold,
+                                                                    fontWeight: FontWeight.w400,
                                                                   ),
                                                                 ),
                                                               ),
@@ -574,13 +587,13 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               ),
                               SizedBox(height: 3.h),
                               Container(
-                                width: 70,
-                                height: 25,
+                                width: 70.w,
+                                height: 25.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   border: Border.all(
                                     color: const Color(0xFF779394),
-                                    width: 1,
+                                    width: 1.w,
                                   ),
                                 ),
                                 alignment: Alignment.center,

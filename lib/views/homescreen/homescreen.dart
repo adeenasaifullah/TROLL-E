@@ -25,7 +25,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   late String username;
-  bool cartConnected = false;
+ late bool cartConnected ;
+ //= false;
   String qr_code = "";
 
   Future<String> scanQR() async {
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState()
   {
     context.read<ProfileProvider>().getUserProfile(context: context);
+    cartConnected = context.read<ShoppingProvider>().result;
     super.initState();
   }
 
@@ -129,16 +131,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: Colors.white,
                               radius: 100.r,
                               child: GlowButton(
-                                width: 170.w, height: 150.h,
+                                width: 170.w, height: 170.h,
                                 child: Image.asset('Assets/icons/cart.png', width: 50.w,),
                                 onPressed: () async {
 // true means its glowing
                                   if(cartConnected == true)
                                   {
-                                    //dk why if a user is connected
-                                    // setState(() {
-                                    //   cartConnected  = false;
-                                    // });
                                   }
                                   else
                                   {
@@ -185,40 +183,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             MaterialPageRoute(builder: (context) =>  Shoppingcart()),
                           );
                           },
+                          ),
 
-                          )
-
-                          // NavButton(
-                          //   buttonText: 'Start Shopping',
-                          //   textSize: 20.sp,
-                          //   buttonHeight: displayHeight(context)*0.075,
-                          //   buttonWidth: displayWidth(context) * 0.8,
-                          //   onPressed: ()=> {
-                          //     //do something
-                          //   },
-                          // ),
                         ]
 
                     ),
                   ),
                 ),
 
-                // GlowButton(
-                //   child: Text("Start Shoping" , style:  TextStyle(color: Color(0xff111111)),),
-                //   width: 300.w, height: 50.h,
-                //   borderRadius: BorderRadius.circular(15),
-                //   color: cartConnected? kPrimaryColor: Color(0xffDDE7E8),
-                //   blurRadius: cartConnected? 60:0,
-                //   spreadRadius: cartConnected? 1:0,
-                //
-                //   onPressed: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) =>  Shoppingcart()),
-                //   );
-                // },
-                //
-                // ),
 
               ],
             )

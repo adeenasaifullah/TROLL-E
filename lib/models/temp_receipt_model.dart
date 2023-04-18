@@ -2,7 +2,7 @@ import 'package:troll_e/models/receipt_object_model.dart';
 
 class TempReceiptModel {
   final String userID;
-  final double tempWeight;
+  final num tempWeight;
   // var receipt;
   final String uid;
   ReceiptObject receipt;
@@ -23,12 +23,12 @@ class TempReceiptModel {
   //     tempWeight: json['tempWeight'].toDouble(),
   //     uid: json['UID'],
   //   );
-
+     print("entered fromjson temp receipt model");
     return TempReceiptModel(
         receipt: ReceiptObject.fromJson(json['tempreceipt']['receipt']),
-        userID: json['tempreceipt']['userID'],
-        tempWeight: json['tempreceipt']['tempWeight'].toDouble(),
-        uid: json['tempreceipt']['UID'],
+        userID: json['tempreceipt']['userID'] as String? ?? '',
+        tempWeight: json['tempreceipt']['tempWeight'] as num? ?? 0.0,
+        uid: json['tempreceipt']['UID'] as String? ?? '',
         );
 
 

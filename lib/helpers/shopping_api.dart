@@ -15,15 +15,17 @@ Future<bool> connectCart(
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
     print("ACCESS TOKEN INITIALIZED");
+    print(userID);
     var reqBody = {"UID": uid, "userID": userID};
     http.Response res =
-        await http.post(Uri.parse("http:/localhost:3000/addTempReceipt"),
+        await http.post(Uri.parse("http://3.106.170.176:3000/addTempReceipt"),
             headers: {
               "Content-type": "application/json",
               "Authorization": "Bearer $accessToken",
             },
             body: jsonEncode(reqBody));
-
+    print("THIS IS RES.STATUSCODE");
+ print(res.statusCode);
     if (res.statusCode == 204) {
       result = Future.value(true);
     } else {
@@ -31,6 +33,7 @@ Future<bool> connectCart(
     }
     return result;
   } catch (err) {
+    print("Inside catch block of connectcart");
     return result;
   }
 }
@@ -91,31 +94,33 @@ Future<TempReceiptModel?> getTempReceipt({
 
     if (res.statusCode == 200) {
       Map<String, dynamic> Receipt = jsonDecode(res.body);
-      print("NOW IM PRINTING JSON IN 200 STATUS CODE");
+      print("NOW IM PRINTING JSON INSIDE 200 STATUS CODE");
       //print(json);
       tempReceipt = TempReceiptModel.fromJson(Receipt);
       print("NOW PRINT TEMP RECEIPT");
-      print(tempReceipt.receipt.items[0].grossTotal);
+    //  print(tempReceipt.receipt.items?[0].grossTotal);
       print("PRINT TEMPRECEIPT?.ITEMS");
       print("PRINT TOTALWEIGHTTTTTTT");
-      print(tempReceipt?.receipt.totalWeight);
+   //   print(tempReceipt?.receipt.totalWeight);
 
       //print(tempReceipt?.receipt.totalWeight);
     }
-    print("RES.BODY IS:");
+    print("RES.BODY after coming outside of status 200:");
     print(res.body);
 
     return tempReceipt;
   } catch (err) {
-    print("GET TEMP RECEIPT CATCH BLOCK");
+    print("GET TEMP RECEIPT CATCH BLOCK printting temp receipt uid ofc its null");
+    print(tempReceipt?.uid);
+    print(err);
     return tempReceipt;
   }
 }
 
 Future<void> increaseQuantity(
     {UserModel? user,
-    required String productBarcode,
-    required num? productQuantity}) async {
+    required String? productBarcode,
+    required int? productQuantity}) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
@@ -124,6 +129,7 @@ Future<void> increaseQuantity(
       "productBarcode": productBarcode,
       "increaseProductQuantity": productQuantity
     };
+
     http.Response res = await http.put(
         Uri.parse("http://3.106.170.176:3000/increaseQuantity/$userID"),
         headers: {
@@ -135,14 +141,15 @@ Future<void> increaseQuantity(
     print("AFTER HTTP CALL INCREASE QTY STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
     print(res.statusCode);
   } catch (err) {
+    print(err);
     print("INSIDE CATCH BLOCK OF INCREASE QTY");
   }
 }
 
 Future<void> decreaseQuantity(
     {UserModel? user,
-    required String productBarcode,
-    required num? productQuantity}) async {
+    required String? productBarcode,
+    required int? productQuantity}) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
@@ -162,9 +169,11 @@ Future<void> decreaseQuantity(
     print("AFTER HTTP CALL INCREASE QTY STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
     print(res.statusCode);
   } catch (err) {
+    print(err);
     print("INSIDE CATCH BLOCK OF DECREASE QTY");
   }
 }
+
 
 Future<void> addItem(
     {required UserModel? user,
@@ -173,6 +182,7 @@ Future<void> addItem(
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
+    print("assigning userid");
     String? userID = user?.userId;
 
     print("user ID is:");
@@ -192,6 +202,7 @@ Future<void> addItem(
     print("AFTER HTTP CALL ADD ITEM STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
     print(res.statusCode);
   } catch (err) {
+    print(err);
     print("INSIDE CATCH BLOCK OF ADDITEM");
   }
 }

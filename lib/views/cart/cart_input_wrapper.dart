@@ -207,35 +207,74 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
+                              height: 100.h,
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: ListTile(
-                                leading: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    // Image border
-                                    child: SizedBox.fromSize(
-                                      size: const Size.fromRadius(48),
-                                      child:
-                                          //FlutterLogo()
-                                          //  (itemProvider.itemList?[index]?.image).toString() != null
-                                          //      ?
-                                          //    Image.network((itemProvider.itemList?[index]?.image).toString())
-                                          //    :
-                                          (Image.asset(
-                                              'Assets/icons/cart.png')),
-                                    )),
-                                title: itemProvider.itemList != null
-                                    ? Text(itemProvider.itemList?[index]?.productName ??'')
-                                    : const Text(''),
-                                subtitle: itemProvider.itemList != null
-                                    ? Text(itemProvider.itemList?[index]?.productDescription ??'')
-                                    : const Text(''),
-                                dense: true,
-                                visualDensity: const VisualDensity(vertical: 3),
+                              child: SizedBox(
+                                height: 100.h,
+                                child: ListTile(
+                                  leading:
+                                  Container(
+                                    height: 100.h,
+                                    width: 100.w,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover, image: AssetImage('Assets/images/bg3.jpeg')),
+                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                    ),
+                                  ),
+                                  //   SizedBox(
+                                  //     height: 90.h,
+                                  //     child: ClipRRect(
+                                  //       borderRadius: BorderRadius.circular(8),
+                                  //         child:
+                                  //             //FlutterLogo()
+                                  //             //  (itemProvider.itemList?[index]?.image).toString() != null
+                                  //             //      ?
+                                  //             //    Image.network((itemProvider.itemList?[index]?.image).toString())
+                                  //             //    :
+                                  //             (Image.asset(
+                                  //                 'Assets/images/bg3.jpeg')),
+                                  //      ),
+                                  //   ),
+
+                                  title: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text((itemProvider.itemList![index]?.productName).toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+                                      SizedBox(height: 4.h),
+                                      Text((itemProvider.itemList![index]?.productDescription).toString()),
+                                      SizedBox(height: 15.h),
+                                      Container(
+                                        width: 30.w,
+                                        height: 20.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(15),
+                                          border: Border.all(
+                                            color: const Color(0xFF779394),
+                                            width: 1.w,
+                                          ),
+                                        ),
+                                        alignment: Alignment.center,
+                                        // child: const Center(
+                                        child: Text(
+                                          (itemProvider.itemList![index]?.price).toString(),
+                                          style: GoogleFonts.robotoCondensed(
+                                            color: const Color(0xFF779394),
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Text("Qty: ${itemProvider.itemList![index]?.productQuantity}"),
+
+                                ),
                               ),
                             ),
                           ),

@@ -18,8 +18,12 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
+
     final username = profileProvider.user?.firstName;
+    final lastname = profileProvider.user?.lastName;
     final email = profileProvider.user?.email;
+
+    final initials = username![0]+lastname![0];
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -36,12 +40,13 @@ class Menu extends StatelessWidget {
             ),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
-                child: Image.asset(
-                  "name",
-                  width: 90.w,
-                  height: 90.h,
-                  fit: BoxFit.cover,
-                ),
+                child: Text(initials)
+                // Image.asset(
+                //   "name",
+                //   width: 90.w,
+                //   height: 90.h,
+                //   fit: BoxFit.cover,
+                // ),
               ),
             ),
             decoration: const BoxDecoration(

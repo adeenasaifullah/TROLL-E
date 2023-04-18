@@ -5,6 +5,7 @@ class ItemModel {
  bool isDeleted = false;
   final String productName;
   final String productDescription;
+  final String price;
 
  // String image = "";
   final String barcode;
@@ -19,6 +20,7 @@ class ItemModel {
       required this.productName,
       required this.productDescription,
      required this.barcode,
+        required this.price,
     //  required this.image
       });
 
@@ -32,6 +34,7 @@ class ItemModel {
        productQuantity: json["productQuantity"],
        isDeleted: json["isDeleted"],
         productName: json["productName"],
+      price: json["price"],
      //   image: json['image']
          );
   }
@@ -45,6 +48,7 @@ class ItemModel {
    data['barcode']=barcode;
     data['productName'] = productName;
     data['productDescription'] = productDescription;
+    data['price'] = price;
    // data['image']=image;
     return data;
   }

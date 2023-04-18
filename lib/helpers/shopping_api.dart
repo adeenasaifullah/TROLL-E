@@ -169,6 +169,7 @@ Future<void> decreaseQuantity(
     print("AFTER HTTP CALL INCREASE QTY STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
     print(res.statusCode);
   } catch (err) {
+    print(err);
     print("INSIDE CATCH BLOCK OF DECREASE QTY");
   }
 }

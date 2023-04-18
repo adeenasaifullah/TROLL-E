@@ -29,7 +29,7 @@ class ReceiptObject {
 
     print("called list item model in receipt object");
     return ReceiptObject(
-      totalWeight: json['totalWeight'] as num? ?? 0.0,
+        totalWeight: num.parse((json['totalWeight'] as num? ?? 0.0).toStringAsFixed(5)),
       date:DateTime.tryParse(json['date']) ?? DateTime.now(),
       netTotal: json['netTotal'] as num? ?? 0.0,
       totalDiscount: json['totalDiscount'] as num? ?? 0.0,

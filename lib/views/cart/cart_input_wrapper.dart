@@ -90,7 +90,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                       ),
                     ),
                     SizedBox(
-                      height: 240.h,
+                      height: 250.h,
                     ), // add some spacing between the widgets
                     // Expanded( // add Expanded to take the remaining space
                     //   child:
@@ -237,6 +237,24 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                     : const Text(''),
                                 dense: true,
                                 visualDensity:  VisualDensity(vertical: 3.h),
+                                  trailing: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text('Quantity : ${itemProvider.itemList?[index]?.productQuantity ?? ''}',
+                                      style: TextStyle(
+                                      color: Colors.black,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400),
+
+                                      ),
+                                      SizedBox(height: 2.h),
+                                      Text('PKR : ${itemProvider.itemList?[index]?.price ?? ''}',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.w400),),
+                                    ],
+                                  )
                               ),
                             ),
                           ),

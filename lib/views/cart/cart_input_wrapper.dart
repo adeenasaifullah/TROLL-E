@@ -191,6 +191,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: 10.h),
                           ],
                         ),
                       ],
@@ -218,20 +219,20 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               ),
                                 child: ListTile(
                                   leading:
-                                  //Image.asset('Assets/images/bg3.jpeg', fit: BoxFit.cover,),
-                                  Column(
-                                    children: [
-                                      Container(
-                                        height: 70.h,
-                                        width: 70.w,
-                                        decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover, image: AssetImage('Assets/images/bg3.jpeg')),
-                                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        ),
-                                     ),
-                                    ],
-                                 ),
+                                  Image.asset('Assets/images/bg3.jpeg', fit: BoxFit.cover, height: 95.h,),
+                                 //  Column(
+                                 //    children: [
+                                 //      Container(
+                                 //        height: 70.h,
+                                 //        width: 70.w,
+                                 //        decoration: const BoxDecoration(
+                                 //          image: DecorationImage(
+                                 //              fit: BoxFit.cover, image: AssetImage('Assets/images/bg3.jpeg')),
+                                 //          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                 //        ),
+                                 //     ),
+                                 //    ],
+                                 // ),
                                  //    SizedBox(
                                  //      height: 90.h,
                                  //      child: ClipRRect(
@@ -256,7 +257,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                         Text((itemProvider.itemList![index]?.productDescription).toString()),
                                         SizedBox(height: 15.h),
                                         Container(
-                                          width: 30.w,
+                                          width: 60.w,
                                           height: 20.h,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(15),
@@ -267,10 +268,11 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                           ),
                                           alignment: Alignment.center,
                                           child: Text(
-                                            (itemProvider.itemList![index]?.price).toString(),
+                                            "PKR ${(itemProvider.itemList![index]?.price)
+                                                .toString()}",
                                             style: GoogleFonts.robotoCondensed(
                                               color: const Color(0xFF779394),
-                                              fontSize: 15.sp,
+                                              fontSize: 13.sp,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -612,7 +614,15 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                             ],
                           ),
                         ],
-                      )
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+        FloatingActionButton(onPressed: () {
+          Navigator.push( context,
+            MaterialPageRoute(builder: (context) =>  Checkout()),
+          );
+        },)
                     ],
                   ),
                 )),

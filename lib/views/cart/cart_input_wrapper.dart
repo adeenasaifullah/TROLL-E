@@ -151,6 +151,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                       .user,
                                   barcode: _result,
                                   context: context);
+                             print( "the result of first time scan is");
+                              print(firstScan);
 
                             },
                             icon: (Image.asset('Assets/icons/scanner.png')),

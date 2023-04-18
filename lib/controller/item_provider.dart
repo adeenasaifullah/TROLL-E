@@ -53,18 +53,26 @@ class ItemProvider extends ChangeNotifier {
     isLoading = true;
     print(user?.userId);
     print(barcode);
+  print("inside additemtotemp provider");
 
-     for (final item in itemList!) {
+  if(itemList.isEmpty){
+    await addItem(user: user, productBarcode: barcode, productQuantity: 1);
+
+  }
+  else {
+    for (final item in itemList) {
       if (item.barcode == barcode) {
-    //this means item has been scanned before so return back to the screen with false value
-         firstscan=false;
+        //this means item has been scanned before so return back to the screen with false value
+        firstscan = false;
+        print('h');
         break;
       }
-      else{
-     await addItem(user: user, productBarcode: barcode, productQuantity: 1);
-    print("inside item provider after calling add item");
+      else {
+        await addItem(user: user, productBarcode: barcode, productQuantity: 1);
+        print("inside item provider after calling add item");
+      }
     }
-    }
+  }
    // print("item provider after calling add item");
     await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
     notifyListeners();

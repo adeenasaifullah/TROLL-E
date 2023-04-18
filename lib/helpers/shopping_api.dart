@@ -174,6 +174,7 @@ Future<void> decreaseQuantity(
   }
 }
 
+
 Future<void> addItem(
     {required UserModel? user,
     required String productBarcode,

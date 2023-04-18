@@ -25,7 +25,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   late String username;
-  bool cartConnected = false;
+ late bool cartConnected ;
+ //= false;
   String qr_code = "";
 
   Future<String> scanQR() async {
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState()
   {
     context.read<ProfileProvider>().getUserProfile(context: context);
+    cartConnected = context.read<ShoppingProvider>().result;
     super.initState();
   }
 

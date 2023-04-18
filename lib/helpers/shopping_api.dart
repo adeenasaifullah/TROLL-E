@@ -112,6 +112,7 @@ Future<TempReceiptModel?> getTempReceipt({
   } catch (err) {
     print("GET TEMP RECEIPT CATCH BLOCK printting temp receipt uid ofc its null");
     print(tempReceipt?.uid);
+    print(err);
     return tempReceipt;
   }
 }

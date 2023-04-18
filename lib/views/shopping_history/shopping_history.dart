@@ -82,7 +82,6 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
       super.initState();
     }
 
-
   @override
   Widget build(BuildContext context) {
    final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;
@@ -167,12 +166,12 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
                         icon: const Icon(Icons.arrow_forward_ios,
                             color: Colors.grey, size: 15.0),
                         onPressed: () {
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>
-                          //         SingleHistory(reciept: history![index]),
-                          //   ),
-                          // );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  SingleHistory(reciept: history![index]),
+                            ),
+                          );
                         }),
                   ),
                   const Divider(thickness: 1.7, indent: 15, endIndent: 15),

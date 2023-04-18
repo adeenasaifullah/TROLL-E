@@ -2,7 +2,7 @@ import 'package:troll_e/models/receipt_object_model.dart';
 
 class TempReceiptModel {
   final String userID;
-  final double tempWeight;
+  final num tempWeight;
   // var receipt;
   final String uid;
   ReceiptObject receipt;

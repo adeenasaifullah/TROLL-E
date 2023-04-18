@@ -3,6 +3,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:troll_e/views/cart/checkout.dart';
 import '../../controller/item_provider.dart';
 import '../../controller/profile_provider.dart';
 import '../../models/Item_model.dart';
@@ -182,6 +183,12 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                       ),
                     ),
                   ),
+                  FloatingActionButton(onPressed: () {
+                    Navigator.push( context,
+                      MaterialPageRoute(builder: (context) =>  Checkout()),
+                    );
+                  },
+                  ),
                 ],
               ),
             ],
@@ -335,6 +342,12 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                         ),
                       ),
                     ),
+                    FloatingActionButton(onPressed: () {
+                      Navigator.push( context,
+                        MaterialPageRoute(builder: (context) =>  Checkout()),
+                      );
+                    },
+                    ),
                   ],
                 ),
               ],
@@ -342,6 +355,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
           ],
         ),
       ),
+
     );
   }
 }

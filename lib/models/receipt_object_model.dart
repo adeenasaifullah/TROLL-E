@@ -1,11 +1,11 @@
 import 'Item_model.dart';
 
 class ReceiptObject {
-   double totalWeight;
+   num totalWeight;
   final DateTime date;
-   double netTotal;
-   double totalDiscount;
-  final double? gst;
+   num netTotal;
+   num totalDiscount;
+  final num? gst;
   final bool isDeleted;
    List<ItemModel> items;
 

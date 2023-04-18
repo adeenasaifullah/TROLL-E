@@ -58,7 +58,7 @@ class _ProfileImageWrapperState extends State<ProfileImageWrapper> {
               width: 35.w,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
+                  // foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                     //  side: BorderSide(color: Colors.white),

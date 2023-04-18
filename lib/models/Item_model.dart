@@ -7,7 +7,7 @@ class ItemModel {
   final String productDescription;
   final num price;
 
- // String image = "";
+  String image = "";
   final String barcode;
 // Aiman pls add image here
 
@@ -20,8 +20,8 @@ class ItemModel {
       required this.productName,
       required this.productDescription,
      required this.barcode,
-        required this.price
-    //  required this.image
+        required this.price,
+      required this.image
       });
 
   static ItemModel fromJson(Map<String, dynamic> json) {
@@ -34,8 +34,8 @@ class ItemModel {
        productQuantity: json["productQuantity"] as num? ?? 0.0,
        isDeleted: json["isDeleted"] as bool? ?? false,
         productName: json["productName"] as String? ?? '',
-     price:json['price'] as num? ?? 0.0
-     //   image: json['image']
+     price:json['price'] as num? ?? 0.0,
+       image: json['image'] as String? ?? ''
          );
   }
 
@@ -49,8 +49,7 @@ class ItemModel {
    data['price']=price;
     data['productName'] = productName;
     data['productDescription'] = productDescription;
-    data['price'] = price;
-   // data['image']=image;
+     data['image']=image;
     return data;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +10,10 @@ import 'package:troll_e/helpers/shopping_api.dart';
 import '../../controller/item_provider.dart';
 import '../../controller/profile_provider.dart';
 import '../../models/Item_model.dart';
+import '../../models/shopping_history.dart';
+import '../../models/user_model.dart';
 import '../../utility.dart';
+import 'package:troll_e/views/cart/checkout.dart';
 
 class CartInputWrapper extends StatefulWidget {
   const CartInputWrapper({
@@ -26,8 +31,29 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   final TextEditingController increase_qty = TextEditingController();
   final TextEditingController decrease_qty = TextEditingController();
   final _checkinput = GlobalKey<FormState>();
+  StreamController<ShoppingHistoryModel> streamController= StreamController();
+  late final  int historylength;
+  Checkout _checkout = Checkout();
 
   List<ItemModel>? items = [];
+
+  checkShoppingHistory() {
+    Provider.of<ProfileProvider>(context, listen: false)
+        .getUserProfile(context: context);
+    print("called checkShoppingHistory");
+
+    int newlength = Provider.of<ProfileProvider>(context, listen: false).user?.shoppingHistory?.length ?? 0;
+    print("this is the new length");
+    print(newlength);
+    if( newlength > historylength){
+      print("inside the condition");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => _checkout),
+      );
+    }
+
+  }
 
   _scanBR() async {
     try {
@@ -43,13 +69,26 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
       });
     }
   }
+  void dispose(){
+    streamController.close();
+  }
 
   @override
   void initState() {
+
+    //Provider.of<ProfileProvider>(context).user?.shoppingHistory
     Provider.of<ProfileProvider>(context, listen: false)
         .getUserProfile(context: context);
+
+    historylength =  Provider.of<ProfileProvider>(context, listen: false).user?.shoppingHistory?.length ?? 0;
+    print("this is the history length");
+    print(historylength);
     callGetReceipt();
     // TODO: implement initState
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      checkShoppingHistory();
+      print("inside periodic time line 78");
+    });
     super.initState();
   }
 

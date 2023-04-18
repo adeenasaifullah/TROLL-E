@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:troll_e/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:troll_e/views/cart/second_scan_dialogbox.dart';
 import 'package:troll_e/views/menu/menu.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_glow/flutter_glow.dart';
@@ -183,49 +182,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                           },
                           ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              primary: Colors.black,
-                              backgroundColor: kPrimaryColor
-                            ),
-                            onPressed: () {
-                              SecondScan s= SecondScan();
-                              s.showLogoutDialog(context);
-                              },
-                            child: const Text('alert box'),
-                          ),
 
-                          // NavButton(
-                          //   buttonText: 'Start Shopping',
-                          //   textSize: 20.sp,
-                          //   buttonHeight: displayHeight(context)*0.075,
-                          //   buttonWidth: displayWidth(context) * 0.8,
-                          //   onPressed: ()=> {
-                          //     //do something
-                          //   },
-                          // ),
                         ]
 
                     ),
                   ),
                 ),
 
-                // GlowButton(
-                //   child: Text("Start Shoping" , style:  TextStyle(color: Color(0xff111111)),),
-                //   width: 300.w, height: 50.h,
-                //   borderRadius: BorderRadius.circular(15),
-                //   color: cartConnected? kPrimaryColor: Color(0xffDDE7E8),
-                //   blurRadius: cartConnected? 60:0,
-                //   spreadRadius: cartConnected? 1:0,
-                //
-                //   onPressed: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) =>  Shoppingcart()),
-                //   );
-                // },
-                //
-                // ),
 
               ],
             )

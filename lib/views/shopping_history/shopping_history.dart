@@ -163,8 +163,8 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
                     ),
                     subtitle: Text("Total: Rs ${history?[index].netTotal}"),
                     trailing: IconButton(
-                        icon: const Icon(Icons.arrow_forward_ios,
-                            color: Colors.grey, size: 15.0),
+                        icon:  Icon(Icons.arrow_forward_ios,
+                            color: Colors.grey, size: 15.sp),
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(

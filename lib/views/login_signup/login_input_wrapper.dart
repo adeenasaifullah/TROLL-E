@@ -173,16 +173,22 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                         width: displayWidth(context) * 0.1,
                       ),
                       onTap: () async {
-                        // Launch Google OAuth authentication flow
-                        String googleAuthUrl = 'https://your-nodejs-backend.com/auth/google';
-                        String redirectUrl = 'your-flutter-app://google-auth-success';
-                        String? result = await FlutterWebAuth.authenticate(url: googleAuthUrl, callbackUrlScheme: redirectUrl);
+                        String googleAuthUrl = 'http://3.106.170.176:3000/auth/google?redirect_uri=troll-e://google-auth-success';;
+                        String? result = await FlutterWebAuth.authenticate(
+                          url: googleAuthUrl,
+                          callbackUrlScheme: 'troll-e',
+                        );
 
-                        // Navigate to GoogleAuthSuccessScreen when authentication is successful
                         if (result != null) {
-                          Navigator.pushNamed(context, 'your-flutter-app://google-auth-success', arguments: result);
+                          Navigator.pushNamed(
+                            context,
+                            'troll-e://google-auth-success?code=$result',
+                            arguments: googleAuthUrl,
+                          );
                         }
                       },
+
+
                     ),
                     //SizedBox(height: displayHeight(context) * 0.02),
                     TextButton(

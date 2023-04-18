@@ -66,36 +66,27 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               onGenerateRoute: (RouteSettings settings) {
-            if (settings.name!.startsWith('troll-e://')) {
-              final uri = Uri.parse(settings.name!);
-              if (uri.host == 'google-auth-success') {
-                if (uri.queryParameters.containsKey('access_token') && uri.queryParameters.containsKey('user')) {
-                  final String? accessToken = uri.queryParameters['access_token'];
-                  final userJson = uri.queryParameters['user'];
-                  if (userJson != null) {
-                  final thisuser = jsonDecode(Uri.decodeFull(userJson));
-                  final UserModel user = UserModel.fromJson(thisuser);}
-                  return MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        GoogleAuthSuccessScreen(
-                          initialUrl: settings.arguments as String,
-                        ),
-                  );
-                }
-              }
-              else if (uri.host == 'google-auth-failure')
-                {
-                if (uri.queryParameters.containsKey('error')) {
-                final errorMessage = uri.queryParameters['error'];
+                if (settings.name!.startsWith('http://3.106.170.176:3000')) {
+                  final uri = Uri.parse(settings.name!);
 
-                return MaterialPageRoute(
-                  builder: (BuildContext context) => LoginInputWrapper(),
-                );
-
+                  if (uri.path == '/auth/google/callback' && uri.queryParameters.containsKey('code')) {
+                    final String code = uri.queryParameters['code']!;
+                    return MaterialPageRoute(
+                      builder: (BuildContext context) => GoogleAuthSuccessScreen(
+                        initialUrl: settings.arguments as String,
+                        code: code,
+                      ),
+                    );
+                  } else {
+                    return MaterialPageRoute(
+                      builder: (BuildContext context) => LoginInputWrapper(),
+                    );
+                  }
                 }
-          }
+
                 return null;
-              }},
+              },
+
               home: (token != null && JwtDecoder.isExpired(token) == false)
                   ? HomeScreen(token: token)
                   : const SplashScreen()

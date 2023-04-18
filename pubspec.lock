@@ -167,7 +167,8 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_web_auth
-      url: "https://pub.dartlang.org"
+      sha256: a69fa8f43b9e4d86ac72176bf747b735e7b977dd7cf215076d95b87cb05affdd
+      url: "https://pub.dev"
     source: hosted
     version: "0.5.0"
   flutter_web_plugins:

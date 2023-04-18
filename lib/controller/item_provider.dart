@@ -84,29 +84,33 @@ class ItemProvider extends ChangeNotifier {
   //
   // }
 
-  Future<void> increaseItemQuantity({required UserModel? user, required String? barcode, required int product_qty, }) async {
+  Future<void> increaseItemQuantity({required UserModel? user, required String? barcode,
+    required BuildContext context, required int product_qty, }) async {
     isLoading=true;
     await increaseQuantity(user: user, productBarcode: barcode, productQuantity: product_qty);
-  //  await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
-
+    await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
     isLoading=false;
     notifyListeners();
   }
 
-  Future<void> decreaseItemQuantity({required UserModel? user, required String? barcode, required int product_qty, }) async {
+  Future<void> decreaseItemQuantity({required UserModel? user, required String? barcode,
+    required BuildContext context,  required int product_qty, }) async {
     isLoading=true;
     await decreaseQuantity(user: user, productBarcode: barcode, productQuantity: product_qty);
+    await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
+
     isLoading=false;
     notifyListeners();
   }
 
   Future<bool> remove({
     required UserModel? user,
+    required BuildContext context,
     required String? barcode,}) async {
     bool qty_one = false;
 
       for (final item in itemList!) {
-      if (item.barcode == barcode || item.productQuantity ==1) {
+      if (item.barcode == barcode && item.productQuantity ==1) {
         //call api to decreaseqty and send qty as 1
         //we will not be showing any dialog now to ask for qty
         isLoading=true;

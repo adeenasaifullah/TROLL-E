@@ -397,8 +397,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                             onPressed: () async {
                                                               if (_checkinput.currentState!.validate()) {
 
-                                                                await increaseQuantity(user:Provider.of<ProfileProvider>(
-                                                                    context,listen: false).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
+                                                                await itemProvider.increaseItemQuantity(user:Provider.of<ProfileProvider>(
+                                                                    context,listen: false).user , barcode: _result,product_qty : int.parse(increase_qty.text) , context: context);
                                                                 if (!context.mounted) return;
                                                                 Navigator.of(context).pop();
                                                                 showDialog(context: context, builder: (BuildContext context) {
@@ -449,6 +449,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                     //else ask for quantity to decrease
 
                                                     bool qtyOne = await itemProvider.remove(
+                                                      context: context,
                                                         user: Provider.of<ProfileProvider>(
                                                           context, listen: false)
                                                             .user,
@@ -506,8 +507,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                 onPressed: () async {
                                                                   if (_checkinput.currentState!.validate()) {
 
-                                                                    await decreaseQuantity(user:Provider.of<ProfileProvider>(
-                                                                        context, listen: false).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
+                                                                    await itemProvider.decreaseItemQuantity(user:Provider.of<ProfileProvider>(
+                                                                        context, listen: false).user , context: context ,barcode: _result, product_qty: int.parse(decrease_qty.text));
                                                                     if (!context.mounted) return;
                                                                     Navigator.of(context).pop();
                                                                     showDialog( context:context,
@@ -524,7 +525,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                 },
                                                                 child:  Text("Save",
                                                                   style:TextStyle(
-                                                                    color: Colors .black,
+                                                                    color: Colors .white,
                                                                     fontSize: 15.sp,
                                                                     fontWeight: FontWeight.w400,
                                                                   ),

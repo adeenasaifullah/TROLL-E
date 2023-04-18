@@ -10,8 +10,8 @@ import '../models/temp_receipt_model.dart';
 import '../models/user_model.dart';
 
 class ItemProvider extends ChangeNotifier {
-  List<ItemModel>? itemList = [];
-  TempReceiptModel? tempReceipt;
+  List<ItemModel> itemList = [];
+  late TempReceiptModel tempReceipt;
 
   bool isLoading = false;
 
@@ -19,11 +19,11 @@ class ItemProvider extends ChangeNotifier {
   Future<void> getReceipt({UserModel? user}) async {
     isLoading = true;
     print("before getreceipt");
-    tempReceipt = await getTempReceipt(user: user);
+    tempReceipt = (await getTempReceipt(user: user))!;
     print("after getreceipt");
-    itemList =  tempReceipt?.receipt.items;
+    itemList =  tempReceipt.receipt.items;
     print("THIS IS THE GET RECEIPT IN PROVIDER SO PRODUCTNAME HERE IS");
-    print(itemList?[0].productName);
+    //print(itemList?[0].productName);
     isLoading = false;
     notifyListeners();
   }
@@ -51,6 +51,9 @@ class ItemProvider extends ChangeNotifier {
       required BuildContext context}) async {
     bool firstscan=true;
     isLoading = true;
+    print(user?.userId);
+    print(barcode);
+
      for (final item in itemList!) {
       if (item.barcode == barcode) {
     //this means item has been scanned before so return back to the screen with false value
@@ -59,9 +62,10 @@ class ItemProvider extends ChangeNotifier {
       }
       else{
      await addItem(user: user, productBarcode: barcode, productQuantity: 1);
-     }
-     }
-    print("item provider after calling add item");
+    print("inside item provider after calling add item");
+    }
+    }
+   // print("item provider after calling add item");
     await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
     notifyListeners();
     isLoading = false;
@@ -75,6 +79,8 @@ class ItemProvider extends ChangeNotifier {
   Future<void> increaseItemQuantity({required UserModel? user, required String? barcode, required int product_qty, }) async {
     isLoading=true;
     await increaseQuantity(user: user, productBarcode: barcode, productQuantity: product_qty);
+  //  await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
+
     isLoading=false;
     notifyListeners();
   }

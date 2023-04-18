@@ -129,6 +129,7 @@ Future<void> increaseQuantity(
       "productBarcode": productBarcode,
       "increaseProductQuantity": productQuantity
     };
+
     http.Response res = await http.put(
         Uri.parse("http://3.106.170.176:3000/increaseQuantity/$userID"),
         headers: {
@@ -140,6 +141,7 @@ Future<void> increaseQuantity(
     print("AFTER HTTP CALL INCREASE QTY STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
     print(res.statusCode);
   } catch (err) {
+    print(err);
     print("INSIDE CATCH BLOCK OF INCREASE QTY");
   }
 }
@@ -178,6 +180,7 @@ Future<void> addItem(
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
+    print("assigning userid");
     String? userID = user?.userId;
 
     print("user ID is:");
@@ -187,7 +190,7 @@ Future<void> addItem(
       "productQuantity": productQuantity
     };
     http.Response res = await http.put(
-        Uri.parse("http:/3.106.170.176:3000/addItemToCart/$userID"),
+        Uri.parse("http://3.106.170.176:3000/addItemToCart/$userID"),
         headers: {
           "Content-type": "application/json",
           "Authorization": "Bearer $accessToken",
@@ -197,6 +200,7 @@ Future<void> addItem(
     print("AFTER HTTP CALL ADD ITEM STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
     print(res.statusCode);
   } catch (err) {
+    print(err);
     print("INSIDE CATCH BLOCK OF ADDITEM");
   }
 }

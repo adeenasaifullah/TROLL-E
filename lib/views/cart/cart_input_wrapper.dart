@@ -70,7 +70,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
       body: itemProvider.isLoading
           ? const Center(
               child: CircularProgressIndicator(),
-            ) : itemProvider.itemList?.length == 0 ?
+            ) : itemProvider.itemList.isEmpty ?
       Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -109,13 +109,13 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                             ),
                             SizedBox(height: 3.h),
                             Container(
-                              width: 60,
-                              height: 25,
+                              width: 60.w,
+                              height: 25.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
-                                  color: const Color(0xFF779394),
-                                  width: 1,
+                                  color:  const Color(0xFF779394),
+                                  width: 1.w,
                                 ),
                               ),
                               alignment: Alignment.center,
@@ -170,13 +170,13 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                             ),
                             SizedBox(height: 3.h),
                             Container(
-                              width: 70,
-                              height: 25,
+                              width: 70.w,
+                              height: 25.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
                                   color: const Color(0xFF779394),
-                                  width: 1,
+                                  width: 1.w,
                                 ),
                               ),
                               alignment: Alignment.center,
@@ -210,7 +210,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  width: 1,
+                                  width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -236,7 +236,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                     ? Text(itemProvider.itemList?[index]?.productDescription ??'')
                                     : const Text(''),
                                 dense: true,
-                                visualDensity: const VisualDensity(vertical: 3),
+                                visualDensity:  VisualDensity(vertical: 3.h),
                               ),
                             ),
                           ),
@@ -294,7 +294,10 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               ),
                               onPressed: () async {
                                 await _scanBR();
-                                bool firstScan = await itemProvider.addItemToTemp(user: Provider.of<ProfileProvider>(context).user,  barcode: _result,context: context);
+                                print("calling additemto temp on cartinput screen");
+                                bool firstScan = await itemProvider.addItemToTemp(user: Provider.of<ProfileProvider>(context, listen: false).user,  barcode: _result,context: context);
+                                print("this is the firstscan value - true means first time scanned false means otherwise");
+                                print(firstScan);
                                 if (firstScan == false) {
                                   //context.mounted is being used cuz it said Don't use 'BuildContext's across async gaps
                                   //and onPressed is async so i think i need to do this
@@ -306,13 +309,13 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                         title: const Text(
                                           'What would you like to do?',
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                         content: const Text(
                                           "Do you want to increase or decrease the item quantity?",
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
                                         actions: <Widget>[
@@ -330,11 +333,11 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                       borderRadius:BorderRadius.circular(10.0),
                                                     ),
                                                     padding: EdgeInsets.symmetric(
-                                                        vertical: 16.h,
-                                                        horizontal: 32.w),
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
+                                                        vertical: 10.h,
+                                                        horizontal:15.w),
+                                                    textStyle:  TextStyle(
+                                                      fontSize: 15.sp,
+                                                      fontWeight: FontWeight.w400
                                                     ),
                                                   ),
                                                   onPressed: () {
@@ -344,7 +347,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                         (BuildContext context) {
                                                       return AlertDialog(
                                                         title: const Text("Enter Quantity to Increase",
-                                                          style: TextStyle(fontWeight: FontWeight.w600,
+                                                          style: TextStyle(fontWeight: FontWeight.w500,
                                                           ),
                                                         ),
                                                         actions: <Widget>[
@@ -355,7 +358,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                               filled: true,
                                                               border:OutlineInputBorder(
                                                                 borderRadius:BorderRadius.circular(10.0),
-                                                                borderSide: const BorderSide(width: 6,
+                                                                borderSide:  BorderSide(width: 6.w,
                                                                     color: Color(0xFFF4F1F1)),
                                                               ),
                                                             ),
@@ -367,13 +370,15 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                               shape:RoundedRectangleBorder(
                                                                 borderRadius:BorderRadius.circular(10.0),
                                                               ),
-                                                              padding: EdgeInsets.symmetric(vertical:16.h,horizontal:32.w),
+                                                              padding: EdgeInsets.symmetric(
+                                                                  vertical: 10.h,
+                                                                  horizontal:25.w),
                                                             ),
                                                             onPressed: () async {
                                                               if (_checkinput.currentState!.validate()) {
 
                                                                 await increaseQuantity(user:Provider.of<ProfileProvider>(
-                                                                    context).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
+                                                                    context,listen: false).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
                                                                 if (!context.mounted) return;
                                                                 Navigator.of(context).pop();
                                                                 showDialog(context: context, builder: (BuildContext context) {
@@ -391,7 +396,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                               style: TextStyle(
                                                                 color: Colors.white,
                                                                 fontSize: 15.sp,
-                                                                fontWeight:FontWeight.bold,
+                                                                fontWeight:FontWeight.w400,
                                                               ),
                                                             ),
                                                           ),
@@ -410,10 +415,12 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius:BorderRadius.circular(10.0),
                                                     ),
-                                                    padding:  EdgeInsets.symmetric(vertical: 16.h,horizontal: 32.w),
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
+                                                    padding: EdgeInsets.symmetric(
+                                                        vertical: 10.h,
+                                                        horizontal:15.w),
+                                                    textStyle:  TextStyle(
+                                                        fontSize: 15.sp,
+                                                        fontWeight: FontWeight.w400
                                                     ),
                                                   ),
                                                   onPressed: () async {
@@ -423,7 +430,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
 
                                                     bool qtyOne = await itemProvider.remove(
                                                         user: Provider.of<ProfileProvider>(
-                                                          context,)
+                                                          context, listen: false)
                                                             .user,
                                                         barcode: _result);
                                                     if (qtyOne == true) {
@@ -452,7 +459,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                             title: const Text(
                                                               "Enter Quantity to Decrease",
                                                               style: TextStyle(
-                                                                fontWeight:FontWeight.w600,
+                                                                fontWeight:FontWeight.w500,
                                                               ),
                                                             ),
                                                             actions: <Widget>[
@@ -473,13 +480,14 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                     borderRadius:BorderRadius.circular( 10.0),
                                                                   ),
                                                                   padding:  EdgeInsets.symmetric(
-                                                                      vertical: 16.h, horizontal:32.w),
+                                                                    vertical: 10.h,
+                                                                    horizontal:25.w),
                                                                 ),
                                                                 onPressed: () async {
                                                                   if (_checkinput.currentState!.validate()) {
 
                                                                     await decreaseQuantity(user:Provider.of<ProfileProvider>(
-                                                                        context).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
+                                                                        context, listen: false).user , productBarcode: _result, productQuantity: int.parse(increase_qty.text));
                                                                     if (!context.mounted) return;
                                                                     Navigator.of(context).pop();
                                                                     showDialog( context:context,
@@ -498,7 +506,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                   style:TextStyle(
                                                                     color: Colors .black,
                                                                     fontSize: 15.sp,
-                                                                    fontWeight: FontWeight.bold,
+                                                                    fontWeight: FontWeight.w400,
                                                                   ),
                                                                 ),
                                                               ),
@@ -536,13 +544,13 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               ),
                               SizedBox(height: 3.h),
                               Container(
-                                width: 70,
-                                height: 25,
+                                width: 70.w,
+                                height: 25.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   border: Border.all(
                                     color: const Color(0xFF779394),
-                                    width: 1,
+                                    width: 1.w,
                                   ),
                                 ),
                                 alignment: Alignment.center,

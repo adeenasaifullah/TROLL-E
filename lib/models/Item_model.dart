@@ -25,13 +25,13 @@ class ItemModel {
   static ItemModel fromJson(Map<String, dynamic> json) {
     print("entered fromjson itemmodel");
     return ItemModel(
-      productDescription: json['productDescription'],
-       productID: json["productID"],
-      grossTotal: json["grossTotal"],
-      barcode: json['barcode'],
-       productQuantity: json["productQuantity"],
-       isDeleted: json["isDeleted"],
-        productName: json["productName"],
+      productDescription: json['productDescription'] as String? ?? '',
+       productID: json["productID"] as String? ?? '',
+      grossTotal: json["grossTotal"] as num? ?? 0.0,
+      barcode: json['barcode'] as String? ?? '',
+       productQuantity: json["productQuantity"] as num? ?? 0.0,
+       isDeleted: json["isDeleted"] as bool? ?? false,
+        productName: json["productName"] as String? ?? '',
      //   image: json['image']
          );
   }

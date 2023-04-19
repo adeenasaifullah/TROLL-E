@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:troll_e/utility.dart';
 import 'package:troll_e/views/shopping_history/shopping_history.dart';
 import 'package:flutter_gif/flutter_gif.dart';
 
@@ -21,19 +23,14 @@ class Checkout extends StatefulWidget {
 }
 
 class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
-  late FlutterGifController controller1;
+
   @override
+
   void initState() {
-    controller1 = FlutterGifController(vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller1.repeat(
-        min: 0,
-        max: 60,
-        period: const Duration(seconds: 3),
-      );
-    });
+
     super.initState();
   }
+
   Widget build(BuildContext context) {
     final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;
     int? n = history?.length;
@@ -41,7 +38,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text(((history?[n!-1].date)).toString(), style: TextStyle(color: Colors.black,),),
+        title: Roboto_heading(textValue: (DateFormat.yMMMMEEEEd().format(history![n!-1].date)).toString(), size: 20.sp),
 
         backgroundColor: const Color(0xFFBAD3D4),
       ),
@@ -53,11 +50,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
             child: Text("You have successfully checked out!", style: TextStyle(fontSize: 15.sp , fontWeight: FontWeight.w500),),
           ),
           SizedBox(height: 25.h),
-          // GifImage(
-          //   controller: controller1,
-          //   image: const AssetImage("Assets/images/checkoutgif.gif"),
-          // ),
-          //Image.asset("Assets/images/checkoutgif.gif", gaplessPlayback: false),
+
           SizedBox(height: 150.h, child: Image.asset("Assets/images/checkout.png"),),
           SizedBox(height: 25.h),
           Padding(padding: EdgeInsets.only(left: 20.0),

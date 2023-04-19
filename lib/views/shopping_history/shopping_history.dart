@@ -4,14 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:troll_e/models/receipt_object_model.dart';
-import 'package:troll_e/models/shopping_history.dart';
-import 'package:troll_e/models/user_model.dart';
 import 'package:troll_e/views/shopping_history/single_history.dart';
-import '../../controller/history_provider.dart';
 import '../../controller/profile_provider.dart';
 import '../../utility.dart';
 import '../menu/menu.dart';
+import 'package:intl/intl.dart';
 
 class ShoppingHistory extends StatefulWidget {
   const ShoppingHistory({Key? key}) : super(key: key);
@@ -21,55 +18,6 @@ class ShoppingHistory extends StatefulWidget {
 }
 
 class _ShoppingHistoryState extends State<ShoppingHistory> {
-
-  // List<Reciept> history = [
-  //   Reciept(date: DateTime.now(), total: 21000, products: [
-  //     Product(
-  //         name: "Ponam Sugar 5 Kg",
-  //         price: 2500,
-  //         discount: 0,
-  //         quantity: 2,
-  //         itemTotal: 5000),
-  //     Product(
-  //         name: "Ponam Sugar 2 Kg",
-  //         price: 1000,
-  //         discount: 0,
-  //         quantity: 3,
-  //         itemTotal: 2000),
-  //     Product(
-  //         name: "Ponam Sugar 5 Kg",
-  //         price: 2500,
-  //         discount: 0,
-  //         quantity: 2,
-  //         itemTotal: 5000),
-  //     Product(
-  //         name: "Ponam Sugar 2 Kg",
-  //         price: 1000,
-  //         discount: 0,
-  //         quantity: 3,
-  //         itemTotal: 2000),
-  //     Product(
-  //         name: "Ponam Sugar 5 Kg",
-  //         price: 2500,
-  //         discount: 0,
-  //         quantity: 2,
-  //         itemTotal: 5000),
-  //     Product(
-  //         name: "Ponam Sugar 2 Kg",
-  //         price: 1000,
-  //         discount: 0,
-  //         quantity: 3,
-  //         itemTotal: 2000)
-  //   ]),
-  //   Reciept(date: DateTime.now(), total: 5000, products: [
-  //     Product(
-  //         name: "Ponam Sugar 5 Kg",
-  //         price: 2500,
-  //         discount: 0,
-  //         quantity: 2,
-  //         itemTotal: 5000),
-  //   ])
-  // ];
 
   @override
     void initState()
@@ -85,6 +33,7 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
   @override
   Widget build(BuildContext context) {
    final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;
+
    return Scaffold(
       drawer:  Menu(),
       appBar: AppBar(
@@ -158,7 +107,7 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
                     title: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                          (history?[index].date).toString(),
+                          (DateFormat.yMMMMEEEEd().format(history![index].date)).toString(),
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     subtitle: Text("Total: Rs ${history?[index].netTotal}"),

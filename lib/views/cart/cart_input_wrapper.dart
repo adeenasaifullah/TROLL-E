@@ -257,8 +257,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                                 child: ListTile(
-                                  leading:
-                                  Image.asset('Assets/images/bg3.jpeg', fit: BoxFit.cover, height: 95.h,),
+                                  // leading:
+                                  // Image.asset('Assets/images/bg3.jpeg', fit: BoxFit.cover, height: 95.h,),
                                  //  Column(
                                  //    children: [
                                  //      Container(
@@ -287,34 +287,56 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                  //       ),
                                  //    ),
                                   title: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                    padding: const EdgeInsets.only(left: 4.0, top: 8, right: 8, bottom: 8),
+                                    child: Row(
                                       children: [
-                                        Text((itemProvider.itemList![index]?.productName).toString(), style: TextStyle(fontWeight: FontWeight.bold)),
-                                        SizedBox(height: 4.h),
-                                        Text((itemProvider.itemList![index]?.productDescription).toString()),
-                                        SizedBox(height: 15.h),
-                                        Container(
-                                          width: 60.w,
-                                          height: 20.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(15),
-                                            border: Border.all(
-                                              color: const Color(0xFF779394),
-                                              width: 1.w,
+                                        // Column(
+                                        //   children:[Image.asset('Assets/images/bg3.jpeg', fit: BoxFit.cover, height: 73.h,),]
+                                        //
+                                        // ),
+                                    Column(
+                                       children: [
+                                         Container(
+                                           height: 73.h,
+                                           width: 73.w,
+                                           decoration: const BoxDecoration(
+                                             image: DecorationImage(
+                                                 fit: BoxFit.cover, image: AssetImage('Assets/images/bg3.jpeg')),
+                                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                           ),
+                                        ),
+                                       ],
+                                    ),
+                                        SizedBox(width: 10.w,),
+                                        Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text((itemProvider.itemList![index]?.productName).toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+                                            SizedBox(height: 4.h),
+                                            Text((itemProvider.itemList![index]?.productDescription).toString()),
+                                            SizedBox(height: 15.h),
+                                            Container(
+                                              width: 60.w,
+                                              height: 20.h,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15),
+                                                border: Border.all(
+                                                  color: const Color(0xFF779394),
+                                                  width: 1.w,
+                                                ),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "PKR ${(itemProvider.itemList![index]?.price)
+                                                    .toString()}",
+                                                style: GoogleFonts.robotoCondensed(
+                                                  color: const Color(0xFF779394),
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "PKR ${(itemProvider.itemList![index]?.price)
-                                                .toString()}",
-                                            style: GoogleFonts.robotoCondensed(
-                                              color: const Color(0xFF779394),
-                                              fontSize: 13.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
+                                          ],
                                         ),
                                       ],
                                     ),
@@ -657,11 +679,11 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                       SizedBox(
                         height: 10.h,
                       ),
-        FloatingActionButton(onPressed: () {
-          Navigator.push( context,
-            MaterialPageRoute(builder: (context) =>  Checkout()),
-          );
-        },)
+        // FloatingActionButton(onPressed: () {
+        //   Navigator.push( context,
+        //     MaterialPageRoute(builder: (context) =>  Checkout()),
+        //   );
+        // },)
                     ],
                   ),
                 )),

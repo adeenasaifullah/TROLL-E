@@ -43,8 +43,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text(((history?[n!-1].date)).toString(), style: TextStyle(color: Colors.black,),),
-
+        title: Text("Checkout", style: TextStyle(color: Colors.black,)),
         backgroundColor: const Color(0xFFBAD3D4),
       ),
       body: Column(
@@ -171,7 +170,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
           ),
           SizedBox(height: 10.h,),
           GlowButton(
-            child: Text("Save" , style:  TextStyle(color: Colors.white, fontSize: 15.sp),),
+            child: Text("Done" , style:  TextStyle(color: Colors.white, fontSize: 15.sp),),
             width: 300.w, height: 50.h,
             borderRadius: BorderRadius.circular(15),
             color: Colors.black,
@@ -179,7 +178,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
             spreadRadius: 0,
 
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) =>  HomeScreen()),
               );

@@ -9,6 +9,7 @@ import 'package:troll_e/views/menu/menu.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 
+import '../../controller/item_provider.dart';
 import '../../controller/profile_provider.dart';
 import '../../controller/shopping_provider.dart';
 import '../../models/user_model.dart';
@@ -51,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
   {
     context.read<ProfileProvider>().getUserProfile(context: context);
     cartConnected = context.read<ShoppingProvider>().result;
+    // Provider.of<ItemProvider>(context).getReceipt(
+    //     user: Provider.of<ProfileProvider>(context).user);
     super.initState();
   }
 
@@ -58,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final username = Provider.of<ProfileProvider>(context).user?.firstName;
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
+    //final itemProvider = Provider.of<ItemProvider>(context);
     //profileProvider.getUserProfile(context: context);
     //final username = Provider.of<ProfileProvider>(context).user?.first_name;
 
@@ -131,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: Colors.white,
                               radius: 100.r,
                               child: GlowButton(
-                                width: 170.w, height: 170.h,
+                                width: 170.w, height: 150.h,
                                 child: Image.asset('Assets/icons/cart.png', width: 50.w,),
                                 onPressed: () async {
 // true means its glowing
@@ -163,6 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: 80.h),
                           GlowButton(
                             child: Text("Start Shopping" , style:  TextStyle(color: Colors.white),),
+                            //child: itemProvider.itemList.isEmpty ? Text("Start Shopping" , style:  TextStyle(color: Colors.white),) : Text("Continue Shopping" , style:  TextStyle(color: Colors.white),),
                             width: 300.w, height: 50.h,
                             borderRadius: BorderRadius.circular(15),
                             color: cartConnected? Colors.black54: Color(0xffDDE7E8),

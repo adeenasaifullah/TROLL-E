@@ -4,11 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:troll_e/views/homescreen/homescreen.dart';
+import 'package:troll_e/utility.dart';
 import 'package:troll_e/views/shopping_history/shopping_history.dart';
 import 'package:flutter_gif/flutter_gif.dart';
-
+import 'package:troll_e/views/homescreen/homescreen.dart';
 import '../../controller/profile_provider.dart';
 import '../../models/receipt_object_model.dart';
 import '../shopping_history/shopping_history.dart';
@@ -23,19 +24,14 @@ class Checkout extends StatefulWidget {
 }
 
 class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
-  late FlutterGifController controller1;
+
   @override
+
   void initState() {
-    controller1 = FlutterGifController(vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller1.repeat(
-        min: 0,
-        max: 60,
-        period: const Duration(seconds: 3),
-      );
-    });
+
     super.initState();
   }
+
   Widget build(BuildContext context) {
     final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;
     int? n = history?.length;

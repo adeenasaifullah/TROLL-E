@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:troll_e/models/receipt_object_model.dart';
 import '../../utility.dart';
 import 'shopping_history.dart';
@@ -48,7 +49,7 @@ class _SingleHistoryState extends State<SingleHistory> {
         ],
         centerTitle: true,
         title: Roboto_heading(
-            textValue: ((widget.reciept?.date)).toString(),
+            textValue: ((DateFormat.yMMMMEEEEd().format(widget.reciept!.date)).toString()),
             size: 20.sp),
         backgroundColor: const Color(0xFFBAD3D4),
       ),

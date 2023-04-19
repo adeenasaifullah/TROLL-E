@@ -25,6 +25,8 @@ class _ShoppingcartState extends State<Shoppingcart> {
           icon: Icon(Icons.arrow_back_ios, color: Colors.black, size: 16,),
           onPressed: () => Navigator.of(context).pop(),
         ),
+
+        centerTitle: true,
         title: Roboto_heading(textValue: "My Shopping Cart", size: 20.sp,
 
         ),

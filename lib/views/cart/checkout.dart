@@ -39,7 +39,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text("Checkout", style: TextStyle(color: Colors.black,)),
+        title: Roboto_heading(textValue: 'Checkout', size: 20.sp),
         backgroundColor: const Color(0xFFBAD3D4),
       ),
       body: Column(

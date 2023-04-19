@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,17 +40,37 @@ class Menu extends StatelessWidget {
               profileProvider.user?.firstName == null ? ' ' : ' $email',
               style: const TextStyle(color: Colors.black),
             ),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Text(initials)
+            currentAccountPicture:
+            CircleAvatar(
+              backgroundColor: Colors.grey,
+              radius: 50,
+              backgroundImage: profileProvider.user?.image != null
+                  ? FileImage(File("${profileProvider.user?.image}"))
+                  : null,
+              // Set backgroundImage to null if image path is null
+
+                          ),
+
+            //         CircleAvatar(
+    //     backgroundColor: Colors.grey,
+    //     radius: 50,
+    //     backgroundImage:
+    //            FileImage(
+    //               File("${profileProvider.user?.image}"))
+    //
+    // ),
+            // CircleAvatar(
+            //   child: ClipOval(
+            //
+               // child: Text(initials)
                 // Image.asset(
                 //   "name",
                 //   width: 90.w,
                 //   height: 90.h,
                 //   fit: BoxFit.cover,
                 // ),
-              ),
-            ),
+            //   ),
+            // ),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,

@@ -130,28 +130,31 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                       buttonHeight: displayHeight(context) * 0.075,
                       buttonWidth: displayWidth(context) * 0.8,
                       onPressed: () async {
-                        if (_loginFormKey.currentState!.validate()) {
-                          await login(
-                              userProvider: userProvider,
-                              context: context,
-                              email: emailController.text,
-                              password: passwordController.text);
+                        if (_loginFormKey.currentState!.validate())  {
+                          await userProvider.loginUser(context: context, email: emailController.text, password: passwordController.text);
+                        //  await loginUser()
+                          // await login(
+                          //     userProvider: userProvider,
+                          //     context: context,
+                          //     email: emailController.text,
+                          //     password: passwordController.text);
 
                           print(
                               "result in login_input wrapper screeennnnnn.................");
                           // print(value);
                           //print(userProvider.prefs.getString('accesstoken'));
-                          //if(value != false){
-                          userProvider.prefs =
-                              await SharedPreferences.getInstance();
-                         print(userProvider.prefs.get('accesstoken'));
-                          if (userProvider.prefs.getString('accesstoken') !=
+                         //  //if(value != false){
+                         //  userProvider.prefs =
+                         //      await SharedPreferences.getInstance();
+                         // print(userProvider.prefs.get('accesstoken'));
+
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          if (prefs.getString('accesstoken') !=
                               null) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => HomeScreen(
-                                  token: userProvider.prefs
-                                      .getString("accesstoken"),
+                                  token: prefs.getString("accesstoken"),
                                 ),
                               ),
                             );

@@ -174,15 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text("HomeScreen"),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileImage()),
-                );
-              },
-              child: const Text("Profile Image"),
-            ),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

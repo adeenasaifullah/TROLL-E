@@ -21,8 +21,8 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
 
-    final username = profileProvider.user?.firstName;
-    final lastname = profileProvider.user?.lastName;
+    final username = profileProvider.user?.firstName.toCapitalized();
+    final lastname = profileProvider.user?.lastName.toCapitalized();
     final email = profileProvider.user?.email;
 
     final initials = username![0]+lastname![0];

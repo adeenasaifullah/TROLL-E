@@ -24,10 +24,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   late String username;
- late bool cartConnected ;
- //= false;
+  late bool cartConnected;
+  //= false;
   String qr_code = "";
 
   Future<String> scanQR() async {
@@ -59,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final username = Provider.of<ProfileProvider>(context).user?.firstName;
+    final username = Provider.of<ProfileProvider>(context).user?.firstName.toCapitalized();
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
     //final itemProvider = Provider.of<ItemProvider>(context);
     //profileProvider.getUserProfile(context: context);
@@ -206,4 +205,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     );
   }
+}
+
+extension StringCasingExtension on String {
+  String toCapitalized() => length > 0 ?'${this[0].toUpperCase()}${substring(1).toLowerCase()}':'';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
 }

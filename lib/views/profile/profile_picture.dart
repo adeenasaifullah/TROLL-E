@@ -26,7 +26,7 @@ class _ProfilePicState extends State<ProfilePic> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     final profileProvider = Provider.of<ProfileProvider>(context);
-    final username = profileProvider.user?.firstName;
+    final username = "${profileProvider.user?.firstName} ${profileProvider.user?.lastName}";
     return SizedBox(
       height: 150.h,
       //width: 80.w,

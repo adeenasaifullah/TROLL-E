@@ -78,7 +78,7 @@ class _SingleHistoryState extends State<SingleHistory> {
               ],
             ),
           ),
-          const SizedBox(height: 10),
+           SizedBox(height: 10.h),
           Padding(
             padding: const EdgeInsets.only(left: 15.0, right: 15),
             child: Row(
@@ -93,74 +93,162 @@ class _SingleHistoryState extends State<SingleHistory> {
             ),
           ),
           const SizedBox(height: 25),
-          const Text(
-            "Product Description",
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 25),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15),
-            child: Row(
-              children: const [
-                Text("Quantity", style: TextStyle(fontWeight: FontWeight.bold)),
-                Spacer(
-                  flex: 2, // <-- SEE HERE
-                ),
-                Text("Price", style: TextStyle(fontWeight: FontWeight.bold)),
-                Spacer(
-                  flex: 2, // <-- SEE HERE
-                ),
-                Text("Discount", style: TextStyle(fontWeight: FontWeight.bold)),
-                Spacer(
-                  flex: 2, // <-- SEE HERE
-                ),
-                Text("Total", style: TextStyle(fontWeight: FontWeight.bold)),
-                Spacer(
-                  flex: 2, // <-- SEE HERE
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-              itemCount: widget.reciept?.items.length,
-              itemBuilder: (context, index) => Column(
-                children: [
-                  ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(widget.reciept!.items[index].productName,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+          Container(
+              width: double.infinity,
+              height: 320.h,
+              //color: Colors.black12,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Product Description",
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
                     ),
-                    subtitle: Row(
-                      children: [
-                        Text(
-                            widget.reciept!.items[index].productQuantity.toString()),
-                        const Spacer(
-                          flex: 2, // <-- SEE HERE
-                        ),
-                        //WE NEED TO ADD PRODUCT KI PRICE
-                        Text('price'),
-                        const Spacer(
-                          flex: 2, // <-- SEE HERE
-                        ),
-                        Text(
-                          //WE NEED TO ADD PRODUCT KA DISCOUNT
-                            'DISCOUNT'),
-                        const Spacer(
-                          flex: 2, // <-- SEE HERE
-                        ),
-                        Text(widget.reciept!.items[index].grossTotal
-                            .toString()),
-                      ],
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Product",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Quantity",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Price",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Gross Total",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const Divider(thickness: 1.7, indent: 15, endIndent: 15),
-                ],
-              ),
-            ),
-          ),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                        itemCount: widget.reciept?.items.length,
+                        itemBuilder: (context, index) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ListTile(
+                              title: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  widget.reciept!.items[index].productDescription.toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                              ),
+                              subtitle: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(widget.reciept!.items[index].productName.toString(),
+                                    style: TextStyle(fontSize: 12.sp),
+                                  ),
+                                  Text(widget.reciept!.items[index].productQuantity.toString(),
+                                    style: TextStyle(fontSize: 12.sp),
+                                  ),
+                                  Text(widget.reciept!.items[index].price.toString(),
+                                    style: TextStyle(fontSize: 12.sp),
+                                  ),
+                                  Text(widget.reciept!.items[index].grossTotal.toString(),
+                                    style: TextStyle(fontSize: 12.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              thickness: 1.7,
+                              indent: 15,
+                              endIndent: 15,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ] ) ),
+          // const Text(
+          //   "Product Description",
+          //   style: TextStyle(fontWeight: FontWeight.w600),
+          // ),
+          // const SizedBox(height: 25),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15.0, right: 15),
+          //   child: Row(
+          //     children: const [
+          //       Text("Quantity", style: TextStyle(fontWeight: FontWeight.bold)),
+          //       Spacer(
+          //         flex: 2, // <-- SEE HERE
+          //       ),
+          //       Text("Price", style: TextStyle(fontWeight: FontWeight.bold)),
+          //       Spacer(
+          //         flex: 2, // <-- SEE HERE
+          //       ),
+          //       Text("Discount", style: TextStyle(fontWeight: FontWeight.bold)),
+          //       Spacer(
+          //         flex: 2, // <-- SEE HERE
+          //       ),
+          //       Text("Total", style: TextStyle(fontWeight: FontWeight.bold)),
+          //       Spacer(
+          //         flex: 2, // <-- SEE HERE
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Expanded(
+          //   child: ListView.builder(
+          //     padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+          //     itemCount: widget.reciept?.items.length,
+          //     itemBuilder: (context, index) => Column(
+          //       children: [
+          //         ListTile(
+          //           title: Padding(
+          //             padding: const EdgeInsets.only(bottom: 8.0),
+          //             child: Text(widget.reciept!.items[index].productName,
+          //                 style: TextStyle(fontWeight: FontWeight.bold)),
+          //           ),
+          //           subtitle: Row(
+          //             children: [
+          //               Text(
+          //                   widget.reciept!.items[index].productQuantity.toString()),
+          //               const Spacer(
+          //                 flex: 2, // <-- SEE HERE
+          //               ),
+          //               //WE NEED TO ADD PRODUCT KI PRICE
+          //               Text(widget.reciept!.items[index].price.toString()),
+          //               const Spacer(
+          //                 flex: 2, // <-- SEE HERE
+          //               ),
+          //               Text(
+          //                 //WE NEED TO ADD PRODUCT KA DISCOUNT
+          //                   'DISCOUNT'),
+          //               const Spacer(
+          //                 flex: 2, // <-- SEE HERE
+          //               ),
+          //               Text(widget.reciept!.items[index].grossTotal
+          //                   .toString()),
+          //             ],
+          //           ),
+          //         ),
+          //         const Divider(thickness: 1.7, indent: 15, endIndent: 15),
+        //        ],
+          //    ),
+           // ),
+      //    ),
         ],
       ),
     );

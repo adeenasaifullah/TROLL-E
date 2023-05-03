@@ -114,7 +114,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
                     title: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                        history![n!-1].items[index].productName,
+                        history![n!-1].items[index].productDescription,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,

@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                         children: <Widget>[
                           SizedBox(height: displayHeight(context) * 0.07),
-                          Roboto_subheading(textValue: "Welcome back, ${username} " , size: 18.sp),
+                          Roboto_subheading(textValue: "Welcome, ${username} " , size: 18.sp),
                           SizedBox(height: displayHeight(context) * 0.1,),
                           CircleAvatar(
                             backgroundColor: kPrimaryDarkColor,
@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: Colors.white,
                               radius: 100.r,
                               child: GlowButton(
-                                width: 170.w, height: 150.h,
+                                width: 170.w, height: 170.h,
                                 child: Image.asset('Assets/icons/cart.png', width: 50.w,),
                                 onPressed: () async {
 // true means its glowing
@@ -182,12 +182,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
 
                           ),
-                          FloatingActionButton(onPressed: () {
-                            Navigator.push( context,
-                            MaterialPageRoute(builder: (context) =>  Shoppingcart()),
-                          );
-                          },
-                          ),
+                          // FloatingActionButton(onPressed: () {
+                          //   Navigator.push( context,
+                          //   MaterialPageRoute(builder: (context) =>  Shoppingcart()),
+                          // );
+                          // },
+                          // ),
 
                         ]
 

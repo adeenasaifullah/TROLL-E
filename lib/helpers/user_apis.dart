@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,10 +46,21 @@ Future<bool> signUp({
   required String lastName,
   required String password,
   required String phoneNumber,
+  File? imagefile,
 }) async {
   try {
+    //String imageBase64 = ''; // initialize image data as empty string
+    // if (imagefile != null) {
+    //   List<int> imageBytes = await imagefile.readAsBytes();
+    //   imageBase64 = base64Encode(imageBytes); // convert image to base64 string
+    // }
+
+    String img=imagefile.toString();
+    String actualpath = img.split("'")[1];
+
     UserModel newUser = UserModel(
       email: email,
+      image: actualpath,
       firstName: firstName,
       lastName: lastName,
       password: password,
@@ -60,6 +72,8 @@ Future<bool> signUp({
       body: jsonEncode(newUser),
       headers: {"Content-Type": "application/json"},
     );
+
+    print(response.body);
     Future<bool> result = Future.value(false);
 
     httpErrorHandle(
@@ -112,8 +126,7 @@ print("INSIDE CATCH BLOCK OF GETHISTORY");
 Future<void> login(
     {required BuildContext context,
     required String email,
-    required String password,
-    required UserProvider userProvider}) async {
+    required String password,}) async {
   // SharedPreferences prefs= await SharedPreferences.getInstance();
   try {
     //  SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -148,7 +161,7 @@ Future<void> login(
           prefs.setString('accesstoken', accessToken);
           print(prefs.get('accesstoken'));
           prefs.setString("refreshtoken", refreshToken);
-          await userProvider.setSharedPreferences(accessToken, refreshToken);
+        //  await userProvider.setSharedPreferences(accessToken, refreshToken);
           //
           // showSnackBar(
           //     context,

@@ -21,10 +21,12 @@ class _ProfilePicState extends State<ProfilePic> {
 
   @override
   Widget build(BuildContext context) {
+
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     final profileProvider = Provider.of<ProfileProvider>(context);
-    final username = profileProvider.user?.firstName;
+    final username = "${profileProvider.user?.firstName} ${profileProvider.user?.lastName}";
     return SizedBox(
       height: 150.h,
       //width: 80.w,
@@ -36,6 +38,15 @@ class _ProfilePicState extends State<ProfilePic> {
           coverImage(),
           Positioned(
             top: height * 0.03,
+             // child: CircleAvatar(
+             //    radius: 50,
+             //    child: Image.file(
+             //      File('/data/user/0/com.example.troll_e/cache/2180056f-cf97-42c0-91be-113177c71770/Screenshot_20230419-175151_Instagram.jpg'),
+             //      // width: 100,
+             //      // height: 100,
+             //      fit: BoxFit.cover,
+             //    ),
+             //  ),
             // child: ClipOval(
             //     child: (imagePath != null)
             //     ? Image.file(File(imagePath!), width: 80.w,height: 85.h,)
@@ -45,11 +56,35 @@ class _ProfilePicState extends State<ProfilePic> {
             //   radius: 50,
             // )
             // ),
+            // child: CircleAvatar(
+            //   backgroundImage: Image.file(
+            //     File("/data/user/0/com.example.troll_e/cache/2180056f-cf97-42c0-91be-113177c71770/Screenshot_20230419-175151_Instagram.jpg"),
+            //     width: 100,
+            //     height: 100,
+            //     fit: BoxFit.cover,
+            //   ),
+            //   radius: 50,
+              // child: imgXFile == null
+              //     ? null
+              //     : ClipRRect(
+              //   borderRadius: BorderRadius.circular(50),
+              //     child: Image.file(
+              //     File("/data/user/0/com.example.troll_e/cache/2180056f-cf97-42c0-91be-113177c71770/Screenshot_20230419-175151_Instagram.jpg"),
+              //     width: 100,
+              //     height: 100,
+              //     fit: BoxFit.cover,
+              //   ),
+              //),
+           // ),
             child: CircleAvatar(
                 backgroundColor: Colors.grey,
                 radius: 50,
                 backgroundImage:
-                    imgXFile == null ? null : FileImage(File(imgXFile!.path))),
+                    imgXFile == null ?  FileImage(
+                      File("${profileProvider.user?.image}"))
+                      //  File("/data/user/0/com.example.troll_e/cache/2180056f-cf97-42c0-91be-113177c71770/Screenshot_20230419-175151_Instagram.jpg"))
+        : null
+          )
           ),
           Positioned(
             right: width * 0.37,

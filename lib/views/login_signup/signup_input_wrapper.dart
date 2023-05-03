@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:troll_e/views/login_signup/login.dart';
 import 'package:troll_e/views/login_signup/profile_image.dart';
+import '../../controller/user_provider.dart';
 import '../../helpers/user_apis.dart';
 import '/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +21,8 @@ class SignupInputWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool result;
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Column(
@@ -169,18 +173,23 @@ class SignupInputWrapper extends StatelessWidget {
                       buttonWidth: displayWidth(context) * 0.8,
                       onPressed: () async {
                         if (_signUpFormKey.currentState!.validate()) {
-                          result = await signUp(
-                              context: context,
-                              firstName: fnameController.text,
-                              lastName: lnameController.text,
-                              email: emailController.text,
-                              phoneNumber: phoneController.text,
-                              password: passwordController.text);
-                          print(result);
-                          if (result == (true)) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const ProfileImage()));
-                          }
+                          // result = await userProvider.SignupUser(
+                          //     context: context,
+                          //     firstName: fnameController.text,
+                          //     lastName: lnameController.text,
+                          //     email: emailController.text,
+                          //     phoneNumber: phoneController.text,
+                          //     password: passwordController.text);
+                          // print(result);
+                          // if (result == (true)) {
+                             Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                 builder: (context) =>  ProfileImage(fname: fnameController.text,
+                                   lname: lnameController.text,
+                                   email: emailController.text,
+                                   phone: phoneController.text,
+                                   password: passwordController.text,
+                                 )));
+                          // }
                         }
                       },
                     ),

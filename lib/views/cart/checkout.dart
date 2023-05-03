@@ -4,11 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:troll_e/views/homescreen/homescreen.dart';
+import 'package:troll_e/utility.dart';
 import 'package:troll_e/views/shopping_history/shopping_history.dart';
 import 'package:flutter_gif/flutter_gif.dart';
-
+import 'package:troll_e/views/homescreen/homescreen.dart';
 import '../../controller/profile_provider.dart';
 import '../../models/receipt_object_model.dart';
 import '../shopping_history/shopping_history.dart';
@@ -23,19 +24,14 @@ class Checkout extends StatefulWidget {
 }
 
 class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
-  late FlutterGifController controller1;
+
   @override
+
   void initState() {
-    controller1 = FlutterGifController(vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller1.repeat(
-        min: 0,
-        max: 60,
-        period: const Duration(seconds: 3),
-      );
-    });
+
     super.initState();
   }
+
   Widget build(BuildContext context) {
     final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;
     int? n = history?.length;
@@ -43,8 +39,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text(((history?[n!-1].date)).toString(), style: TextStyle(color: Colors.black,),),
-
+        title: Roboto_heading(textValue: 'Checkout', size: 20.sp),
         backgroundColor: const Color(0xFFBAD3D4),
       ),
       body: Column(
@@ -119,7 +114,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
                     title: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                        history![n!-1].items[index].productName,
+                        history![n!-1].items[index].productDescription,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -171,7 +166,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
           ),
           SizedBox(height: 10.h,),
           GlowButton(
-            child: Text("Save" , style:  TextStyle(color: Colors.white, fontSize: 15.sp),),
+            child: Text("Done" , style:  TextStyle(color: Colors.white, fontSize: 15.sp),),
             width: 300.w, height: 50.h,
             borderRadius: BorderRadius.circular(15),
             color: Colors.black,
@@ -179,7 +174,7 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
             spreadRadius: 0,
 
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) =>  HomeScreen()),
               );

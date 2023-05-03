@@ -8,6 +8,7 @@ import 'package:troll_e/views/shopping_history/single_history.dart';
 import '../../controller/profile_provider.dart';
 import '../../utility.dart';
 import '../menu/menu.dart';
+import 'package:intl/intl.dart';
 
 class ShoppingHistory extends StatefulWidget {
   const ShoppingHistory({Key? key}) : super(key: key);
@@ -18,18 +19,21 @@ class ShoppingHistory extends StatefulWidget {
 
 class _ShoppingHistoryState extends State<ShoppingHistory> {
 
-  // @override
-  //   void initState()
-  //   {
-  //    //Provider.of<ProfileProvider>(context).getUserProfile(context: context);
-  //    print("PRINTING USERRR ${context.read<ProfileProvider>().user?.firstName}");
-  //     //Provider.of<HistoryProvider>(context, listen: false).getHistoryProvider(user: Provider.of<ProfileProvider>(context, listen: false).user);
-  //     super.initState();
-  //   }
+  @override
+    void initState()
+    {
+
+     //Provider.of<ProfileProvider>(context).getUserProfile(context: context);
+     print("PRINTING USERRR ${context.read<ProfileProvider>().user?.firstName}");
+      //Provider.of<HistoryProvider>(context, listen: false).getHistoryProvider(user: Provider.of<ProfileProvider>(context, listen: false).user);
+
+      super.initState();
+    }
 
   @override
   Widget build(BuildContext context) {
    final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;
+
    return Scaffold(
       drawer:  Menu(),
       appBar: AppBar(
@@ -82,7 +86,7 @@ class _ShoppingHistoryState extends State<ShoppingHistory> {
                     title: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                          (history?[index].date).toString(),
+                          (DateFormat.yMMMMEEEEd().format(history![index].date)).toString(),
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     subtitle: Text("Total: Rs ${history?[index].netTotal}"),

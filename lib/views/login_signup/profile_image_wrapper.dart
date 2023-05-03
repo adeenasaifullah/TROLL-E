@@ -104,6 +104,12 @@ class _ProfileImageWrapperState extends State<ProfileImageWrapper> {
 
   void pickMedia() async {
     imgXFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    print("THIS IS IMGXFILE ");
+    print(imgXFile);
+
+    print(File(imgXFile!.path));
+    print(imgXFile.toString());
+
     setState(() {
       imgXFile;
     });

@@ -51,10 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
   {
     context.read<ProfileProvider>().getUserProfile(context: context);
     cartConnected = context.read<ShoppingProvider>().result;
+
     // Provider.of<ItemProvider>(context).getReceipt(
     //     user: Provider.of<ProfileProvider>(context).user);
     super.initState();
   }
+  //@override
+  // void didChangeDepedencies(){
+  //   context.read<ShoppingProvider>().isCartConnected(Provider.of<ProfileProvider>(context).user);
+  //   cartConnected = context.read<ShoppingProvider>().result;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: Colors.white,
                               radius: 100.r,
                               child: GlowButton(
-                                width: 170.w, height: 170.h,
+                                width: 170.w, height: 150.h,
                                 child: Image.asset('Assets/icons/connect.png', width: 150.w),
                                 onPressed: () async {
 // true means its glowing
@@ -145,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   else
                                   {
                                     String uid = await scanQR();
-                                    await shoppingProvider.connect(uid, Provider.of<ProfileProvider>(context, listen:false).user);
+                                    await shoppingProvider.connect(context, uid, Provider.of<ProfileProvider>(context, listen:false).user);
                                     print("THIS IS THE QR CODE : $qr_code");
                                     print("this is shopping provider result");
                                     print(shoppingProvider.result);

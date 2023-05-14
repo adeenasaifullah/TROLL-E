@@ -47,6 +47,7 @@ dependencies:
   flutter_glow: ^0.2.0
   webview_flutter: ^2.0.13
   flutter_web_auth: ^0.5.0
+  fluttertoast: ^8.1.1
 
 dev_dependencies:
   flutter_test:

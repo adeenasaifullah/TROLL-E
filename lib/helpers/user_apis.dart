@@ -48,7 +48,7 @@ Future<bool> signUp({
   required String phoneNumber,
   File? imagefile,
 }) async {
-  try {
+  //try {
     //String imageBase64 = ''; // initialize image data as empty string
     // if (imagefile != null) {
     //   List<int> imageBytes = await imagefile.readAsBytes();
@@ -74,20 +74,34 @@ Future<bool> signUp({
     );
 
     print(response.body);
+
     Future<bool> result = Future.value(false);
 
-    httpErrorHandle(
-        response: response,
-        context: context,
-        onSuccess: () {
-          showSnackBar(context, 'You have successfully signed up!');
-          result = Future.value(true);
-        });
+    if(response.statusCode == 200)
+      {
+        showSnackBar(context, 'You have successfully signed up!');
+        result = Future.value(true);
+      }
+    else{
+      print("REGISTER ELSE STATEMENT");
+      showSnackBar(context, "response.body.");
+    }
+    //
+    //
+    // httpErrorHandle(
+    //     response: response,
+    //     context: context,
+    //     onSuccess: () {
+    //       showSnackBar(context, 'You have successfully signed up!');
+    //       result = Future.value(true);
+    //     });
     return result;
-  } catch (error) {
-    showSnackBar(context, error.toString());
-    return Future.value(false);
-  }
+  // } catch (error) {
+  //
+  //   //showSnackBar(context, error.toString());
+  //   showSnackBar(context, 'bad.');
+  //   return Future.value(false);
+  // }
 }
 
 Future<ShoppingHistoryModel?> getHistory({UserModel? user}) async {
@@ -95,7 +109,7 @@ Future<ShoppingHistoryModel?> getHistory({UserModel? user}) async {
   try{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
-    print("THIS IS ACCESS TOKEN IN GET HISTORY");
+
     print(accessToken);
     String? userID = user?.userId;
 
@@ -105,10 +119,8 @@ Future<ShoppingHistoryModel?> getHistory({UserModel? user}) async {
         "Authorization": "Bearer $accessToken",
       },
     );
-
-    print("This id STATUS CODE FOR GET HISTORY ${res.statusCode}");
     if (res.statusCode == 200) {
-      print("NOW IM PRINTING JSON IN 200 STATUS CODE");
+
       Map<String, dynamic> Receipt = jsonDecode(res.body);
 
       //print(json);
@@ -118,63 +130,64 @@ Future<ShoppingHistoryModel?> getHistory({UserModel? user}) async {
 
   }
 catch(err){
-print("INSIDE CATCH BLOCK OF GETHISTORY");
+
   return history;
 }
 }
 
 Future<void> login(
-    {required BuildContext context,
-    required String email,
-    required String password,}) async {
-  // SharedPreferences prefs= await SharedPreferences.getInstance();
-  try {
-    //  SharedPreferences prefs = await SharedPreferences.getInstance();
-    //  await userProvider.setSharedPreferences();
+    {
+      required BuildContext context,
+      required String email,
+      required String password,}) async {
+
     var reqBody = {"email": email, "password": password};
-    print("making http call line 94");
     http.Response response = await http.post(
       Uri.parse('http://3.106.170.176:3000/login'),
       body: jsonEncode(reqBody),
       headers: {"Content-Type": "application/json"},
     );
-    print("THIS IS RES.STATUS IN LOGIN LINE 100");
-    print(response.statusCode);
-    print(response.body);
 
     var jsonResponse = jsonDecode(response.body);
-    var accessToken = jsonResponse['accesstoken'];
-    var refreshToken = jsonResponse['refreshtoken'];
-    var userJson = jsonResponse['user'];
-    print("before userjson from");
-    UserModel user = UserModel.fromJson(userJson);
-    print("AFTER HTTP CALL LINE 99 LOGIN>>>>>>>>>>>");
-    // Future<bool> result = Future.value(false);
-    httpErrorHandle(
-        response: response,
-        context: context,
-        onSuccess: () async {
-          //     userProvider.setCurrentUser(user);
+    // var accessToken = jsonResponse['accesstoken'];
+    // var refreshToken = jsonResponse['refreshtoken'];
+    // var userJson = jsonResponse['user'];
 
-          print("THIS IS ACCESS TOKEN");
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('accesstoken', accessToken);
-          print(prefs.get('accesstoken'));
-          prefs.setString("refreshtoken", refreshToken);
-        //  await userProvider.setSharedPreferences(accessToken, refreshToken);
-          //
-          // showSnackBar(
-          //     context,
-          //     'You have successfully logged In!'
-          // );
-          //result = Future.value(true);
-        });
+    //UserModel user = UserModel.fromJson(userJson);
+    print("-----------------STATUS CODE----------------");
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var accessToken = jsonResponse['accesstoken'];
+      var refreshToken = jsonResponse['refreshtoken'];
+      //var userJson = jsonResponse['user'];
+      prefs.setString('accesstoken', accessToken);
+      prefs.setString("refreshtoken", refreshToken);
+      showSnackBar(context, 'Login Successful');
+    }
+    else{
+        showSnackBar(context, jsonResponse['message']);
+    }
+
+    // httpErrorHandle(
+    //     response: response,
+    //     context: context,
+    //     onSuccess: () async {
+    //
+    //       SharedPreferences prefs = await SharedPreferences.getInstance();
+    //       prefs.setString('accesstoken', accessToken);
+    //       prefs.setString("refreshtoken", refreshToken);
+    //     //  await userProvider.setSharedPreferences(accessToken, refreshToken);
+    //       //
+    //       // showSnackBar(
+    //       //     context,
+    //       //     'You have successfully logged In!'
+    //       // );
+    //       //result = Future.value(true);
+    //     });
     // return result;
-  } catch (error) {
-    showSnackBar(context, error.toString());
-    //return Future.value(false);
-    //return prefs;
-  }
+
 }
 
 void logout(BuildContext context) async {
@@ -184,7 +197,7 @@ void logout(BuildContext context) async {
     //   "refreshtoken": (prefs.get('refreshtoken'))
     // };
     // print(prefs.get('refreshtoken'));
-    // http.Response response = await http.delete(Uri.parse('http://localhost:3000/logout'),
+    // http.Response response = await http.delete(Uri.parse('http://3.106.170.176:3000/logout'),
     //   body: jsonEncode(reqBody),
     //   headers: {"Content-Type":"application/json"},
     // );
@@ -212,7 +225,6 @@ void logout(BuildContext context) async {
 Future<UserModel?> getProfile({required BuildContext context}) async {
   UserModel? user;
   try {
-    print("inside getprofile user api");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
     http.Response res = await http.get(

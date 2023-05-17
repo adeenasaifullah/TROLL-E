@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: Colors.white,
                               radius: 100.r,
                               child: GlowButton(
-                                width: 170.w, height: 150.h,
+                                width: 170.w, height: 170.h,
                                 child: Image.asset('Assets/icons/connect.png', width: 150.w),
                                 onPressed: () async {
 // true means its glowing

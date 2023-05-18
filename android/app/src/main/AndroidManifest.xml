@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.troll-e">
+    package="com.example.troll_e">
    <application
         android:label="troll_e"
         android:name="${applicationName}"
@@ -28,11 +28,15 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="trolle" android:host="auth" />
+<!--                <data-->
+<!--                        android:scheme="troll-e"-->
+<!--                        android:host="google-auth-success"-->
+<!--                        android:pathPrefix="/" />-->
+<!--                        android:host="troll-e"-->
+<!--                        android:pathPrefix="/google-auth-success"-->
+<!--                        android:scheme="troll-e" -->
 
-                <data
-                        android:host="troll-e"
-                        android:pathPrefix="/google-auth-success"
-                        android:scheme="troll-e" />
 
             </intent-filter>
         </activity>

@@ -8,7 +8,9 @@ import 'package:troll_e/models/shopping_history.dart';
 import 'package:troll_e/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import '../models/temp_receipt_model.dart';
+import '../views/homescreen/homescreen.dart';
 import '../views/login_signup/login.dart';
+import '../views/login_signup/login_input_wrapper.dart';
 
 void httpErrorHandle({
   required http.Response response,
@@ -149,12 +151,6 @@ Future<void> login(
           print(prefs.get('accesstoken'));
           prefs.setString("refreshtoken", refreshToken);
           await userProvider.setSharedPreferences(accessToken, refreshToken);
-          //
-          // showSnackBar(
-          //     context,
-          //     'You have successfully logged In!'
-          // );
-          //result = Future.value(true);
         });
     // return result;
   } catch (error) {
@@ -209,12 +205,30 @@ Future<UserModel?> getProfile({required BuildContext context}) async {
         "Authorization": "Bearer $accessToken",
       },
     );
+
+
     httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () async {
-          Map<String, dynamic> json = jsonDecode(res.body);
-          user = UserModel.fromJson(json);
+           Map<String, dynamic> json = jsonDecode(res.body);
+           print("printing json body from getprofile api ${json}");
+          if(json['google_id'] != null)
+          {
+            print("${json['google_id']} of user ${json['first_name']} ");
+            Map<String, dynamic> customuserbody = new Map<String, dynamic>();
+            customuserbody = {
+              '_id' : json['_id'],
+              'email': json['email'],
+              'first_name': json['first_name'],
+              'last_name': json['last_name'],
+              'password': "-",
+              'phone_number': "-",
+              'shoppingHistory': json['shoppingHistory']
+            };
+            user = UserModel.fromJson(customuserbody);
+          }
+          else  user = UserModel.fromJson(json);
         });
     return user;
   } catch (err) {
@@ -298,3 +312,73 @@ Future<void> resetPassword({
     //return prefs;
   }
 }
+
+Future<UserModel?> googleLogIn(
+    {required BuildContext context,
+  required String? email,
+      required String? name,
+      required String? photourl,
+      required String? googleid,
+  required UserProvider userProvider}) async {
+  try {
+    print("inside google log in api");
+    // final url = 'http://3.106.170.176:3000/google/login'; // Replace with your backend server URL
+    var reqBody = {
+      "email": email, "name": name, "photourl": photourl, "googleid": googleid
+    };
+
+    http.Response response = await http.post(
+      Uri.parse('http://3.106.170.176:3000/google/login'),
+      body: jsonEncode(reqBody),
+      headers: {"Content-Type": "application/json"},
+    );
+    print("api called for google");
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print("response is ok");
+      final jsonResponse = json.decode(response.body);
+      print(jsonResponse['accesstoken']);
+      var accessToken = jsonResponse['accesstoken'];
+      print(accessToken);
+      var refreshToken = jsonResponse['refreshtoken'];
+      var userJson = jsonResponse['user'];
+       print("userJson from backend $userJson");
+      Map<String, dynamic> customuserbody = new Map<String, dynamic>();
+       customuserbody = {
+         '_id' : userJson['_id'],
+         'email': userJson['email'],
+         'first_name': userJson['first_name'],
+         'last_name': userJson['last_name'],
+         'password': "-",
+         'phone_number': "-",
+         'shoppingHistory': userJson['shoppingHistory']
+  };
+
+       print("custom user body ${customuserbody}");
+      UserModel user = UserModel.fromJson(customuserbody);
+       print("This is user's email ${user.email}");
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () async {
+            print("THIS IS ACCESS TOKEN");
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('accesstoken', accessToken);
+            print(prefs.get('accesstoken'));
+            prefs.setString("refreshtoken", refreshToken);
+            await userProvider.setSharedPreferences(accessToken, refreshToken);
+          });
+
+      return user;
+    }
+  }
+  catch (error) {
+    showSnackBar(context, error.toString());
+    //return Future.value(false);
+    //return prefs;
+  }
+
+
+
+  }
+

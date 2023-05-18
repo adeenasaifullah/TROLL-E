@@ -56,11 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
     //     user: Provider.of<ProfileProvider>(context).user);
     super.initState();
   }
-  //@override
-  // void didChangeDepedencies(){
-  //   context.read<ShoppingProvider>().isCartConnected(Provider.of<ProfileProvider>(context).user);
-  //   cartConnected = context.read<ShoppingProvider>().result;
-  // }
+  @override
+  void didChangeDepedencies(){
+    // context.read<ShoppingProvider>().isCartConnected(Provider.of<ProfileProvider>(context).user);
+    // cartConnected = context.read<ShoppingProvider>().result;
+  }
 
   @override
   Widget build(BuildContext context) {

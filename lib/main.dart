@@ -34,6 +34,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   runApp(
+
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
@@ -42,7 +43,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ItemProvider()),
         ChangeNotifierProvider(create: (_) => HistoryProvider()),
       ],
-      child: MyApp(token: prefs.getString('accesstoken')),
+      child: MyApp( token: prefs.getString('accesstoken')),
+
     ),
   );
 }
@@ -63,6 +65,7 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
+              debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
               theme: ThemeData(
                 primarySwatch: Colors.blue,
@@ -156,15 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text("HomeScreen"),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileImage()),
-                );
-              },
-              child: const Text("Profile Image"),
-            ),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

@@ -9,6 +9,7 @@ import 'package:troll_e/views/menu/menu.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 
+import '../../controller/item_provider.dart';
 import '../../controller/profile_provider.dart';
 import '../../controller/shopping_provider.dart';
 import '../../models/user_model.dart';
@@ -23,10 +24,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   late String username;
- late bool cartConnected ;
- //= false;
+  late bool cartConnected;
+  //= false;
   String qr_code = "";
 
   Future<String> scanQR() async {
@@ -51,13 +51,22 @@ class _HomeScreenState extends State<HomeScreen> {
   {
     context.read<ProfileProvider>().getUserProfile(context: context);
     cartConnected = context.read<ShoppingProvider>().result;
+
+    // Provider.of<ItemProvider>(context).getReceipt(
+    //     user: Provider.of<ProfileProvider>(context).user);
     super.initState();
   }
+  //@override
+  // void didChangeDepedencies(){
+  //   context.read<ShoppingProvider>().isCartConnected(Provider.of<ProfileProvider>(context).user);
+  //   cartConnected = context.read<ShoppingProvider>().result;
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final username = Provider.of<ProfileProvider>(context).user?.firstName;
+    final username = Provider.of<ProfileProvider>(context).user?.firstName.toCapitalized();
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
+    //final itemProvider = Provider.of<ItemProvider>(context);
     //profileProvider.getUserProfile(context: context);
     //final username = Provider.of<ProfileProvider>(context).user?.first_name;
 
@@ -109,8 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 //Container(height: 150.h,),
                 Expanded(
+                  child: SingleChildScrollView(
                   child: Container(
-                    height: displayHeight(context)*0.2,
+                    height: displayHeight(context)*0.8,
                     width: displayWidth(context),
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -122,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                         children: <Widget>[
                           SizedBox(height: displayHeight(context) * 0.07),
-                          Roboto_subheading(textValue: "Welcome back, ${username} " , size: 18.sp),
+                          Roboto_subheading(textValue: "Welcome, ${username} " , size: 18.sp),
                           SizedBox(height: displayHeight(context) * 0.1,),
                           CircleAvatar(
                             backgroundColor: kPrimaryDarkColor,
@@ -132,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               radius: 100.r,
                               child: GlowButton(
                                 width: 170.w, height: 170.h,
-                                child: Image.asset('Assets/icons/cart.png', width: 50.w,),
+                                child: Image.asset('Assets/icons/connect.png', width: 150.w),
                                 onPressed: () async {
 // true means its glowing
                                   if(cartConnected == true)
@@ -141,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   else
                                   {
                                     String uid = await scanQR();
-                                    await shoppingProvider.connect(uid, Provider.of<ProfileProvider>(context, listen:false).user);
+                                    await shoppingProvider.connect(context, uid, Provider.of<ProfileProvider>(context, listen:false).user);
                                     print("THIS IS THE QR CODE : $qr_code");
                                     print("this is shopping provider result");
                                     print(shoppingProvider.result);
@@ -163,6 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: 80.h),
                           GlowButton(
                             child: Text("Start Shopping" , style:  TextStyle(color: Colors.white),),
+                            //child: itemProvider.itemList.isEmpty ? Text("Start Shopping" , style:  TextStyle(color: Colors.white),) : Text("Continue Shopping" , style:  TextStyle(color: Colors.white),),
                             width: 300.w, height: 50.h,
                             borderRadius: BorderRadius.circular(15),
                             color: cartConnected? Colors.black54: Color(0xffDDE7E8),
@@ -178,19 +189,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
 
                           ),
-                          FloatingActionButton(onPressed: () {
-                            Navigator.push( context,
-                            MaterialPageRoute(builder: (context) =>  Shoppingcart()),
-                          );
-                          },
-                          ),
+                          // FloatingActionButton(onPressed: () {
+                          //   Navigator.push( context,
+                          //   MaterialPageRoute(builder: (context) =>  Shoppingcart()),
+                          // );
+                          // },
+                          // ),
 
                         ]
 
                     ),
                   ),
                 ),
-
+                ),
 
               ],
             )
@@ -201,4 +212,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     );
   }
+}
+
+extension StringCasingExtension on String {
+  String toCapitalized() => length > 0 ?'${this[0].toUpperCase()}${substring(1).toLowerCase()}':'';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
 }

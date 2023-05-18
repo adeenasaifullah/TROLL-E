@@ -22,6 +22,7 @@ class UserModel {
     required this.lastName,
     required this.password,
     required this.phoneNumber,
+    this.image,
     // this.shoppingHistory,
      this.shoppingHistory,
   });
@@ -40,7 +41,9 @@ class UserModel {
         lastName: json['last_name'],
         password: json['password'],
         phoneNumber: json['phone_number'],
+        image: json['image'] as String? ?? '',
         shoppingHistory: shoppingHistory);
+
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +53,7 @@ class UserModel {
     data['last_name'] = lastName;
     data['password'] = password;
     data['phone_number'] = phoneNumber;
+    data['image']=image ;
     //data['shoppingHistory'] = {'receipt': this.shoppingHistory.map((v) => v.toJson()).toList(),
     //};
     return data;

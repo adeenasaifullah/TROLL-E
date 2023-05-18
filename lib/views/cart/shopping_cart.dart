@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:troll_e/utility.dart';
 import 'package:troll_e/views/cart/cart_input_wrapper.dart';
 
 class Shoppingcart extends StatefulWidget {
@@ -23,12 +25,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
           icon: Icon(Icons.arrow_back_ios, color: Colors.black, size: 16,),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("My Shopping Cart", style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-          height: 1.5,
-        )
+
+        centerTitle: true,
+        title: Roboto_heading(textValue: "My Shopping Cart", size: 20.sp,
 
         ),
       ),

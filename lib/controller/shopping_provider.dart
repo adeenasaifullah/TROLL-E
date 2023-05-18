@@ -5,10 +5,10 @@ import '../helpers/shopping_api.dart';
 class ShoppingProvider extends ChangeNotifier {
   bool result = false;
   bool isLoading = true;
- // bool connected=false;
+  //bool connected=false;
 
-  Future<void> connect(String uid, UserModel? user) async {
-    result = await connectCart(uid: uid, user: user);
+  Future<void> connect(BuildContext context, String uid, UserModel? user) async {
+    result = await connectCart(context: context ,uid: uid, user: user);
     print("rresult in connect of shopping provider");
     print(result);
     isLoading = false;
@@ -17,6 +17,16 @@ class ShoppingProvider extends ChangeNotifier {
   }
 
   Future<void> disconnect() async {
+
+  }
+
+
+  Future<bool> isCartConnected(UserModel? user) async {
+    result = await isConnected(user: user);
+    isLoading = false;
+    notifyListeners();
+    isLoading = true;
+    return result;
 
   }
 }

@@ -93,6 +93,15 @@ class ItemProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<num>?> getWeights(UserModel user) async {
+
+    List<num>? weights = await compareWeight(user: user);
+    if(weights!=null) {
+      return weights;
+    }
+    notifyListeners();
+  }
+
   Future<void> decreaseItemQuantity({required UserModel? user, required String? barcode,
     required BuildContext context,  required int product_qty, }) async {
     isLoading=true;

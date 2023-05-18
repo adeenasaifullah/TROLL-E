@@ -1,20 +1,23 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:troll_e/helpers/user_apis.dart';
 import '../models/Item_model.dart';
 import '../models/temp_receipt_model.dart';
 import '../models/user_model.dart';
 
 Future<bool> connectCart(
-    {required String uid, required UserModel? user}) async {
+    {required BuildContext context, required String uid, required UserModel? user}) async {
   Future<bool> result = Future.value(false);
-  try {
+  //try {
     String? userID = user?.userId;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
-    print("ACCESS TOKEN INITIALIZED");
+
     print(userID);
     var reqBody = {"UID": uid, "userID": userID};
     http.Response res =
@@ -24,61 +27,67 @@ Future<bool> connectCart(
               "Authorization": "Bearer $accessToken",
             },
             body: jsonEncode(reqBody));
-    print("THIS IS RES.STATUSCODE");
- print(res.statusCode);
+
     if (res.statusCode == 204) {
       result = Future.value(true);
-    } else {
+    } else{
+      showSnackBar(context, jsonDecode(res.body)['message']);
       result = Future.value(false);
     }
+
     return result;
-  } catch (err) {
-    print("Inside catch block of connectcart");
-    return result;
-  }
+  // } catch (err) {
+  //   print("Inside catch block of connectcart");
+  //   return result;
+  // }
 }
 
-Future<ItemModel?> getAllProducts() async {
-  ItemModel? products;
-  try {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? accessToken = prefs.getString('accesstoken');
-
-    http.Response res = await http.get(
-      Uri.parse("http://3.106.170.176:3000/allProducts"),
-      headers: {
-        "Content-type": "application/json",
-        "Authorization": "Bearer $accessToken",
-      },
-    );
-
-    print("GET ALL PRODUCT RES.STATUS CODE IS");
-    print(res.statusCode);
-    if (res.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(res.body);
-      products = ItemModel.fromJson(json);
-    }
-
-    return products;
-  } catch (err) {
-    print("GET ALL PRODUCT CATCH BLOCK");
-    return products;
-  }
-}
+// Future<ItemModel?> getAllProducts() async {
+//   ItemModel? products;
+//   //try {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     String? accessToken = prefs.getString('accesstoken');
+//
+//     http.Response res = await http.get(
+//       Uri.parse("http://3.106.170.176:3000/allProducts"),
+//       headers: {
+//         "Content-type": "application/json",
+//         "Authorization": "Bearer $accessToken",
+//       },
+//     );
+//
+//     print("GET ALL PRODUCT RES.STATUS CODE IS");
+//     print(res.statusCode);
+//     if (res.statusCode == 200) {
+//       Map<String, dynamic> json = jsonDecode(res.body);
+//       products = ItemModel.fromJson(json);
+//     }
+//     else{
+//       Fluttertoast.showToast(
+//           msg: jsonDecode(res.body)['message'],
+//           toastLength: Toast.LENGTH_SHORT,
+//           gravity: ToastGravity.CENTER,
+//           timeInSecForIosWeb: 1,
+//           textColor: Colors.white,
+//           fontSize: 16.0
+//       );
+//     }
+//     return products;
+//   // } catch (err) {
+//   //   print("GET ALL PRODUCT CATCH BLOCK");
+//   //   return products;
+//   // }
+// }
 
 Future<TempReceiptModel?> getTempReceipt({
   required UserModel? user,
 }) async {
   TempReceiptModel? tempReceipt;
-  try {
-    // print(tempReceipt.)
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
     String? userID = user?.userId;
 
-    print("user ID is:");
-    print(userID);
-    print(accessToken);
     http.Response res = await http.get(
       Uri.parse("http://3.106.170.176:3000/getTempReceipt/$userID"),
       headers: {
@@ -86,42 +95,61 @@ Future<TempReceiptModel?> getTempReceipt({
       },
     );
 
-    print("GET TEMP RECEIPT RES.STATUS CODE IS");
-    print(res.statusCode);
-
-    print("RES.BODY IS:");
-    print(res.body);
-
     if (res.statusCode == 200) {
       Map<String, dynamic> Receipt = jsonDecode(res.body);
-      print("NOW IM PRINTING JSON INSIDE 200 STATUS CODE");
-      //print(json);
       tempReceipt = TempReceiptModel.fromJson(Receipt);
-      print("NOW PRINT TEMP RECEIPT");
-    //  print(tempReceipt.receipt.items?[0].grossTotal);
-      print("PRINT TEMPRECEIPT?.ITEMS");
-      print("PRINT TOTALWEIGHTTTTTTT");
-   //   print(tempReceipt?.receipt.totalWeight);
-
-      //print(tempReceipt?.receipt.totalWeight);
     }
-    print("RES.BODY after coming outside of status 200:");
-    print(res.body);
+    else {
+      Fluttertoast.showToast(msg: "Something went wrong");
+    }
+    return tempReceipt;
 
-    return tempReceipt;
-  } catch (err) {
-    print("GET TEMP RECEIPT CATCH BLOCK printting temp receipt uid ofc its null");
-    print(tempReceipt?.uid);
-    print(err);
-    return tempReceipt;
-  }
 }
 
+Future<List<num>?> compareWeight({
+  required UserModel? user,
+}) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? accessToken = prefs.getString('accesstoken');
+  String? userID = user?.userId;
+
+  http.Response res = await http.get(
+    Uri.parse("http://3.106.170.176:3000/compareWeights/$userID"),
+    headers: {
+      "Authorization": "Bearer $accessToken",
+    },
+  );
+
+  if (res.statusCode == 200) {
+    if (jsonDecode(res.body)['message'] == "Weights match") {
+
+    }
+  }
+  else if (res.statusCode == 409) {
+
+    var jsonResponse = jsonDecode(res.body);
+    List<num> weights=[jsonResponse['tempweight'],jsonResponse['totalweight']];
+
+    return weights;
+
+  }
+    else {
+      Fluttertoast.showToast(msg: "Something went wrong");
+    }
+    //return tempReceipt;
+    // } catch (err) {
+    //   print("GET TEMP RECEIPT CATCH BLOCK printting temp receipt uid ofc its null");
+    //   print(tempReceipt?.uid);
+    //   print(err);
+    //   return tempReceipt;
+    // }
+
+}
 Future<void> increaseQuantity(
     {UserModel? user,
     required String? productBarcode,
     required int? productQuantity}) async {
-  try {
+  //try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
     String? userID = user?.userId;
@@ -138,12 +166,14 @@ Future<void> increaseQuantity(
         },
         body: jsonEncode(reqBody));
 
-    print("AFTER HTTP CALL INCREASE QTY STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
-    print(res.statusCode);
-  } catch (err) {
-    print(err);
-    print("INSIDE CATCH BLOCK OF INCREASE QTY");
-  }
+    if(res.statusCode != 204)
+      {
+        Fluttertoast.showToast(msg: jsonDecode(res.body)['message']);
+      }
+  // } catch (err) {
+  //   print(err);
+  //   print("INSIDE CATCH BLOCK OF INCREASE QTY");
+  // }
 }
 
 Future<void> decreaseQuantity(
@@ -179,7 +209,7 @@ Future<void> addItem(
     {required UserModel? user,
     required String productBarcode,
     required num? productQuantity}) async {
-  try {
+  //try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
     print("assigning userid");
@@ -201,8 +231,38 @@ Future<void> addItem(
 
     print("AFTER HTTP CALL ADD ITEM STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
     print(res.statusCode);
-  } catch (err) {
-    print(err);
-    print("INSIDE CATCH BLOCK OF ADDITEM");
+
+    if(res.statusCode != 204)
+      {
+        Fluttertoast.showToast(msg: jsonDecode(res.body)['message']);
+      }
+  // } catch (err) {
+  //   print(err);
+  //   print("INSIDE CATCH BLOCK OF ADDITEM");
+  // }
+}
+
+
+Future<bool> isConnected({
+  required UserModel? user,
+}) async {
+  Future<bool> result = Future.value(false);
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? accessToken = prefs.getString('accesstoken');
+  String? userID = user?.userId;
+
+  http.Response res = await http.get(
+    Uri.parse("http://3.106.170.176:3000/getTempReceipt/$userID"),
+    headers: {
+      "Authorization": "Bearer $accessToken",
+    },
+  );
+
+  if (res.statusCode == 200) {
+    result = Future.value(true);
   }
+
+  return result;
+
 }

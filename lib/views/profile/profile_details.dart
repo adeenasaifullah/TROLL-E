@@ -22,7 +22,8 @@ class ProfileDetails extends StatefulWidget {
 
 class _ProfileDetailsState extends State<ProfileDetails> {
   final _formkey = GlobalKey<FormState>();
-  TextEditingController name = TextEditingController();
+  TextEditingController fname = TextEditingController();
+  TextEditingController lname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController mobnum = TextEditingController();
 
@@ -74,11 +75,20 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                                       height: 20.h,
                                     ),
                                     Name(
-                                        heading: "Name",
+                                        heading: "First Name",
                                         image: 'Assets/icons/user.png',
-                                        cont: name,
+                                        cont: fname,
                                         initValue:
                                             profileProvider.user?.firstName!),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    Name(
+                                        heading: "Last Name",
+                                        image: 'Assets/icons/user.png',
+                                        cont: lname,
+                                        initValue:
+                                        profileProvider.user?.lastName!),
                                     SizedBox(
                                       height: 10.h,
                                     ),
@@ -202,95 +212,95 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                                       height: 10.h,
                                     ),
                                     //Card Details.
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const EditCardDetails(),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        width: 400.w,
-                                        height: 80.h,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          //.withOpacity(0.3),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0.r),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Colors.black12,
-                                              blurRadius: 2.0,
-                                              // soften the shadow
-                                              spreadRadius: 2.0,
-                                              //extend the shadow
-                                              offset: Offset(
-                                                1.0,
-                                                // Move to right 5  horizontally
-                                                2.0, // Move to bottom 5 Vertically
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        child: Padding(
-                                          padding: REdgeInsets.symmetric(
-                                              horizontal: 10.w, vertical: 2.h),
-                                          child: SizedBox(
-                                            height: 30.h,
-                                            //   width: 10.w,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: 20.h,
-                                                  child: Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding: REdgeInsets
-                                                            .fromLTRB(
-                                                                6, 5, 3, 0),
-                                                        child: Image.asset(
-                                                          'Assets/icons/creditcard.png',
-                                                          height: 45.h,
-                                                          width: 20.w,
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                          padding: REdgeInsets
-                                                              .fromLTRB(
-                                                                  0, 5, 0, 0),
-                                                          child: Roboto_subheading(
-                                                              textValue:
-                                                                  "Card Details",
-                                                              size: 15.sp))
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(height: 13.h),
-                                                Padding(
-                                                  padding: REdgeInsets.fromLTRB(
-                                                      10, 0, 0, 0),
-                                                  child: Text(
-                                                    "xxxx-xxxx-xxxx-3452",
-                                                    style: TextStyle(
-                                                        fontFamily: "Roboto",
-                                                        fontSize: 14.sp,
-                                                        fontWeight:
-                                                            FontWeight.normal),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    // GestureDetector(
+                                    //   onTap: () {
+                                    //     Navigator.of(context).push(
+                                    //       MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             const EditCardDetails(),
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    //   child: Container(
+                                    //     width: 400.w,
+                                    //     height: 80.h,
+                                    //     decoration: BoxDecoration(
+                                    //       color: Colors.white,
+                                    //       //.withOpacity(0.3),
+                                    //       borderRadius:
+                                    //           BorderRadius.circular(10.0.r),
+                                    //       boxShadow: const [
+                                    //         BoxShadow(
+                                    //           color: Colors.black12,
+                                    //           blurRadius: 2.0,
+                                    //           // soften the shadow
+                                    //           spreadRadius: 2.0,
+                                    //           //extend the shadow
+                                    //           offset: Offset(
+                                    //             1.0,
+                                    //             // Move to right 5  horizontally
+                                    //             2.0, // Move to bottom 5 Vertically
+                                    //           ),
+                                    //         )
+                                    //       ],
+                                    //     ),
+                                    //     child: Padding(
+                                    //       padding: REdgeInsets.symmetric(
+                                    //           horizontal: 10.w, vertical: 2.h),
+                                    //       child: SizedBox(
+                                    //         height: 30.h,
+                                    //         //   width: 10.w,
+                                    //         child: Column(
+                                    //           crossAxisAlignment:
+                                    //               CrossAxisAlignment.start,
+                                    //           children: [
+                                    //             SizedBox(
+                                    //               height: 20.h,
+                                    //               child: Row(
+                                    //                 children: [
+                                    //                   Padding(
+                                    //                     padding: REdgeInsets
+                                    //                         .fromLTRB(
+                                    //                             6, 5, 3, 0),
+                                    //                     child: Image.asset(
+                                    //                       'Assets/icons/creditcard.png',
+                                    //                       height: 45.h,
+                                    //                       width: 20.w,
+                                    //                     ),
+                                    //                   ),
+                                    //                   Padding(
+                                    //                       padding: REdgeInsets
+                                    //                           .fromLTRB(
+                                    //                               0, 5, 0, 0),
+                                    //                       child: Roboto_subheading(
+                                    //                           textValue:
+                                    //                               "Card Details",
+                                    //                           size: 15.sp))
+                                    //                 ],
+                                    //               ),
+                                    //             ),
+                                    //             SizedBox(height: 13.h),
+                                    //             Padding(
+                                    //               padding: REdgeInsets.fromLTRB(
+                                    //                   10, 0, 0, 0),
+                                    //               child: Text(
+                                    //                 "xxxx-xxxx-xxxx-3452",
+                                    //                 style: TextStyle(
+                                    //                     fontFamily: "Roboto",
+                                    //                     fontSize: 14.sp,
+                                    //                     fontWeight:
+                                    //                         FontWeight.normal),
+                                    //               ),
+                                    //             )
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          1, 15, 1, 20),
+                                      padding:  EdgeInsets.fromLTRB(
+                                          1, 15.h, 1, 20.h),
                                       child: NavButton(
                                         buttonText: 'Save Changes',
                                         textSize: 20.sp,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -15,6 +16,8 @@ import '../../models/user_model.dart';
 import '../../utility.dart';
 import 'package:troll_e/views/cart/checkout.dart';
 
+import 'cart_alert_dialog.dart';
+
 class CartInputWrapper extends StatefulWidget {
   const CartInputWrapper({
     Key? key,
@@ -30,12 +33,19 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   final TextEditingController costController = TextEditingController();
   final TextEditingController increase_qty = TextEditingController();
   final TextEditingController decrease_qty = TextEditingController();
+  bool ispressed=false;
   final _checkinput = GlobalKey<FormState>();
   StreamController<ShoppingHistoryModel> streamController = StreamController();
   late final int historylength;
   Checkout _checkout = Checkout();
+  num tempweight=0;
+  num totalweight=0;
+  num oldcartlength = 0;
+  num newcartlength = 0;
 
   List<ItemModel>? items = [];
+  int secondsPassed = 0;
+  Timer? timer;
 
   checkShoppingHistory() {
     Provider.of<ProfileProvider>(context, listen: false)
@@ -56,6 +66,66 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
         MaterialPageRoute(builder: (context) => _checkout),
       );
     }
+  }
+
+  compareWeight() async {
+    print("inside compare weight api call");
+    List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
+    print("THIS ISSSSS WEIGHTSS");
+    //print(weights![0]);
+    print("THIS ISSSSS ispressed");
+    print(ispressed);
+    if(weights!=null){
+       tempweight= weights[0];
+       totalweight=weights[1];
+
+       if(tempweight>totalweight && ispressed==false){
+         print("this should open dialog box");
+         showDialog(
+           context: context,
+           builder: (BuildContext context) {
+             return CartAlertDialog();
+           },
+         );
+
+         } //if condition ending
+
+    } //weight!=null
+  } //async
+
+  compareWeightForScan() async {
+    Timer.periodic(Duration(seconds:1), (timer) async {
+      setState(){
+        secondsPassed += 1;
+      }
+      List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
+      if(weights!=null) {
+        tempweight = weights[0];
+        totalweight = weights[1];
+
+        if (secondsPassed == 30 && tempweight < totalweight) {
+        setState() {
+          secondsPassed = 0;
+        }
+
+        print("YOU HAVE REMOVED AN ITEM FROM YOUR TROLLEY OR INCREASED QUANTITY FOR AN ITEM WITHOUT PLACING IN TROLLEY");
+        //alert box shown, as soon as alert box closes, call this method again.
+        compareWeightForScan();
+
+        }
+
+        if (secondsPassed == 30 && tempweight > totalweight) {
+          setState() {
+            secondsPassed = 0;
+          }
+          print("YOU HAVE PLACED AN ITEM IN YOUR TROLLEY OR DECREASED QUANTITY FOR AN ITEM WITHOUT REMOVING FROM TROLLEY");
+
+          //alert box shown, as soon as alert box closes, call this method again.
+          compareWeightForScan();
+        }
+      }
+
+  });
   }
 
   _scanBR() async {
@@ -92,9 +162,19 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
     print(historylength);
     callGetReceipt();
     // TODO: implement initState
+
+    //checking if user has checked out or not after every 5 seconds
     Timer.periodic(Duration(seconds: 5), (timer) {
+      print("checkshopping hisotry duration ");
       checkShoppingHistory();
-      print("inside periodic time line 78");
+
+    });
+
+    //checking weight of trolley continuously
+    Timer.periodic(Duration(seconds: 1), (timer) {
+
+      print("compareweight in time duration");
+      compareWeight();
     });
     super.initState();
   }
@@ -189,6 +269,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               ),
                             ),
                             onPressed: () async {
+                              ispressed=true;
                               await _scanBR();
                               print("THIS IS THE BARCODE SCANNED :");
                               print(_result);
@@ -198,8 +279,11 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                       .user,
                                   barcode: _result,
                                   context: context);
+
                               print("the result of first time scan is");
                               print(firstScan);
+                              ispressed=false;
+                              compareWeightForScan();
                             },
                             icon: (Image.asset('Assets/icons/scanner.png')),
                             label: const Text(''),
@@ -352,6 +436,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                         IconButton(
                                                           icon: const Icon(Icons.remove_circle, color: Color(0xFF779394), size: 16),
                                                             onPressed: () async {
+                                                              ispressed=true;
                                                             await _scanBR();
                                                             if (itemProvider.itemList![index]?.barcode == _result)
                                                             {
@@ -493,7 +578,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                 );
                                                               }
                                                             }
-
+                                                              ispressed=false;
+                                                              compareWeightForScan();
                                                             }
                                                         ),
 
@@ -607,6 +693,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                               );
                                                             }
                                                             ;
+                                                            ispressed=false;
+                                                            compareWeightForScan();
                                                           },
                                                         ),
                                                       ],
@@ -680,6 +768,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                 ),
                               ),
                               onPressed: () async {
+                                ispressed = true;
                                 await _scanBR();
                                 print(
                                     "calling additemto temp on cartinput screen");
@@ -1054,6 +1143,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                     },
                                   );
                                 }
+                                ispressed = false;
+                                compareWeightForScan();
                               },
                               icon: (Image.asset('Assets/icons/scanner.png')),
                               label: const Text(''),

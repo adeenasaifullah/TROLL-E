@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +14,8 @@ import '../homescreen/homescreen.dart';
 import 'Signup.dart';
 import '/utility.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 
 class LoginInputWrapper extends StatefulWidget {
   const LoginInputWrapper({super.key});
@@ -25,6 +29,10 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _loginFormKey = GlobalKey<FormState>();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    // clientId: '495548594516-93cme11jghhar4msjn4d0oe1jai7suuq.apps.googleusercontent.com',
+  );
+
 
   @override
   void initState() {
@@ -37,6 +45,17 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
   //   prefs = await SharedPreferences.getInstance();
   //   print("THIS IS PREFS VALUE IN INITSHAREDPREF OF LOGINWRAPPER SCREEEN");
   //   print(prefs.get('accesstoken'));
+  // }
+
+  // Future<Map<String, dynamic>> verifyIdToken(String idToken) async {
+  //   final url = 'http://localhost:3000/google/login'; // Replace with your backend server URL
+  //   final response = await http.post(Uri.parse(url), body: {'idToken': idToken});
+  //   if (response.statusCode == 200) {
+  //     final data = json.decode(response.body);
+  //     return data;
+  //   } else {
+  //     throw Exception('Failed to verify ID token');
+  //   }
   // }
 
   Widget build(BuildContext context) {
@@ -176,20 +195,53 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                         width: displayWidth(context) * 0.1,
                       ),
                       onTap: () async {
-                        String googleAuthUrl = 'http://3.106.170.176:3000/auth/google?redirect_uri=troll-e://google-auth-success';;
-                        String? result = await FlutterWebAuth.authenticate(
-                          url: googleAuthUrl,
-                          callbackUrlScheme: 'troll-e',
-                        );
 
-                        if (result != null) {
-                          Navigator.pushNamed(
-                            context,
-                            'troll-e://google-auth-success?code=$result',
-                            arguments: googleAuthUrl,
+                        // String googleAuthUrl = 'http://localhost:3000/auth/google?redirect_uri=troll-e://google-auth-success';
+                        // String? result = await FlutterWebAuth.authenticate(
+                        //   url: googleAuthUrl,
+                        //   callbackUrlScheme: 'troll-e',
+                        // );
+                        //
+                        // if (result != null) {
+                        //   Navigator.pushNamed(
+                        //     context,
+                        //     'troll-e://google-auth-success?code=$result',
+                        //     arguments: googleAuthUrl,
+                        //   );
+                        // }
+                        // final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+                        // final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+                        // final String? idToken = googleAuth.idToken;
+
+
+                        final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+                        if (googleUser != null) {
+                          print(googleUser);
+                          print(googleUser.displayName);
+
+                          final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                          // print(googleAuth.);
+                          // final String? idToken = googleAuth.idToken;
+                          //  print("id token from my google usez $idToken");
+
+
+                        final user = await googleLogIn(email: googleUser.email, name: googleUser.displayName,
+                            photourl: googleUser.photoUrl, googleid: googleUser.id,context: context, userProvider: userProvider);
+                        print(user);
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                        print('Access token from backend: ${prefs.getString('accesstoken')}');
+                        if (prefs.getString('accesstoken') !=
+                            null) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => HomeScreen(
+                                token: prefs
+                                    .getString("accesstoken"),
+                              ),
+                            ),
                           );
                         }
-                      },
+                      }},
 
 
                     ),

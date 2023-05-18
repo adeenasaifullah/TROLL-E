@@ -83,8 +83,7 @@ Future<TempReceiptModel?> getTempReceipt({
   required UserModel? user,
 }) async {
   TempReceiptModel? tempReceipt;
-  //try {
-    // print(tempReceipt.)
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
     String? userID = user?.userId;
@@ -104,14 +103,48 @@ Future<TempReceiptModel?> getTempReceipt({
       Fluttertoast.showToast(msg: "Something went wrong");
     }
     return tempReceipt;
-  // } catch (err) {
-  //   print("GET TEMP RECEIPT CATCH BLOCK printting temp receipt uid ofc its null");
-  //   print(tempReceipt?.uid);
-  //   print(err);
-  //   return tempReceipt;
-  // }
+
 }
 
+Future<List<num>?> compareWeight({
+  required UserModel? user,
+}) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? accessToken = prefs.getString('accesstoken');
+  String? userID = user?.userId;
+
+  http.Response res = await http.get(
+    Uri.parse("http://3.106.170.176:3000/compareWeights/$userID"),
+    headers: {
+      "Authorization": "Bearer $accessToken",
+    },
+  );
+
+  if (res.statusCode == 200) {
+    if (jsonDecode(res.body)['message'] == "Weights match") {
+
+    }
+  }
+  else if (res.statusCode == 409) {
+
+    var jsonResponse = jsonDecode(res.body);
+    List<num> weights=[jsonResponse['tempweight'],jsonResponse['totalweight']];
+
+    return weights;
+
+  }
+    else {
+      Fluttertoast.showToast(msg: "Something went wrong");
+    }
+    //return tempReceipt;
+    // } catch (err) {
+    //   print("GET TEMP RECEIPT CATCH BLOCK printting temp receipt uid ofc its null");
+    //   print(tempReceipt?.uid);
+    //   print(err);
+    //   return tempReceipt;
+    // }
+
+}
 Future<void> increaseQuantity(
     {UserModel? user,
     required String? productBarcode,

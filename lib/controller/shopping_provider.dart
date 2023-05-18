@@ -20,6 +20,7 @@ class ShoppingProvider extends ChangeNotifier {
 
   }
 
+
   Future<bool> isCartConnected(UserModel? user) async {
     result = await isConnected(user: user);
     isLoading = false;

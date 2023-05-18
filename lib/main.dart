@@ -9,6 +9,8 @@ import 'package:troll_e/controller/shopping_provider.dart';
 import 'package:troll_e/controller/user_provider.dart';
 import 'package:troll_e/controller/profile_provider.dart';
 import 'package:troll_e/views/Login_Signup/Signup.dart';
+import 'package:troll_e/views/app_demo/complete_demo.dart';
+import 'package:troll_e/views/app_demo/demo_screen_1.dart';
 import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/views/forgot_password/change_password.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';
@@ -68,31 +70,11 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
-              onGenerateRoute: (RouteSettings settings) {
-                if (settings.name!.startsWith('http://3.106.170.176:3000')) {
-                  final uri = Uri.parse(settings.name!);
-
-                  if (uri.path == '/auth/google/callback' && uri.queryParameters.containsKey('code')) {
-                    final String code = uri.queryParameters['code']!;
-                    return MaterialPageRoute(
-                      builder: (BuildContext context) => GoogleAuthSuccessScreen(
-                        initialUrl: settings.arguments as String,
-                        code: code,
-                      ),
-                    );
-                  } else {
-                    return MaterialPageRoute(
-                      builder: (BuildContext context) => LoginInputWrapper(),
-                    );
-                  }
-                }
-
-                return null;
-              },
 
               home: (token != null && JwtDecoder.isExpired(token) == false)
                   ? HomeScreen(token: token)
-                  : const SplashScreen()
+                  : DemoScreen()
+              // const SplashScreen()
               //(prefs.getString('accesstoken') != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
               //const MyHomePage(title: 'Flutter Demo Home Page'),
               );

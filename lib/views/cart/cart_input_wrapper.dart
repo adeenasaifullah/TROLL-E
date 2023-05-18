@@ -40,8 +40,12 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   Checkout _checkout = Checkout();
   num tempweight=0;
   num totalweight=0;
+  num oldcartlength = 0;
+  num newcartlength = 0;
 
   List<ItemModel>? items = [];
+  int secondsPassed = 0;
+  Timer? timer;
 
   checkShoppingHistory() {
     Provider.of<ProfileProvider>(context, listen: false)
@@ -86,10 +90,43 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
 
          } //if condition ending
 
-
-
     } //weight!=null
   } //async
+
+  compareWeightForScan() async {
+    Timer.periodic(Duration(seconds:1), (timer) async {
+      setState(){
+        secondsPassed += 1;
+      }
+      List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
+      if(weights!=null) {
+        tempweight = weights[0];
+        totalweight = weights[1];
+
+        if (secondsPassed == 30 && tempweight < totalweight) {
+        setState() {
+          secondsPassed = 0;
+        }
+
+        print("YOU HAVE REMOVED AN ITEM FROM YOUR TROLLEY OR INCREASED QUANTITY FOR AN ITEM WITHOUT PLACING IN TROLLEY");
+        //alert box shown, as soon as alert box closes, call this method again.
+        compareWeightForScan();
+
+        }
+
+        if (secondsPassed == 30 && tempweight > totalweight) {
+          setState() {
+            secondsPassed = 0;
+          }
+          print("YOU HAVE PLACED AN ITEM IN YOUR TROLLEY OR DECREASED QUANTITY FOR AN ITEM WITHOUT REMOVING FROM TROLLEY");
+
+          //alert box shown, as soon as alert box closes, call this method again.
+          compareWeightForScan();
+        }
+      }
+
+  });
+  }
 
   _scanBR() async {
     try {
@@ -246,7 +283,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               print("the result of first time scan is");
                               print(firstScan);
                               ispressed=false;
-
+                              compareWeightForScan();
                             },
                             icon: (Image.asset('Assets/icons/scanner.png')),
                             label: const Text(''),
@@ -542,6 +579,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                               }
                                                             }
                                                               ispressed=false;
+                                                              compareWeightForScan();
                                                             }
                                                         ),
 
@@ -656,6 +694,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                             }
                                                             ;
                                                             ispressed=false;
+                                                            compareWeightForScan();
                                                           },
                                                         ),
                                                       ],
@@ -729,6 +768,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                 ),
                               ),
                               onPressed: () async {
+                                ispressed = true;
                                 await _scanBR();
                                 print(
                                     "calling additemto temp on cartinput screen");
@@ -1103,6 +1143,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                     },
                                   );
                                 }
+                                ispressed = false;
+                                compareWeightForScan();
                               },
                               icon: (Image.asset('Assets/icons/scanner.png')),
                               label: const Text(''),

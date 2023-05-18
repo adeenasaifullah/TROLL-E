@@ -395,7 +395,7 @@ Future<UserModel?> googleLogIn(
             prefs.setString('accesstoken', accessToken);
             print(prefs.get('accesstoken'));
             prefs.setString("refreshtoken", refreshToken);
-            await userProvider.setSharedPreferences(accessToken, refreshToken);
+            // await userProvider.setSharedPreferences(accessToken, refreshToken);
           });
 
       return user;

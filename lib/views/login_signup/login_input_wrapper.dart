@@ -228,14 +228,14 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                         final user = await googleLogIn(email: googleUser.email, name: googleUser.displayName,
                             photourl: googleUser.photoUrl, googleid: googleUser.id,context: context, userProvider: userProvider);
                         print(user);
-                        userProvider.prefs = await SharedPreferences.getInstance();
-                        print('Access token from backend: ${userProvider.prefs.getString('accesstoken')}');
-                        if (userProvider.prefs.getString('accesstoken') !=
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                        print('Access token from backend: ${prefs.getString('accesstoken')}');
+                        if (prefs.getString('accesstoken') !=
                             null) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => HomeScreen(
-                                token: userProvider.prefs
+                                token: prefs
                                     .getString("accesstoken"),
                               ),
                             ),

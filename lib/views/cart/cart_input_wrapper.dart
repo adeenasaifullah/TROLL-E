@@ -6,6 +6,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:troll_e/views/cart/alert_temp_less_total_weight.dart';
 import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/helpers/shopping_api.dart';
 import '../../controller/item_provider.dart';
@@ -24,10 +25,10 @@ class CartInputWrapper extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CartInputWrapperState createState() => _CartInputWrapperState();
+  CartInputWrapperState createState() => CartInputWrapperState();
 }
 
-class _CartInputWrapperState extends State<CartInputWrapper> {
+class CartInputWrapperState extends State<CartInputWrapper> {
   String _result = "";
   final TextEditingController weightController = TextEditingController();
   final TextEditingController costController = TextEditingController();
@@ -50,17 +51,17 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   checkShoppingHistory() {
     Provider.of<ProfileProvider>(context, listen: false)
         .getUserProfile(context: context);
-    print("called checkShoppingHistory");
+
 
     int newlength = Provider.of<ProfileProvider>(context, listen: false)
             .user
             ?.shoppingHistory
             ?.length ??
         0;
-    print("this is the new length");
-    print(newlength);
+
+
     if (newlength > historylength) {
-      print("inside the condition");
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => _checkout),
@@ -69,18 +70,17 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   }
 
   compareWeight() async {
-    print("inside compare weight api call");
+
     List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
-    print("THIS ISSSSS WEIGHTSS");
-    //print(weights![0]);
-    print("THIS ISSSSS ispressed");
-    print(ispressed);
+
+
+
     if(weights!=null){
        tempweight= weights[0];
        totalweight=weights[1];
 
        if(tempweight>totalweight && ispressed==false){
-         print("this should open dialog box");
+
          showDialog(
            context: context,
            builder: (BuildContext context) {
@@ -94,35 +94,76 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
   } //async
 
   compareWeightForScan() async {
+    // secondsPassed = 0;
+    print("INSIDE COMPARE WEIGHT FOR SCAN FUNCTION LINE 98");
     Timer.periodic(Duration(seconds:1), (timer) async {
-      setState(){
+      // setState(){
         secondsPassed += 1;
-      }
+
       List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
       if(weights!=null) {
         tempweight = weights[0];
         totalweight = weights[1];
 
+        print("This is tempweight: $tempweight");
+        print("This is totalweight: $totalweight");
+        print("This is seconds passed: $secondsPassed");
         if (secondsPassed == 30 && tempweight < totalweight) {
-        setState() {
+        // setState() {
+
+          timer.cancel();
           secondsPassed = 0;
-        }
+        // }
 
         print("YOU HAVE REMOVED AN ITEM FROM YOUR TROLLEY OR INCREASED QUANTITY FOR AN ITEM WITHOUT PLACING IN TROLLEY");
         //alert box shown, as soon as alert box closes, call this method again.
-        compareWeightForScan();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CartAlertDialogTwo(
+                  onCloseDialog: () {
+                    // This function will be called when the dialog is closed
+                    compareWeightForScan(); // Call the function again
+                  }
+              );
+            },
+          );
 
         }
 
-        if (secondsPassed == 30 && tempweight > totalweight) {
-          setState() {
+         if (secondsPassed == 30 && tempweight > totalweight) {
+          timer.cancel();
             secondsPassed = 0;
-          }
+
+
           print("YOU HAVE PLACED AN ITEM IN YOUR TROLLEY OR DECREASED QUANTITY FOR AN ITEM WITHOUT REMOVING FROM TROLLEY");
 
           //alert box shown, as soon as alert box closes, call this method again.
-          compareWeightForScan();
+
         }
+
+        // else if (secondsPassed == 30){
+        //   timer.cancel();
+        //   secondsPassed = 0;
+        // }
+
+         if(secondsPassed <= 30){
+
+          List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
+          if(weights!=null){
+
+          }
+          else {
+            print("Timer cancelled");
+            timer.cancel();
+          }
+        }
+      }
+
+      else {
+
+        timer.cancel();
+        secondsPassed = 0;
       }
 
   });
@@ -158,14 +199,14 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
             ?.shoppingHistory
             ?.length ??
         0;
-    print("this is the history length");
-    print(historylength);
+
+
     callGetReceipt();
     // TODO: implement initState
 
     //checking if user has checked out or not after every 5 seconds
     Timer.periodic(Duration(seconds: 5), (timer) {
-      print("checkshopping hisotry duration ");
+
       checkShoppingHistory();
 
     });
@@ -173,7 +214,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
     //checking weight of trolley continuously
     Timer.periodic(Duration(seconds: 1), (timer) {
 
-      print("compareweight in time duration");
+
       compareWeight();
     });
     super.initState();
@@ -271,8 +312,8 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                             onPressed: () async {
                               ispressed=true;
                               await _scanBR();
-                              print("THIS IS THE BARCODE SCANNED :");
-                              print(_result);
+
+
                               bool firstScan = await itemProvider.addItemToTemp(
                                   user: Provider.of<ProfileProvider>(context,
                                           listen: false)
@@ -280,8 +321,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                   barcode: _result,
                                   context: context);
 
-                              print("the result of first time scan is");
-                              print(firstScan);
+
                               ispressed=false;
                               compareWeightForScan();
                             },
@@ -557,6 +597,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                                 },
                                                                               );
                                                                             }
+                                                                          compareWeightForScan();
                                                                           },
                                                                           child: Text(
                                                                             "Save",
@@ -579,7 +620,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                               }
                                                             }
                                                               ispressed=false;
-                                                              compareWeightForScan();
+
                                                             }
                                                         ),
 
@@ -602,6 +643,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                   0xFF779394),
                                                               size: 16),
                                                           onPressed: () async {
+                                                            ispressed = true;
                                                             await _scanBR();
                                                             if (itemProvider.itemList![index]?.barcode == _result)
                                                             {
@@ -672,6 +714,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                             },
                                                                           );
                                                                         }
+                                                                        compareWeightForScan();
                                                                       },
                                                                       child:
                                                                       Text(
@@ -694,7 +737,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                             }
                                                             ;
                                                             ispressed=false;
-                                                            compareWeightForScan();
+
                                                           },
                                                         ),
                                                       ],
@@ -770,8 +813,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                               onPressed: () async {
                                 ispressed = true;
                                 await _scanBR();
-                                print(
-                                    "calling additemto temp on cartinput screen");
+
                                 bool firstScan =
                                     await itemProvider.addItemToTemp(
                                         user: Provider.of<ProfileProvider>(
@@ -780,9 +822,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                             .user,
                                         barcode: _result,
                                         context: context);
-                                print(
-                                    "this is the firstscan value - true means first time scanned false means otherwise");
-                                print(firstScan);
+
                                 if (firstScan == false) {
                                   //context.mounted is being used cuz it said Don't use 'BuildContext's across async gaps
                                   //and onPressed is async so i think i need to do this
@@ -937,6 +977,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                     },
                                                                   );
                                                                 }
+                                                                compareWeightForScan();
                                                               },
                                                               child: Text(
                                                                 "Save",
@@ -1112,6 +1153,7 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                                                       },
                                                                     );
                                                                   }
+                                                                  compareWeightForScan();
                                                                 },
                                                                 child: Text(
                                                                   "Save",
@@ -1143,8 +1185,10 @@ class _CartInputWrapperState extends State<CartInputWrapper> {
                                     },
                                   );
                                 }
+
                                 ispressed = false;
-                                compareWeightForScan();
+
+
                               },
                               icon: (Image.asset('Assets/icons/scanner.png')),
                               label: const Text(''),

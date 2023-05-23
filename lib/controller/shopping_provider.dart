@@ -27,4 +27,6 @@ class ShoppingProvider extends ChangeNotifier {
     return result;
 
   }
+
+  
 }

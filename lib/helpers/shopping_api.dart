@@ -252,6 +252,9 @@ Future<void> RemoveTempReciept(
     {
       Fluttertoast.showToast(msg: jsonDecode(res.body)['message']);
     }
+    else{
+      prefs.remove('uid');
+    }
 
 
 }

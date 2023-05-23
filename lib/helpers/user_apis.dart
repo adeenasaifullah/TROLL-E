@@ -166,6 +166,7 @@ Future<void> login(
       prefs.setString("refreshtoken", refreshToken);
       prefs.setBool("loginStatus", loginStatus);
 
+      prefs.setBool("result", false);
       showSnackBar(context, 'Login Successful');
     }
     else{
@@ -181,6 +182,8 @@ void logout(BuildContext context) async {
 
     prefs.remove("refreshtoken");
     prefs.remove("accesstoken");
+
+    prefs.remove("uid");
 
   } catch (error) {
     //showSnackBar(context, error.toString());

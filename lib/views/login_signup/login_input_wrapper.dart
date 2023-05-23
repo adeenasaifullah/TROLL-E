@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:troll_e/views/app_demo/complete_demo.dart';
 import 'package:troll_e/views/forgot_password/change_password.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';
 import '../../controller/user_provider.dart';
@@ -14,6 +13,7 @@ import '../forgot_password/token_verification.dart';
 import '../homescreen/homescreen.dart';
 import 'Signup.dart';
 import '/utility.dart';
+import 'package:troll_e/views/app_demo/complete_demo.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -135,7 +135,7 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                       buttonWidth: displayWidth(context) * 0.8,
                       onPressed: () async {
                         if (_loginFormKey.currentState!.validate())  {
-                          await userProvider.loginUser(context: context, email: emailController.text, password: passwordController.text);
+                          await userProvider.loginUser(context: context, email: emailController.text.trim(), password: passwordController.text);
                         //  await loginUser()
                           // await login(
                           //     userProvider: userProvider,
@@ -155,12 +155,12 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           if (prefs.getString('accesstoken') !=
                               null && prefs.getBool('loginStatus') == true) {
-                            Navigator.of(context).push(
+                            Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                 builder: (context) => HomeScreen(
                                   token: prefs.getString("accesstoken"),
                                 ),
-                              ),
+                              ),(Route<dynamic> route) => false
                             );
                           }
 

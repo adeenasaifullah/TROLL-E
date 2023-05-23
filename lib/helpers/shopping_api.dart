@@ -5,19 +5,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:troll_e/helpers/user_apis.dart';
-import '../models/Item_model.dart';
 import '../models/temp_receipt_model.dart';
 import '../models/user_model.dart';
 
 Future<bool> connectCart(
     {required BuildContext context, required String uid, required UserModel? user}) async {
   Future<bool> result = Future.value(false);
-  //try {
     String? userID = user?.userId;
-    String errorMessage;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
+    prefs.setString("uid", uid);
 
   var headers = {
     'Authorization': 'Bearer $accessToken',
@@ -46,9 +44,11 @@ Future<bool> connectCart(
 
     if (res.statusCode == 204) {
       result = Future.value(true);
+      prefs.setBool("result", true);
     } else{
       showSnackBar(context, jsonDecode(res.body)['message']);
       result = Future.value(false);
+      prefs.setBool("result", false);
     }
 
 
@@ -71,43 +71,6 @@ Future<bool> connectCart(
   //   return result;
   // }
 }
-
-// Future<ItemModel?> getAllProducts() async {
-//   ItemModel? products;
-//   //try {
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-//     String? accessToken = prefs.getString('accesstoken');
-//
-//     http.Response res = await http.get(
-//       Uri.parse("http://3.106.170.176:3000/allProducts"),
-//       headers: {
-//         "Content-type": "application/json",
-//         "Authorization": "Bearer $accessToken",
-//       },
-//     );
-//
-//     print("GET ALL PRODUCT RES.STATUS CODE IS");
-//     print(res.statusCode);
-//     if (res.statusCode == 200) {
-//       Map<String, dynamic> json = jsonDecode(res.body);
-//       products = ItemModel.fromJson(json);
-//     }
-//     else{
-//       Fluttertoast.showToast(
-//           msg: jsonDecode(res.body)['message'],
-//           toastLength: Toast.LENGTH_SHORT,
-//           gravity: ToastGravity.CENTER,
-//           timeInSecForIosWeb: 1,
-//           textColor: Colors.white,
-//           fontSize: 16.0
-//       );
-//     }
-//     return products;
-//   // } catch (err) {
-//   //   print("GET ALL PRODUCT CATCH BLOCK");
-//   //   return products;
-//   // }
-// }
 
 Future<TempReceiptModel?> getTempReceipt({
   required UserModel? user,
@@ -277,7 +240,6 @@ Future<bool> isConnected({
   required UserModel? user,
 }) async {
   Future<bool> result = Future.value(false);
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? accessToken = prefs.getString('accesstoken');
   String? userID = user?.userId;
@@ -294,5 +256,38 @@ Future<bool> isConnected({
   }
 
   return result;
+
+}
+
+
+Future<void> RemoveTempReciept(
+    {UserModel? user}) async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accesstoken');
+    String? userID = user?.userId;
+    String? uid = prefs.getString('uid');
+    var reqBody = {
+      "userID": userID,
+      "UID": uid
+    };
+
+    http.Response res = await http.put(
+        Uri.parse("http://3.106.170.176:3000/removeTempReciept"),
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": "Bearer $accessToken",
+        },
+        body: jsonEncode(reqBody));
+
+
+    if(res.statusCode != 204)
+    {
+      Fluttertoast.showToast(msg: jsonDecode(res.body)['message']);
+    }
+    else{
+      prefs.remove('uid');
+    }
+
 
 }

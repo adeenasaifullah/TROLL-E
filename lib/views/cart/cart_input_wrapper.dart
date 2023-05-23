@@ -3,9 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:troll_e/views/cart/alert_temp_less_total_weight.dart';
 import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/helpers/shopping_api.dart';
@@ -30,6 +32,7 @@ class CartInputWrapper extends StatefulWidget {
 
 class CartInputWrapperState extends State<CartInputWrapper> {
   String _result = "";
+
   final TextEditingController weightController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController increase_qty = TextEditingController();
@@ -66,6 +69,11 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         context,
         MaterialPageRoute(builder: (context) => _checkout),
       );
+
+      Provider.of<ProfileProvider>(context, listen: false).result = false;
+
+
+
     }
   }
 
@@ -1236,17 +1244,18 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      FloatingActionButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Checkout()),
-                          );
-                        },
-                      )
+                      // FloatingActionButton(
+                      //   onPressed: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(builder: (context) => Checkout()),
+                      //     );
+                      //   },
+                      // )
                     ],
                   ),
                 )),
     );
   }
 }
+

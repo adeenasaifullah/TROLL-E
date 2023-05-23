@@ -33,6 +33,7 @@ import 'models/user_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
+
   runApp(
 
     MultiProvider(

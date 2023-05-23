@@ -130,10 +130,10 @@ class Menu extends StatelessWidget {
               title: const Text("Logout"),
               onTap: () => {
                     logout(context),
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) => const Login(),
-                      ),
+                      ), (Route<dynamic> route) => false
                     ),
                   })
         ],

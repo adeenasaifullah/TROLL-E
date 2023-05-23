@@ -6,6 +6,7 @@ import '../helpers/shopping_api.dart';
 class ShoppingProvider extends ChangeNotifier {
   bool result = false;
   bool isLoading = true;
+
   //bool connected=false;
 
   Future<void> connect(BuildContext context, String uid, UserModel? user) async {
@@ -28,5 +29,9 @@ class ShoppingProvider extends ChangeNotifier {
 
   }
 
-  
+  Future<void> removeUID()
+  async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("uid");
+  }
 }

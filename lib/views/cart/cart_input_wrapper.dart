@@ -30,9 +30,6 @@ class CartInputWrapper extends StatefulWidget {
 }
 
 class CartInputWrapperState extends State<CartInputWrapper> {
-
-
-
   String _result = "";
 
   final TextEditingController weightController = TextEditingController();
@@ -53,9 +50,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
   int secondsPassed = 0;
   Timer? timer;
 
-  checkShoppingHistory()
-
-
+  checkShoppingHistory() {
     Provider.of<ProfileProvider>(context, listen: false)
         .getUserProfile(context: context);
 
@@ -75,7 +70,6 @@ class CartInputWrapperState extends State<CartInputWrapper> {
       );
 
       Provider.of<ProfileProvider>(context, listen: false).result = false;
-
 
 
 

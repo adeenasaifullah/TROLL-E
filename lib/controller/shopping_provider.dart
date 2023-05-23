@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:troll_e/models/user_model.dart';
 import '../helpers/shopping_api.dart';
 
@@ -9,15 +10,12 @@ class ShoppingProvider extends ChangeNotifier {
 
   Future<void> connect(BuildContext context, String uid, UserModel? user) async {
     result = await connectCart(context: context ,uid: uid, user: user);
+
     print("rresult in connect of shopping provider");
     print(result);
     isLoading = false;
     notifyListeners();
     isLoading = true;
-  }
-
-  Future<void> disconnect() async {
-
   }
 
 

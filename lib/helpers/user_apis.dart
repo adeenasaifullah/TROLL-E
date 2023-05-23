@@ -166,6 +166,7 @@ Future<void> login(
       //var userJson = jsonResponse['user'];
       prefs.setString('accesstoken', accessToken);
       prefs.setString("refreshtoken", refreshToken);
+      prefs.setBool("result", false);
       showSnackBar(context, 'Login Successful');
     }
     else{
@@ -217,6 +218,7 @@ void logout(BuildContext context) async {
     // );
     prefs.remove("refreshtoken");
     prefs.remove("accesstoken");
+    prefs.remove("uid");
     // print("Refresh Token" );
     // print( prefs.getString("refreshtoken"));
   } catch (error) {

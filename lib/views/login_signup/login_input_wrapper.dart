@@ -150,7 +150,7 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                       buttonWidth: displayWidth(context) * 0.8,
                       onPressed: () async {
                         if (_loginFormKey.currentState!.validate())  {
-                          await userProvider.loginUser(context: context, email: emailController.text, password: passwordController.text);
+                          await userProvider.loginUser(context: context, email: emailController.text.trim(), password: passwordController.text);
                         //  await loginUser()
                           // await login(
                           //     userProvider: userProvider,

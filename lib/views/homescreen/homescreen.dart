@@ -3,6 +3,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:troll_e/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:troll_e/views/menu/menu.dart';
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late bool cartConnected;
   //= false;
   String qr_code = "";
-
+  //late SharedPreferences prefs;
   Future<String> scanQR() async {
     try {
       await FlutterBarcodeScanner.scanBarcode("#000000", "Cancel", true, ScanMode.QR).then((value)=>
@@ -50,22 +51,27 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState()
   {
     context.read<ProfileProvider>().getUserProfile(context: context);
-    cartConnected = context.read<ShoppingProvider>().result;
+    //connected();
+    //cartConnected = prefs.getBool("result")!;
+    //cartConnected = context.read<ShoppingProvider>().result;
+    cartConnected = context.read<ProfileProvider>().result;
 
     // Provider.of<ItemProvider>(context).getReceipt(
     //     user: Provider.of<ProfileProvider>(context).user);
     super.initState();
   }
-  @override
-  void didChangeDepedencies(){
-    // context.read<ShoppingProvider>().isCartConnected(Provider.of<ProfileProvider>(context).user);
-    // cartConnected = context.read<ShoppingProvider>().result;
-  }
+
+  // void connected() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {
     final username = Provider.of<ProfileProvider>(context).user?.firstName.toCapitalized();
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
+
+
     //final itemProvider = Provider.of<ItemProvider>(context);
     //profileProvider.getUserProfile(context: context);
     //final username = Provider.of<ProfileProvider>(context).user?.first_name;

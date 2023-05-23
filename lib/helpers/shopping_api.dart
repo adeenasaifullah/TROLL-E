@@ -14,19 +14,35 @@ Future<bool> connectCart(
   Future<bool> result = Future.value(false);
   //try {
     String? userID = user?.userId;
+    String errorMessage;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
 
+  var headers = {
+    'Authorization': 'Bearer $accessToken',
+    'Content-Type': 'application/json'
+  };
+  var request = http.Request('GET', Uri.parse('http://3.106.170.176:3000/verifyQRCode'));
+  request.body = json.encode({
+    "code": uid
+  });
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+
     print(userID);
     var reqBody = {"UID": uid, "userID": userID};
     http.Response res =
-        await http.post(Uri.parse("http://3.106.170.176:3000/addTempReceipt"),
-            headers: {
-              "Content-type": "application/json",
-              "Authorization": "Bearer $accessToken",
-            },
-            body: jsonEncode(reqBody));
+    await http.post(Uri.parse("http://3.106.170.176:3000/addTempReceipt"),
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": "Bearer $accessToken",
+        },
+        body: jsonEncode(reqBody));
 
     if (res.statusCode == 204) {
       result = Future.value(true);
@@ -35,7 +51,21 @@ Future<bool> connectCart(
       result = Future.value(false);
     }
 
-    return result;
+
+  }
+  else {
+    showSnackBar(context, jsonDecode(await response.stream.bytesToString())['message'] );  }
+
+
+  return result;
+
+
+
+
+
+
+
+
   // } catch (err) {
   //   print("Inside catch block of connectcart");
   //   return result;

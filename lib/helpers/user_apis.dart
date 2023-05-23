@@ -151,11 +151,7 @@ Future<void> login(
     );
 
     var jsonResponse = jsonDecode(response.body);
-    // var accessToken = jsonResponse['accesstoken'];
-    // var refreshToken = jsonResponse['refreshtoken'];
-    // var userJson = jsonResponse['user'];
 
-    //UserModel user = UserModel.fromJson(userJson);
     print("-----------------STATUS CODE----------------");
     print(response.statusCode);
     if (response.statusCode == 200) {
@@ -163,62 +159,29 @@ Future<void> login(
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var accessToken = jsonResponse['accesstoken'];
       var refreshToken = jsonResponse['refreshtoken'];
-      //var userJson = jsonResponse['user'];
+      var userJson = jsonResponse['user'];
+      var loginStatus = userJson['loggedin_before'];
+
       prefs.setString('accesstoken', accessToken);
       prefs.setString("refreshtoken", refreshToken);
+      prefs.setBool("loginStatus", loginStatus);
+
       showSnackBar(context, 'Login Successful');
     }
     else{
         showSnackBar(context, jsonResponse['message']);
     }
 
-    // httpErrorHandle(
-    //     response: response,
-    //     context: context,
-    //     onSuccess: () async {
-    //
-    //       SharedPreferences prefs = await SharedPreferences.getInstance();
-    //       prefs.setString('accesstoken', accessToken);
-    //       prefs.setString("refreshtoken", refreshToken);
-    //     //  await userProvider.setSharedPreferences(accessToken, refreshToken);
-    //       //
-    //       // showSnackBar(
-    //       //     context,
-    //       //     'You have successfully logged In!'
-    //       // );
-    //       //result = Future.value(true);
-    //     });
-    // return result;
 
 }
 
 void logout(BuildContext context) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // var reqBody = {
-    //   "refreshtoken": (prefs.get('refreshtoken'))
-    // };
-    // print(prefs.get('refreshtoken'));
-    // http.Response response = await http.delete(Uri.parse('http://3.106.170.176:3000/logout'),
-    //   body: jsonEncode(reqBody),
-    //   headers: {"Content-Type":"application/json"},
-    // );
 
-    // httpErrorHandle(
-    //     //response: response,
-    //     context: context,
-    //     onSuccess: () async{
-    //       //SharedPreferences preferences = await SharedPreferences.getInstance();
-    //       showSnackBar(
-    //           context,
-    //           'You have successfully logged out!'
-    //       );
-    //     }
-    // );
     prefs.remove("refreshtoken");
     prefs.remove("accesstoken");
-    // print("Refresh Token" );
-    // print( prefs.getString("refreshtoken"));
+
   } catch (error) {
     //showSnackBar(context, error.toString());
   }

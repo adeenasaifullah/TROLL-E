@@ -108,6 +108,27 @@ class Roboto_text extends StatelessWidget {
   }
 }
 
+class Roboto_text_two extends StatelessWidget {
+  final String textValue;
+  final double size;
+  const Roboto_text_two({Key? key, required this.textValue, required this.size})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      textValue,
+      //overflow: TextOverflow.visible,
+      textAlign: TextAlign.left,
+      softWrap: true,
+      style: GoogleFonts.roboto(
+        color: const Color(0xff000000),
+        fontSize: size,
+      ),
+    );
+  }
+}
+
 class Roboto_boldtext extends StatelessWidget {
   final String textValue;
   final double size;

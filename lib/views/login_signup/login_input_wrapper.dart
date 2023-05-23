@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:troll_e/views/app_demo/complete_demo.dart';
 import 'package:troll_e/views/forgot_password/change_password.dart';
 import 'package:troll_e/views/forgot_password/forgot_password.dart';
 import '../../controller/user_provider.dart';
@@ -41,22 +42,6 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
     //  initSharedPref();
   }
 
-  // void initSharedPref() async{
-  //   prefs = await SharedPreferences.getInstance();
-  //   print("THIS IS PREFS VALUE IN INITSHAREDPREF OF LOGINWRAPPER SCREEEN");
-  //   print(prefs.get('accesstoken'));
-  // }
-
-  // Future<Map<String, dynamic>> verifyIdToken(String idToken) async {
-  //   final url = 'http://localhost:3000/google/login'; // Replace with your backend server URL
-  //   final response = await http.post(Uri.parse(url), body: {'idToken': idToken});
-  //   if (response.statusCode == 200) {
-  //     final data = json.decode(response.body);
-  //     return data;
-  //   } else {
-  //     throw Exception('Failed to verify ID token');
-  //   }
-  // }
 
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
@@ -169,12 +154,21 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
 
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           if (prefs.getString('accesstoken') !=
-                              null) {
+                              null && prefs.getBool('loginStatus') == true) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => HomeScreen(
                                   token: prefs.getString("accesstoken"),
                                 ),
+                              ),
+                            );
+                          }
+
+                          if (prefs.getString('accesstoken') !=
+                              null && prefs.getBool('loginStatus') == false) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => DemoScreen(token: prefs.getString("accesstoken"),),
                               ),
                             );
                           }

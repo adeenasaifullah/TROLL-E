@@ -16,8 +16,9 @@ class _CartAlertDialogState extends State<CartAlertDialog> {
   bool shouldCloseDialog = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+
+    super.initState();
     // Simulate the condition being satisfied after 2 seconds
     print("init state of alert dialog");
     Timer.periodic(Duration(seconds: 5), (timer) async {

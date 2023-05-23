@@ -170,12 +170,12 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           if (prefs.getString('accesstoken') !=
                               null) {
-                            Navigator.of(context).push(
+                            Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                 builder: (context) => HomeScreen(
                                   token: prefs.getString("accesstoken"),
                                 ),
-                              ),
+                              ),(Route<dynamic> route) => false
                             );
                           }
                         }

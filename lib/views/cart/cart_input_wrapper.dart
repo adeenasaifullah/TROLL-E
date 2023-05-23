@@ -1243,14 +1243,14 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      FloatingActionButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Checkout()),
-                          );
-                        },
-                      )
+                      // FloatingActionButton(
+                      //   onPressed: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(builder: (context) => Checkout()),
+                      //     );
+                      //   },
+                      // )
                     ],
                   ),
                 )),
@@ -1258,11 +1258,3 @@ class CartInputWrapperState extends State<CartInputWrapper> {
   }
 }
 
-
-
-Widget checkActivity(){
-
-  return Container(
-
-  );
-}

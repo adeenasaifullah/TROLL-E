@@ -178,6 +178,8 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
                 context,
                 MaterialPageRoute(builder: (context) =>  HomeScreen()),
               );
+              Provider.of<ProfileProvider>(context, listen: false)
+                  .result = false;
             },
 
           ),

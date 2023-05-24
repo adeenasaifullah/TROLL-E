@@ -93,13 +93,6 @@ class Menu extends StatelessWidget {
             ),
           ),
 
-          // Divider(
-          //   color: Color(0xFF838383),
-          //   height: 5,
-          //   thickness: 1,
-          //     indent: 20,
-          //   endIndent: 20,
-          // ),
           ListTile(
             leading: const Icon(Icons.account_circle_outlined),
             title: const Text("Profile"),
@@ -129,15 +122,45 @@ class Menu extends StatelessWidget {
               leading: const Icon(Icons.logout),
               title: const Text("Logout"),
               onTap: () => {
-                    logout(context),
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const Login(),
-                      ), (Route<dynamic> route) => false
-                    ),
+              showLogoutConfirmationDialog(context)
                   })
         ],
       ),
     );
   }
 }
+
+  void showLogoutConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logout'),
+          content: Text('Are you sure you want to logout?'),
+          actions: [
+            ElevatedButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: Text('Logout'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Perform logout action here
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => const Login(),
+                  ),
+                      (Route<dynamic> route) => false,
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+

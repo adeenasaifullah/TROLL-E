@@ -87,7 +87,6 @@ Future<TempReceiptModel?> getTempReceipt({
         "Authorization": "Bearer $accessToken",
       },
     );
-
     if (res.statusCode == 200) {
       Map<String, dynamic> Receipt = jsonDecode(res.body);
       tempReceipt = TempReceiptModel.fromJson(Receipt);

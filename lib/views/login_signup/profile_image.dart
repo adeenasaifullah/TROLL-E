@@ -155,28 +155,21 @@ class _ProfileImageState extends State<ProfileImage> {
                       buttonHeight: displayHeight(context) * 0.075,
                       buttonWidth: displayWidth(context) * 0.8,
                       onPressed: () async {
-                          if(imgXFile!=null){
-                              xfile=File(imgXFile!.path);
-                              bool result = await userProvider.SignupUser(
-                              context: context,
-                              firstName: widget.fname ,
-                              lastName: widget.lname,
-                              email: widget.email,
-                              phoneNumber: widget.phone,
-                              password: widget.password,
-                              imagefile: xfile
-                              );
-
-                               if (result == (true)) {
-                              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        bool result = await userProvider.SignupUser(
+                          context: context,
+                          firstName: widget.fname ,
+                          lastName: widget.lname,
+                          email: widget.email,
+                          phoneNumber: widget.phone,
+                          password: widget.password,
+                        );
+                        if (result == (true)) {
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
                               builder: (context) => Login()
-                                 )
-                              );
-                              }
+                          )
+                          );
+                        }
 
-
-                          }
-                        //do something
                       },
                     ),
                     SizedBox(
@@ -204,6 +197,7 @@ class _ProfileImageState extends State<ProfileImage> {
                               );
                             }
                           },
+
                           child: Text(
                             "Skip",
                             style: GoogleFonts.robotoCondensed(
@@ -212,10 +206,11 @@ class _ProfileImageState extends State<ProfileImage> {
                               decoration: TextDecoration.underline,
                             ),
                           ),
+                          ),
                           //backgroundColor: Colors.white,
                         ),
                       ),
-                    )
+
                   ],
                 ),
               ),

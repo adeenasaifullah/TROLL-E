@@ -56,10 +56,11 @@ Future<bool> signUp({
     //   List<int> imageBytes = await imagefile.readAsBytes();
     //   imageBase64 = base64Encode(imageBytes); // convert image to base64 string
     // }
-
-    String img=imagefile.toString();
-    String actualpath = img.split("'")[1];
-
+  String actualpath = " ";
+   if (imagefile != null) {
+     String img = imagefile.toString();
+      actualpath = img.split("'")[1];
+   }
     UserModel newUser = UserModel(
       email: email,
       image: actualpath,

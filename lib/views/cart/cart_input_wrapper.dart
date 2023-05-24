@@ -725,6 +725,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                                                           );
                                                                         }
                                                                         compareWeightForScan();
+                                                                        print("I HAVE PRESSED SAVE BUTTON IN ENTER QTY TO INCREASE HERE LINE 728 ");
                                                                       },
                                                                       child:
                                                                       Text(

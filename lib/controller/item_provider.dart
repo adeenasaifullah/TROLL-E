@@ -67,7 +67,7 @@ class ItemProvider extends ChangeNotifier {
         print('');
         break;
       }
-      
+
     }
     if(firstscan==true)
       {
@@ -126,13 +126,11 @@ class ItemProvider extends ChangeNotifier {
         //we will not be showing any dialog now to ask for qty
         isLoading=true;
         await decreaseQuantity(user: user, productBarcode: barcode, productQuantity: 1);
-        await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
         isLoading=false;
         qty_one=true;
          }
       }
-
-
+    await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
     return qty_one;
   }
 

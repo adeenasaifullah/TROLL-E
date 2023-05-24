@@ -106,12 +106,36 @@ class _CartAlertDialogTwoState extends State<CartAlertDialogTwo> {
         },
         child: AlertDialog(
           title: Text("It seems an item is missing from your trolley. You either:"
-              "\n 1. Scanned an item without placing it in your trolley OR"
-              "\n 2. Removed an item from your trolley without scanning it",
+              "\n1. Scanned an item without placing it \n    in your trolley OR"
+              "\n2. Removed an item from your trolley \n    without scanning it",
 
-            style: TextStyle(fontWeight: FontWeight.w500,),),
+            style: TextStyle(
+              fontWeight:
+              FontWeight
+                  .w500,
+              fontSize: 13.sp
+            ),),
           actions: [
             ElevatedButton(
+                style: TextButton.styleFrom(
+                  backgroundColor:
+                  const Color(0xFF000000),
+                  primary: Colors.white,
+                  shape:
+                  RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.circular(
+                        10.0),
+                  ),
+                  padding:
+                  EdgeInsets.symmetric(
+                      vertical: 10.h,
+                      horizontal: 15.w),
+                  textStyle: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight:
+                      FontWeight.w400),
+                ),
               onPressed: () async {
 
                 Navigator.of(context).pop();

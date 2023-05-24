@@ -51,54 +51,52 @@ Future<bool> signUp({
   File? imagefile,
 }) async {
   //try {
-    //String imageBase64 = ''; // initialize image data as empty string
-    // if (imagefile != null) {
-    //   List<int> imageBytes = await imagefile.readAsBytes();
-    //   imageBase64 = base64Encode(imageBytes); // convert image to base64 string
-    // }
+  //String imageBase64 = ''; // initialize image data as empty string
+  // if (imagefile != null) {
+  //   List<int> imageBytes = await imagefile.readAsBytes();
+  //   imageBase64 = base64Encode(imageBytes); // convert image to base64 string
+  // }
   String actualpath = " ";
-   if (imagefile != null) {
-     String img = imagefile.toString();
-      actualpath = img.split("'")[1];
-   }
-    UserModel newUser = UserModel(
-      email: email,
-      image: actualpath,
-      firstName: firstName,
-      lastName: lastName,
-      password: password,
-      phoneNumber: phoneNumber,
-    );
+  if (imagefile != null) {
+    String img = imagefile.toString();
+    actualpath = img.split("'")[1];
+  }
+  UserModel newUser = UserModel(
+    email: email,
+    image: actualpath,
+    firstName: firstName,
+    lastName: lastName,
+    password: password,
+    phoneNumber: phoneNumber,
+  );
 
-    http.Response response = await http.post(
-      Uri.parse('http://3.106.170.176:3000/register'),
-      body: jsonEncode(newUser),
-      headers: {"Content-Type": "application/json"},
-    );
+  http.Response response = await http.post(
+    Uri.parse('http://3.106.170.176:3000/register'),
+    body: jsonEncode(newUser),
+    headers: {"Content-Type": "application/json"},
+  );
 
-    print(response.body);
+  print(response.body);
 
-    Future<bool> result = Future.value(false);
+  Future<bool> result = Future.value(false);
 
-    if(response.statusCode == 200)
-      {
-        showSnackBar(context, 'You have successfully signed up!');
-        result = Future.value(true);
-      }
-    else{
-      print("REGISTER ELSE STATEMENT");
-      showSnackBar(context, "response.body.");
-    }
-    //
-    //
-    // httpErrorHandle(
-    //     response: response,
-    //     context: context,
-    //     onSuccess: () {
-    //       showSnackBar(context, 'You have successfully signed up!');
-    //       result = Future.value(true);
-    //     });
-    return result;
+  if (response.statusCode == 200) {
+    showSnackBar(context, 'You have successfully signed up!');
+    result = Future.value(true);
+  } else {
+    print("REGISTER ELSE STATEMENT");
+    showSnackBar(context, "response.body.");
+  }
+  //
+  //
+  // httpErrorHandle(
+  //     response: response,
+  //     context: context,
+  //     onSuccess: () {
+  //       showSnackBar(context, 'You have successfully signed up!');
+  //       result = Future.value(true);
+  //     });
+  return result;
   // } catch (error) {
   //
   //   //showSnackBar(context, error.toString());
@@ -109,7 +107,7 @@ Future<bool> signUp({
 
 Future<ShoppingHistoryModel?> getHistory({UserModel? user}) async {
   ShoppingHistoryModel? history;
-  try{
+  try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accesstoken');
 
@@ -123,61 +121,52 @@ Future<ShoppingHistoryModel?> getHistory({UserModel? user}) async {
       },
     );
     if (res.statusCode == 200) {
-
       Map<String, dynamic> Receipt = jsonDecode(res.body);
 
       //print(json);
       history = ShoppingHistoryModel.fromJson(Receipt);
     }
     return history;
-
+  } catch (err) {
+    return history;
   }
-catch(err){
-
-  return history;
-}
 }
 
-Future<void> login(
-    {
-      required BuildContext context,
-      required String email,
-      required String password,}) async {
+Future<void> login({
+  required BuildContext context,
+  required String email,
+  required String password,
+}) async {
+  var reqBody = {"email": email, "password": password};
+  http.Response response = await http.post(
+    Uri.parse('http://3.106.170.176:3000/login'),
+    body: jsonEncode(reqBody),
+    headers: {"Content-Type": "application/json"},
+  );
 
-    var reqBody = {"email": email, "password": password};
-    http.Response response = await http.post(
-      Uri.parse('http://3.106.170.176:3000/login'),
-      body: jsonEncode(reqBody),
-      headers: {"Content-Type": "application/json"},
-    );
+  print("______------------dghfbsdhfvhsdvfdshdvb--------");
+  print(response.statusCode);
 
-    print("______------------dghfbsdhfvhsdvfdshdvb--------");
-    print(response.statusCode);
+  var jsonResponse = jsonDecode(response.body);
 
-    var jsonResponse = jsonDecode(response.body);
+  print("-----------------STATUS CODE----------------");
+  print(response.statusCode);
+  if (response.statusCode == 200) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var accessToken = jsonResponse['accesstoken'];
+    var refreshToken = jsonResponse['refreshtoken'];
+    var userJson = jsonResponse['user'];
+    var loginStatus = userJson['loggedin_before'];
 
-    print("-----------------STATUS CODE----------------");
-    print(response.statusCode);
-    if (response.statusCode == 200) {
+    prefs.setString('accesstoken', accessToken);
+    prefs.setString("refreshtoken", refreshToken);
+    prefs.setBool("loginStatus", loginStatus);
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var accessToken = jsonResponse['accesstoken'];
-      var refreshToken = jsonResponse['refreshtoken'];
-      var userJson = jsonResponse['user'];
-      var loginStatus = userJson['loggedin_before'];
-
-      prefs.setString('accesstoken', accessToken);
-      prefs.setString("refreshtoken", refreshToken);
-      prefs.setBool("loginStatus", loginStatus);
-
-      prefs.setBool("result", false);
-      showSnackBar(context, 'Login Successful');
-    }
-    else{
-        showSnackBar(context, jsonResponse['message']);
-    }
-
-
+    prefs.setBool("result", false);
+    showSnackBar(context, 'Login Successful');
+  } else {
+    showSnackBar(context, jsonResponse['message']);
+  }
 }
 
 void logout(BuildContext context) async {
@@ -188,7 +177,28 @@ void logout(BuildContext context) async {
     prefs.remove("accesstoken");
 
     prefs.remove("uid");
+  } catch (error) {
+    //showSnackBar(context, error.toString());
+  }
+}
 
+void logOutDuringShopping({
+  required UserModel? user,
+}) async {
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accesstoken');
+    String? userID = user?.userId;
+    http.Response res = await http.delete(
+        Uri.parse("http://3.106.170.176:3000/deleteTempReceipt/$userID"),
+        headers: {
+          "Authorization": "Bearer $accessToken",
+        });
+    if (res.statusCode == 200) {
+      prefs.remove("refreshtoken");
+      prefs.remove("accesstoken");
+      prefs.remove("uid");
+    }
   } catch (error) {
     //showSnackBar(context, error.toString());
   }
@@ -210,14 +220,13 @@ Future<UserModel?> getProfile({required BuildContext context}) async {
         response: res,
         context: context,
         onSuccess: () async {
-           Map<String, dynamic> json = jsonDecode(res.body);
-           print("printing json body from getprofile api ${json}");
-          if(json['google_id'] != null)
-          {
+          Map<String, dynamic> json = jsonDecode(res.body);
+          print("printing json body from getprofile api ${json}");
+          if (json['google_id'] != null) {
             print("${json['google_id']} of user ${json['first_name']} ");
             Map<String, dynamic> customuserbody = new Map<String, dynamic>();
             customuserbody = {
-              '_id' : json['_id'],
+              '_id': json['_id'],
               'email': json['email'],
               'first_name': json['first_name'],
               'last_name': json['last_name'],
@@ -226,8 +235,8 @@ Future<UserModel?> getProfile({required BuildContext context}) async {
               'shoppingHistory': json['shoppingHistory']
             };
             user = UserModel.fromJson(customuserbody);
-          }
-          else  user = UserModel.fromJson(json);
+          } else
+            user = UserModel.fromJson(json);
         });
     return user;
   } catch (err) {
@@ -314,16 +323,19 @@ Future<void> resetPassword({
 
 Future<UserModel?> googleLogIn(
     {required BuildContext context,
-  required String? email,
-      required String? name,
-      required String? photourl,
-      required String? googleid,
-  required UserProvider userProvider}) async {
+    required String? email,
+    required String? name,
+    required String? photourl,
+    required String? googleid,
+    required UserProvider userProvider}) async {
   try {
     print("inside google log in api");
     // final url = 'http://3.106.170.176:3000/google/login'; // Replace with your backend server URL
     var reqBody = {
-      "email": email, "name": name, "photourl": photourl, "googleid": googleid
+      "email": email,
+      "name": name,
+      "photourl": photourl,
+      "googleid": googleid
     };
 
     http.Response response = await http.post(
@@ -341,21 +353,21 @@ Future<UserModel?> googleLogIn(
       print(accessToken);
       var refreshToken = jsonResponse['refreshtoken'];
       var userJson = jsonResponse['user'];
-       print("userJson from backend $userJson");
+      print("userJson from backend $userJson");
       Map<String, dynamic> customuserbody = new Map<String, dynamic>();
-       customuserbody = {
-         '_id' : userJson['_id'],
-         'email': userJson['email'],
-         'first_name': userJson['first_name'],
-         'last_name': userJson['last_name'],
-         'password': "-",
-         'phone_number': "-",
-         'shoppingHistory': userJson['shoppingHistory']
-  };
+      customuserbody = {
+        '_id': userJson['_id'],
+        'email': userJson['email'],
+        'first_name': userJson['first_name'],
+        'last_name': userJson['last_name'],
+        'password': "-",
+        'phone_number': "-",
+        'shoppingHistory': userJson['shoppingHistory']
+      };
 
-       print("custom user body ${customuserbody}");
+      print("custom user body ${customuserbody}");
       UserModel user = UserModel.fromJson(customuserbody);
-       print("This is user's email ${user.email}");
+      print("This is user's email ${user.email}");
       httpErrorHandle(
           response: response,
           context: context,
@@ -370,14 +382,10 @@ Future<UserModel?> googleLogIn(
 
       return user;
     }
-  }
-  catch (error) {
+  } catch (error) {
     showSnackBar(context, error.toString());
     //return Future.value(false);
     //return prefs;
   }
-
-
-
-  }
-
+  return null;
+}

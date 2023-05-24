@@ -15,6 +15,18 @@ class ItemProvider extends ChangeNotifier {
 
   bool isLoading = false;
 
+  Future<bool> checkTempReceipt(UserModel? user) async {
+    if(await getTempReceipt(user: user) != null) {
+      print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+      print("TEMP RECEIPT IS NOT NULLL");
+      return true;
+    }
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+    print("TEMP RECEIPT IS NULLL");
+    return false;
+  }
+
+
   //2NS ATTEMPT
   Future<void> getReceipt({UserModel? user}) async {
     isLoading = true;
@@ -27,6 +39,8 @@ class ItemProvider extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+
+
 
 //1ST ATTEMPT
   // UnmodifiableListView<ItemModel> get items {

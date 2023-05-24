@@ -116,7 +116,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         print("This is tempweight: $tempweight");
         print("This is totalweight: $totalweight");
         print("This is seconds passed: $secondsPassed");
-        if (secondsPassed == 30 && tempweight < totalweight) {
+        if (secondsPassed == 8 && tempweight < totalweight) {
         // setState() {
 
           timer.cancel();
@@ -139,7 +139,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
 
         }
 
-         if (secondsPassed == 30 && tempweight > totalweight) {
+         if (secondsPassed == 8 && tempweight > totalweight) {
           timer.cancel();
             secondsPassed = 0;
 

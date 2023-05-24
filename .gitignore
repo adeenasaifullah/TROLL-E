@@ -47,3 +47,4 @@ app.*.map.json
 /android/app/release
 
 android/gradle.properties
+android/gradle.properties

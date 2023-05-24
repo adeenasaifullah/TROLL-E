@@ -155,7 +155,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         //   secondsPassed = 0;
         // }
 
-         if(secondsPassed <= 30){
+         if(secondsPassed <= 8){
 
           List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
           if(weights!=null){
@@ -233,7 +233,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         user: Provider.of<ProfileProvider>(context, listen: false).user);
 
     // final profileProvider = Provider.of<ProfileProvider>(context);
-    //  final itemProvider = Provider.of<ItemProvider>(context);
+    //  final itemProvider = Provider.of<ItemProvider>(context);_SignupInputWrapperState
     //  items =  itemProvider.getReceipt(user: profileProvider.user) as List<ItemModel>?;
   }
 

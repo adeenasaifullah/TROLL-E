@@ -8,6 +8,7 @@ import 'package:troll_e/views/cart/cart_input_wrapper.dart';
 
 import '../../controller/item_provider.dart';
 import '../../controller/profile_provider.dart';
+import '../../helpers/user_apis.dart';
 import '../../models/Item_model.dart';
 import '../../models/shopping_history.dart';
 import './cart_input_wrapper.dart' as Cart;
@@ -47,11 +48,15 @@ class _CartAlertDialogTwoState extends State<CartAlertDialogTwo> {
   Timer? timer;
 
 
-  _scanBR() async {
+  CartInputWrapperState cartObject = new CartInputWrapperState();
+
+
+  Future<bool> _scanBR() async {
     try {
       await FlutterBarcodeScanner.scanBarcode(
           "#000000", "Cancel", true, ScanMode.BARCODE)
           .then((value) => setState(() => _result = value));
+      return true;
       // setState(() {
       //   _result = value;
       // });
@@ -59,6 +64,7 @@ class _CartAlertDialogTwoState extends State<CartAlertDialogTwo> {
       setState(() {
         _result = "Unknown Error $ex";
       });
+      return false;
     }
   }
 
@@ -138,42 +144,28 @@ class _CartAlertDialogTwoState extends State<CartAlertDialogTwo> {
                 ),
               onPressed: () async {
 
-                Navigator.of(context).pop();
-
                 ispressed = true;
-                await _scanBR();
+                bool scanValue = await _scanBR();
 
-                bool firstScan =
-                    await itemProvider.addItemToTemp(
-                    user: Provider.of<ProfileProvider>(
-                        context,
-                        listen: false)
-                        .user,
-                    barcode: _result,
-                    context: context);
+                if(scanValue == false){
+                  showSnackBar(context, "Please scan the item again");
+                }
+                else {
+                  int itemIndex = -1;
+                  for (var index = 0; index < itemProvider.itemList.length; index++) {
+                    if (itemProvider.itemList[index]?.barcode == _result) {
+                      itemIndex = index;
+                      break;
+                    }
+                  }
 
-                if (firstScan == false) {
-                  //context.mounted is being used cuz it said Don't use 'BuildContext's across async gaps
-                  //and onPressed is async so i think i need to do this
-
-                  if (!context.mounted) return;
-
-                  //need to check if item qty is one or not (bool qty_one returns true if qty was one else false
-                  //if one then directly remove and show prompt that Item Removed!
-                  //else ask for quantity to decrease
-
-                  bool qtyOne =
-                  await itemProvider.remove(
-                      context: context, user: Provider.of<ProfileProvider>(context, listen: false).user, barcode: _result);
-                  if (qtyOne == true) {
-                    if (!context.mounted)
-                      return;
-                    Navigator.of(context)
-                        .pop();
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext
-                      context) {
+                  if (itemProvider.itemList![itemIndex]?.barcode == _result)
+                  {
+                    bool qtyOne = await itemProvider.remove(
+                        context: context, user: Provider.of<ProfileProvider>(context, listen: false).user, barcode: _result);
+                    if (qtyOne == true) {
+                      if (!context.mounted) return;
+                      showDialog(context: context, builder: (BuildContext context) {
                         Future.delayed(
                             Duration(
                                 seconds: 1),
@@ -187,133 +179,127 @@ class _CartAlertDialogTwoState extends State<CartAlertDialogTwo> {
                               "Item Removed!"),
                         );
                       },
-                    );
-                  } else {
-                    if (!context.mounted)
-                      return;
-                    Navigator.of(context)
-                        .pop(); // closes the previous dialog box
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext
-                      context) {
-                        return AlertDialog(
-                          title: const Text(
-                            "Enter Quantity to Decrease",
-                            style: TextStyle(
-                              fontWeight:
-                              FontWeight
-                                  .w500,
-                            ),
-                          ),
-                          actions: <Widget>[
-                            TextFormField(
-                              controller:
-                              decrease_qty,
-                              decoration:
-                              InputDecoration(
-                                fillColor:
-                                const Color(
-                                    0xFFF4F1F1),
-                                filled: true,
-                                border:
-                                OutlineInputBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(
-                                      10.0),
-                                  borderSide: const BorderSide(
-                                      width:
-                                      6,
-                                      color: Color(
-                                          0xFFF4F1F1)),
-                                ),
+                      );
+                    } else {
+                      if (!context.mounted) return;
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext
+                        context) {
+                          return AlertDialog(
+                            title: const Text(
+                              "Enter Quantity to Decrease",
+                              style: TextStyle(
+                                fontWeight:
+                                FontWeight
+                                    .w500,
                               ),
                             ),
-                            SizedBox(
-                              height: 20.h,
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton
-                                  .styleFrom(
-                                backgroundColor:
-                                const Color(
-                                    0xFF000000),
-                                shape:
-                                RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(
-                                      10.0),
+                            actions: <Widget>[
+                              TextFormField(
+                                controller:
+                                decrease_qty,
+                                decoration:
+                                InputDecoration(
+                                  fillColor:
+                                  const Color(
+                                      0xFFF4F1F1),
+                                  filled: true,
+                                  border:
+                                  OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(
+                                        10.0),
+                                    borderSide: const BorderSide(
+                                        width:
+                                        6,
+                                        color: Color(
+                                            0xFFF4F1F1)),
+                                  ),
                                 ),
-                                padding: EdgeInsets.symmetric(
-                                    vertical:
-                                    10.h,
-                                    horizontal:
-                                    25.w),
                               ),
-                              onPressed:
-                                  () async {
-                                if (_checkinput
-                                    .currentState!
-                                    .validate()) {
-                                  await itemProvider.decreaseItemQuantity(
-                                      user: Provider.of<ProfileProvider>(context, listen: false)
-                                          .user,
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton
+                                    .styleFrom(
+                                  backgroundColor:
+                                  const Color(
+                                      0xFF000000),
+                                  shape:
+                                  RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(
+                                        10.0),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical:
+                                      10.h,
+                                      horizontal:
+                                      25.w),
+                                ),
+                                onPressed:
+                                    () async {
+                                  if (_checkinput
+                                      .currentState!
+                                      .validate()) {
+                                    await itemProvider.decreaseItemQuantity(
+                                        user: Provider.of<ProfileProvider>(context, listen: false)
+                                            .user,
+                                        context:
+                                        context,
+                                        barcode:
+                                        _result,
+                                        product_qty:
+                                        int.parse(decrease_qty.text));
+                                    // if (!context.mounted) return;
+                                    Navigator.of(
+                                        context)
+                                        .pop();
+                                    showDialog(
                                       context:
                                       context,
-                                      barcode:
-                                      _result,
-                                      product_qty:
-                                      int.parse(decrease_qty.text));
-                                  if (!context
-                                      .mounted)
-                                    return;
-                                  Navigator.of(
-                                      context)
-                                      .pop();
-                                  showDialog(
-                                    context:
-                                    context,
-                                    builder:
-                                        (BuildContext
-                                    context) {
-                                      Future.delayed(
-                                          Duration(seconds: 1),
-                                              () {
-                                            Navigator.of(context)
-                                                .pop();
-                                          });
-                                      return const AlertDialog(
-                                        title:
-                                        Text("Quantity Decreased!"),
-                                      );
-                                    },
-                                  );
-                                }
-                                widget.onCloseDialog();
-                                setState(() {
-
-                                  shouldCloseDialog = true;
-                                });
-                              },
-                              child: Text(
-                                "Save",
-                                style:
-                                TextStyle(
-                                  color: Colors
-                                      .white,
-                                  fontSize:
-                                  15.sp,
-                                  fontWeight:
-                                  FontWeight
-                                      .w400,
+                                      builder:
+                                          (BuildContext
+                                      context) {
+                                        Future.delayed(
+                                            Duration(seconds: 1),
+                                                () {
+                                              Navigator.of(context)
+                                                  .pop();
+                                            });
+                                        return const AlertDialog(
+                                          title:
+                                          Text("Quantity Decreased!"),
+                                        );
+                                      },
+                                    );
+                                  }
+                                  cartObject.compareWeightForScan();
+                                },
+                                child: Text(
+                                  "Save",
+                                  style:
+                                  TextStyle(
+                                    color: Colors
+                                        .white,
+                                    fontSize:
+                                    15.sp,
+                                    fontWeight:
+                                    FontWeight
+                                        .w400,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                            ],
+                          );
+                        },
+                      );
+                    }
                   }
+                  ispressed=false;
+
                 }
 
               },

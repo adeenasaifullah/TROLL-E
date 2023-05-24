@@ -35,7 +35,10 @@ class UserProvider extends ChangeNotifier {
         lastName: lastName,
         email: email,
         phoneNumber: phoneNumber,
-        password: password);
+        password: password
+   );
+
+    print("INSIDE USER PROVIDER");
     isLoading=false;
     notifyListeners();
     return result;

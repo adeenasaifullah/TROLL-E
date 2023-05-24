@@ -64,14 +64,16 @@ class ItemProvider extends ChangeNotifier {
       if (item.barcode == barcode) {
         //this means item has been scanned before so return back to the screen with false value
         firstscan = false;
-        print('h');
+        print('');
         break;
       }
-      else {
+      
+    }
+    if(firstscan==true)
+      {
         await addItem(user: user, productBarcode: barcode, productQuantity: 1);
         print("inside item provider after calling add item");
       }
-    }
   }
    // print("item provider after calling add item");
     await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));

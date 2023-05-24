@@ -121,7 +121,7 @@ class ItemProvider extends ChangeNotifier {
     bool qty_one = false;
 
       for (final item in itemList!) {
-      if (item.barcode == barcode && item.productQuantity ==1) {
+      if (item.barcode == barcode && item.productQuantity == 1) {
         //call api to decreaseqty and send qty as 1
         //we will not be showing any dialog now to ask for qty
         isLoading=true;

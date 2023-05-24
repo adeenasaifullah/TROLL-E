@@ -43,6 +43,11 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
     return result;
   }
+
+  void logOutWhileShopping() {
+    logOutDuringShopping(user: user);
+}
+
 }
 
 // class UserProvider extends ChangeNotifier {

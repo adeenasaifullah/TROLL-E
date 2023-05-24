@@ -241,9 +241,15 @@ class _CartAlertDialogTwoState extends State<CartAlertDialogTwo> {
                                 ),
                                 onPressed:
                                     () async {
-                                  if (_checkinput
-                                      .currentState!
-                                      .validate()) {
+
+                                  // if (_checkinput
+                                  //     .currentState!
+                                  //     .validate())
+                                      if(decrease_qty.value!=null || decrease_qty.text!="0" )
+                                  {
+                                    print("CHECKINPUT IS VALIDATED");
+                                    print(_checkinput);
+
                                     await itemProvider.decreaseItemQuantity(
                                         user: Provider.of<ProfileProvider>(context, listen: false)
                                             .user,
@@ -266,6 +272,7 @@ class _CartAlertDialogTwoState extends State<CartAlertDialogTwo> {
                                         Future.delayed(
                                             Duration(seconds: 1),
                                                 () {
+                                              print("TRYING TO POP ");
                                               Navigator.of(context)
                                                   .pop();
                                             });
@@ -276,6 +283,7 @@ class _CartAlertDialogTwoState extends State<CartAlertDialogTwo> {
                                       },
                                     );
                                   }
+                                  print("IF KE BAHAR AGAYEEEEEEE");
                                   cartObject.compareWeightForScan();
                                 },
                                 child: Text(

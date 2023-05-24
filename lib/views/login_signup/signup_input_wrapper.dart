@@ -134,21 +134,14 @@ class _SignupInputWrapperState extends State<SignupInputWrapper> {
                                 return "* Required";
                               }
                               if (password.length < 7) {
-                                return "Password must be at least 8 characters long.";
+                                return "Password must be at least 7 characters long.";
                               } else {
                                 return null;
                               }
                             },
-
-                            // onChanged: (val) {
-                            //   setState(() => password = val);
-                            // },
                             textController: passwordController,
                             labelText: 'Password',
-                            //hintText: 'Enter your password',
-
                             suffixIcon: Icons.visibility_off,
-                            //suffixIcon:  obscureIcon ? Icons.visibility : Icons.visibility_off,
                             autoFocus: false,
                           ),
                           SizedBox(height: displayHeight(context) * 0.02),
@@ -157,7 +150,7 @@ class _SignupInputWrapperState extends State<SignupInputWrapper> {
                               if (cpassword == null || cpassword.isEmpty) {
                                 return "* Required";
                               }
-                              if (cpassword != confirmController.text) {
+                              if (cpassword != passwordController.text) {
                                 return 'Passwords do not match.';
                               } else {
                                 return null;

@@ -116,7 +116,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         print("This is tempweight: $tempweight");
         print("This is totalweight: $totalweight");
         print("This is seconds passed: $secondsPassed");
-        if (secondsPassed == 30 && tempweight < totalweight) {
+        if (secondsPassed == 8 && tempweight < totalweight) {
         // setState() {
 
           timer.cancel();
@@ -139,7 +139,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
 
         }
 
-         if (secondsPassed == 30 && tempweight > totalweight) {
+         if (secondsPassed == 8 && tempweight > totalweight) {
           timer.cancel();
             secondsPassed = 0;
 
@@ -155,7 +155,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         //   secondsPassed = 0;
         // }
 
-         if(secondsPassed <= 30){
+         if(secondsPassed <= 8){
 
           List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
           if(weights!=null){
@@ -233,7 +233,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         user: Provider.of<ProfileProvider>(context, listen: false).user);
 
     // final profileProvider = Provider.of<ProfileProvider>(context);
-    //  final itemProvider = Provider.of<ItemProvider>(context);
+    //  final itemProvider = Provider.of<ItemProvider>(context);_SignupInputWrapperState
     //  items =  itemProvider.getReceipt(user: profileProvider.user) as List<ItemModel>?;
   }
 

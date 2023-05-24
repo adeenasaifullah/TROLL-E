@@ -8,7 +8,14 @@ import '../../helpers/user_apis.dart';
 import '/utility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SignupInputWrapper extends StatelessWidget {
+class SignupInputWrapper extends StatefulWidget{
+
+  @override
+  _SignupInputWrapperState createState() => _SignupInputWrapperState();
+
+  }
+class _SignupInputWrapperState extends State<SignupInputWrapper> {
+
   final TextEditingController fnameController = TextEditingController();
   final TextEditingController lnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -218,4 +225,6 @@ class SignupInputWrapper extends StatelessWidget {
       ),
     );
   }
+
+
 }

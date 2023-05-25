@@ -8,6 +8,7 @@ class ProfileProvider extends ChangeNotifier {
   UserModel? user;
   bool isChanged = false;
   bool isLoading = true;
+  bool prefsLoading = true;
   String passwordResetToken = '';
   String passwordResetUserid = '';
   bool result = false;
@@ -40,4 +41,13 @@ class ProfileProvider extends ChangeNotifier {
    getShoppingHistory(){
     return user?.shoppingHistory;
   }
+
+  void checkPrefsLoading(bool prefsLoading){
+
+    this.prefsLoading = prefsLoading;
+    notifyListeners();
+
+  }
 }
+
+

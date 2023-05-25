@@ -23,6 +23,8 @@ class Menu extends StatelessWidget {
     final profileProvider = Provider.of<ProfileProvider>(context);
     final itemProvider = Provider.of<ItemProvider>(context);
 
+
+
     final username = profileProvider.user?.firstName.toCapitalized();
     final lastname = profileProvider.user?.lastName.toCapitalized();
     final email = profileProvider.user?.email;
@@ -136,11 +138,15 @@ class Menu extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home_outlined),
             title: const Text("Home"),
-            onTap: () => Navigator.of(context).push(
+            onTap: () {
+              print("result in profile provider  ${context.read<ProfileProvider>().result}");
+              Navigator.of(context).pushAndRemoveUntil(
+
               MaterialPageRoute(
                 builder: (context) => const HomeScreen(),
-              ),
-            ),
+              ),(Route<dynamic> route) => false
+            );
+            }
           ),
           ListTile(
             leading: const Icon(Icons.account_circle_outlined),

@@ -186,8 +186,8 @@ void logout(BuildContext context) async {
     print('IN LOGOUT API WITHOUT SHOPPING');
     prefs.remove("refreshtoken");
     prefs.remove("accesstoken");
-
     prefs.remove("uid");
+    prefs.remove("result");
   } catch (error) {
     showSnackBar(context, error.toString());
   }
@@ -357,6 +357,10 @@ Future<UserModel?> googleLogIn(
     print("api called for google");
     print(response.statusCode);
     if (response.statusCode == 200) {
+
+
+
+
       print("response is ok");
       final jsonResponse = json.decode(response.body);
       print(jsonResponse['accesstoken']);

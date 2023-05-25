@@ -18,6 +18,7 @@ import '../cart/shopping_cart.dart';
 
 class HomeScreen extends StatefulWidget {
   final token;
+  final bool isLoading = false;
 
   const HomeScreen({Key? key, this.token}) : super(key: key);
 
@@ -32,7 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
   //= false;
   String qrCode = "";
 
-  //late SharedPreferences prefs;
+  late SharedPreferences prefs;
+
   Future<String> scanQR() async {
     try {
       await FlutterBarcodeScanner.scanBarcode(
@@ -53,15 +55,37 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     context.read<ProfileProvider>().getUserProfile(context: context);
+    context.read<ProfileProvider>().checkPrefsLoading(true);
+    initializeSharedPreferences();
+
     //connected();
-    //cartConnected = prefs.getBool("result")!;
+    // cartConnected = prefs.getBool("result")!;
     //cartConnected = context.read<ShoppingProvider>().result;
-    cartConnected = context.read<ProfileProvider>().result;
+    //cartConnected = context.read<ProfileProvider>().result;
+    print("result in init profile provider  ${context.read<ProfileProvider>().result}");
 
     // Provider.of<ItemProvider>(context).getReceipt(
     //     user: Provider.of<ProfileProvider>(context).user);
     super.initState();
   }
+  void initializeSharedPreferences() async {
+    context.read<ProfileProvider>().checkPrefsLoading(true);
+
+    prefs = await SharedPreferences.getInstance();
+
+    context.read<ProfileProvider>().checkPrefsLoading(false);
+    setState(() {
+
+    });
+
+
+  }
+
+
+  // Initialize the SharedPreferences instance
+
+
+
 
   // void connected() async {
   //   prefs = await SharedPreferences.getInstance();
@@ -73,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final username =
         Provider.of<ProfileProvider>(context).user?.firstName.toCapitalized();
     final shoppingProvider = Provider.of<ShoppingProvider>(context);
-
+    cartConnected = prefs.getBool("result")!;
     //final itemProvider = Provider.of<ItemProvider>(context);
     //profileProvider.getUserProfile(context: context);
     //final username = Provider.of<ProfileProvider>(context).user?.first_name;
@@ -94,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
         //title: Image.asset('Assets/images/TROLL-E-without-tagline.png', fit: BoxFit.cover, height: 150.h,)
       ),
       //   ),
-      body: Provider.of<ProfileProvider>(context).isLoading
+      body: Provider.of<ProfileProvider>(context).isLoading || Provider.of<ProfileProvider>(context).prefsLoading
           ? const Center(
               child: CircularProgressIndicator(),
             )

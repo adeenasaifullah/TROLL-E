@@ -8,22 +8,19 @@ class ProfileProvider extends ChangeNotifier {
   UserModel? user;
   bool isChanged = false;
   bool isLoading = true;
+  bool prefsLoading = true;
   String passwordResetToken = '';
   String passwordResetUserid = '';
   bool result = false;
 
-
   void getUserProfile({required BuildContext context}) async {
     user = await getProfile(context: context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getBool('result')==null)
-      {
-        result = false;
-      }
-    else
-      {
-        result = prefs.getBool('result')!;
-      }
+    if (prefs.getBool('result') == null) {
+      result = false;
+    } else {
+      result = prefs.getBool('result')!;
+    }
 
     isLoading = false;
     notifyListeners();
@@ -37,7 +34,12 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-   getShoppingHistory(){
+  getShoppingHistory() {
     return user?.shoppingHistory;
+  }
+
+  void checkPrefsLoading(bool prefsLoading) {
+    this.prefsLoading = prefsLoading;
+    notifyListeners();
   }
 }

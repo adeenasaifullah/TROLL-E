@@ -173,15 +173,6 @@ class _SignupInputWrapperState extends State<SignupInputWrapper> {
                       buttonWidth: displayWidth(context) * 0.8,
                       onPressed: () async {
                         if (_signUpFormKey.currentState!.validate()) {
-                          // result = await userProvider.SignupUser(
-                          //     context: context,
-                          //     firstName: fnameController.text,
-                          //     lastName: lnameController.text,
-                          //     email: emailController.text,
-                          //     phoneNumber: phoneController.text,
-                          //     password: passwordController.text);
-                          // print(result);
-                          // if (result == (true)) {
                              Navigator.of(context).pushReplacement(MaterialPageRoute(
                                  builder: (context) =>  ProfileImage(
                                    fname: fnameController.text,

@@ -21,13 +21,7 @@ class ReceiptObject {
 
   static ReceiptObject fromJson(Map<String, dynamic> json) {
     print("entered fromjson receipt object");
-    // List<ItemModel> items = List.from(json['items'])
-    //     .map((itemJson) => ItemModel.fromJson(itemJson))
-    //     .toList();
-    //print(items[0].productName);
-    //print(items[0].productDescription);
-
-    print("called list item model in receipt object");
+       print("called list item model in receipt object");
     return ReceiptObject(
         totalWeight: num.parse((json['totalWeight'] as num? ?? 0.0).toStringAsFixed(5)),
       date:DateTime.tryParse(json['date']) ?? DateTime.now(),
@@ -39,11 +33,6 @@ class ReceiptObject {
           .map((itemJson) => ItemModel.fromJson(itemJson))
           .toList() ?? []
 
-      //  items: (json['items'] as List<Map<String, dynamic>>?)?.map((e) => Items.fromJson(e)).toList() ?? [],
-
-      // (json['items'] as List<dynamic>)
-      //     .map((e) => ItemModel.fromJson(e))
-      //     .toList(),
     );
   }
 
@@ -54,8 +43,6 @@ class ReceiptObject {
     data['netTotal'] = netTotal;
     data['totalDiscount'] = totalDiscount;
     data['isDeleted'] = isDeleted;
- //   data['items'] = items.map((v) => v.toJson()).toList();
-   // if (gst != null) data['gst'] = gst;
     return data;
   }
 }

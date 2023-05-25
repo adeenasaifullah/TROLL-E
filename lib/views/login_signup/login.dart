@@ -39,7 +39,7 @@ class Login extends StatelessWidget {
                     topRight: Radius.circular(50),
                   ),
                 ),
-                child: LoginInputWrapper(),
+                child: const LoginInputWrapper(),
               ),
             )
           ],

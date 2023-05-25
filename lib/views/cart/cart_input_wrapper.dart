@@ -216,7 +216,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
     });
 
     //checking weight of trolley continuously
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(Duration(seconds: 5), (timer) {
 
 
       compareWeight();

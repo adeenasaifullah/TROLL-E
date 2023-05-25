@@ -137,11 +137,15 @@ class Menu extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home_outlined),
             title: const Text("Home"),
-            onTap: () => Navigator.of(context).push(
+            onTap: () {
+              print("result in profile provider  ${context.read<ProfileProvider>().result}");
+              Navigator.of(context).pushAndRemoveUntil(
+
               MaterialPageRoute(
                 builder: (context) => const HomeScreen(),
-              ),
-            ),
+              ),(Route<dynamic> route) => false
+            );
+            }
           ),
           ListTile(
             leading: const Icon(Icons.account_circle_outlined),

@@ -6,6 +6,7 @@ import 'package:flutter_glow/flutter_glow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:troll_e/utility.dart';
 import 'package:troll_e/views/shopping_history/shopping_history.dart';
 import 'package:flutter_gif/flutter_gif.dart';
@@ -24,15 +25,26 @@ class Checkout extends StatefulWidget {
 }
 
 class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
-
+  late SharedPreferences prefs;
   @override
 
   void initState() {
-
+    context.read<ProfileProvider>().checkPrefsLoading(true);
+    initializeSharedPreferences();
     super.initState();
   }
 
+  // Initialize the SharedPreferences instance
+  void initializeSharedPreferences() async {
+    context.read<ProfileProvider>().checkPrefsLoading(true);
+    prefs = await SharedPreferences.getInstance();
+    context.read<ProfileProvider>().checkPrefsLoading(false);
+  }
+
+
+
   Widget build(BuildContext context) {
+
     final history = Provider.of<ProfileProvider>(context).user?.shoppingHistory;
     int? n = history?.length;
     return Scaffold(
@@ -42,7 +54,11 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
         title: Roboto_heading(textValue: 'Checkout', size: 20.sp),
         backgroundColor: const Color(0xFFBAD3D4),
       ),
-      body: Column(
+      body: Provider.of<ProfileProvider>(context).prefsLoading
+          ? const Center(
+        child: CircularProgressIndicator(),
+      )
+          : Column(
         children: [
           SizedBox(height: 25.h),
           Padding(
@@ -174,12 +190,14 @@ class _CheckoutState extends State<Checkout> with TickerProviderStateMixin {
             spreadRadius: 0,
 
             onPressed: () {
-              Navigator.pushReplacement(
+              Provider.of<ProfileProvider>(context, listen: false).result = false;
+              prefs.setBool('result', false);
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) =>  HomeScreen()),
+                      (Route<dynamic> route) => false
               );
-              Provider.of<ProfileProvider>(context, listen: false)
-                  .result = false;
+
             },
 
           ),

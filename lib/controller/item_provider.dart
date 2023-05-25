@@ -15,14 +15,6 @@ class ItemProvider extends ChangeNotifier {
   bool checkTemp = false;
 
   bool isLoading = false;
-
-  // Future<bool> checkTempReceipt(UserModel? user) async {
-  //   if (await getTempReceipt(user: user) != null) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   void checkTempReceipt(UserModel? user) async {
     if(await getTempReceipt(user: user) != null) {
       checkTemp = true;

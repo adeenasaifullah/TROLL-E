@@ -1,7 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:troll_e/controller/profile_provider.dart';
-
 import '../helpers/user_apis.dart';
 import '../models/shopping_history.dart';
 import '../models/user_model.dart';

@@ -17,31 +17,13 @@ class TempReceiptModel {
   });
 
    static TempReceiptModel fromJson(Map<String, dynamic> json) {
-  //   return TempReceiptModel(
-  //     receipt: ReceiptObject.fromJson(json['receipt']),
-  //     userID: json['userID'],
-  //     tempWeight: json['tempWeight'].toDouble(),
-  //     uid: json['UID'],
-  //   );
-     print("entered fromjson temp receipt model");
+      print("entered fromjson temp receipt model");
     return TempReceiptModel(
         receipt: ReceiptObject.fromJson(json['tempreceipt']['receipt']),
         userID: json['tempreceipt']['userID'] as String? ?? '',
         tempWeight: json['tempreceipt']['tempWeight'] as num? ?? 0.0,
         uid: json['tempreceipt']['UID'] as String? ?? '',
         );
-
-
-
-    // if (json['receipt'] != null) {
-    //   ReceiptObject.fromJson(json['receipt']);
-    // }
-    // return TempReceiptModel(
-    //   userID: json['userID'],
-    //   tempWeight: json['tempWeight'] ?? 0.0,
-    //   receipt: json['receipt'],
-    //   uid: json['UID'],
-    // );
   }
 
   Map<String, dynamic> toJson() {

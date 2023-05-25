@@ -8,10 +8,6 @@ import 'package:troll_e/controller/user_provider.dart';
 import 'package:troll_e/models/shopping_history.dart';
 import 'package:troll_e/models/user_model.dart';
 import 'package:http/http.dart' as http;
-import '../models/temp_receipt_model.dart';
-import '../views/homescreen/homescreen.dart';
-import '../views/login_signup/login.dart';
-import '../views/login_signup/login_input_wrapper.dart';
 
 void httpErrorHandle({
   required http.Response response,
@@ -50,12 +46,6 @@ Future<bool> signUp({
   required String phoneNumber,
   File? imagefile,
 }) async {
-  //try {
-  //String imageBase64 = ''; // initialize image data as empty string
-  // if (imagefile != null) {
-  //   List<int> imageBytes = await imagefile.readAsBytes();
-  //   imageBase64 = base64Encode(imageBytes); // convert image to base64 string
-  // }
   String actualpath = " ";
   if (imagefile != null) {
     String img = imagefile.toString();
@@ -144,11 +134,8 @@ Future<void> login({
     headers: {"Content-Type": "application/json"},
   );
 
-  print("______------------dghfbsdhfvhsdvfdshdvb--------");
   print(response.statusCode);
-
   var jsonResponse = jsonDecode(response.body);
-
   print("-----------------STATUS CODE----------------");
   print(response.statusCode);
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -158,9 +145,6 @@ Future<void> login({
     var refreshToken = jsonResponse['refreshtoken'];
     var userJson = jsonResponse['user'];
     var loginStatus = userJson['loggedin_before'];
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-    print('USER HAS LOGGED IN');
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     prefs.setString('accesstoken', accessToken);
     prefs.setString("refreshtoken", refreshToken);
     prefs.setBool("loginStatus", loginStatus);
@@ -171,9 +155,6 @@ Future<void> login({
     if (prefs.getString('accesstoken') != null) {
       prefs.remove('accesstoken');
     }
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-    print('NOT LOGGED IN');
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     showSnackBar(context, jsonResponse['message']);
   }
 }
@@ -181,9 +162,6 @@ Future<void> login({
 void logout(BuildContext context) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(
-        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-    print('IN LOGOUT API WITHOUT SHOPPING');
     prefs.remove("refreshtoken");
     prefs.remove("accesstoken");
     prefs.remove("uid");
@@ -357,9 +335,6 @@ Future<UserModel?> googleLogIn(
     print("api called for google");
     print(response.statusCode);
     if (response.statusCode == 200) {
-
-
-
 
       print("response is ok");
       final jsonResponse = json.decode(response.body);

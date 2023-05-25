@@ -51,8 +51,6 @@ class UserProvider extends ChangeNotifier {
   }
 
   void logOut(BuildContext context) {
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-    print('IN LOGOUT PROVIDER WITHOUT SHOPPING');
     logout(context);
   }
 }

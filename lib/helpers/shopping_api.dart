@@ -59,13 +59,6 @@ Future<bool> connectCart(
 
   return result;
 
-
-
-
-
-
-
-
   // } catch (err) {
   //   print("Inside catch block of connectcart");
   //   return result;
@@ -128,15 +121,7 @@ Future<List<num>?> compareWeight({
     else {
       Fluttertoast.showToast(msg: "Something went wrong");
     }
-    //return tempReceipt;
-    // } catch (err) {
-    //   print("GET TEMP RECEIPT CATCH BLOCK printting temp receipt uid ofc its null");
-    //   print(tempReceipt?.uid);
-    //   print(err);
-    //   return tempReceipt;
-    // }
-
-}
+  }
 Future<void> increaseQuantity(
     {UserModel? user,
     required String? productBarcode,
@@ -187,12 +172,9 @@ Future<void> decreaseQuantity(
           "Authorization": "Bearer $accessToken",
         },
         body: jsonEncode(reqBody));
-
-    print("AFTER HTTP CALL INCREASE QTY STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
     print(res.statusCode);
   } catch (err) {
     print(err);
-    print("INSIDE CATCH BLOCK OF DECREASE QTY");
   }
 }
 
@@ -220,8 +202,6 @@ Future<void> addItem(
           "Authorization": "Bearer $accessToken",
         },
         body: jsonEncode(reqBody));
-
-    print("AFTER HTTP CALL ADD ITEM STATUS CODE IS!!!!!!!!!!!!!!!1!!!!");
     print(res.statusCode);
 
     if(res.statusCode != 204)

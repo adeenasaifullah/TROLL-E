@@ -96,7 +96,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       suffixIcon: Icons.visibility_off,
                       //suffixIcon:  obscureIcon ? Icons.visibility : Icons.visibility_off,
                       autoFocus: false,
-
                     ),
                     SizedBox(height: displayHeight(context) * 0.045),
                     NavButton(

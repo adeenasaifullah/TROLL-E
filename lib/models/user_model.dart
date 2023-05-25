@@ -28,9 +28,6 @@ class UserModel {
   });
 
   static UserModel fromJson(Map<String, dynamic> json) {
-    // if (json['shoppingHistory'] != null) {
-    //   ShoppingHistoryModel.fromJson(json['shoppingHistory']);
-    // }
     print("inside fromjson of usermodel");
     var shoppingHistoryJson = json['shoppingHistory']['receipt'] as List<dynamic>;
     var shoppingHistory = shoppingHistoryJson.map((receiptJson) => ReceiptObject.fromJson(receiptJson)).toList();

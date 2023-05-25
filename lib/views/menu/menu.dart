@@ -22,8 +22,9 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
     final itemProvider = Provider.of<ItemProvider>(context);
-    Future<bool> checkTemp = Provider.of<ItemProvider>(context)
-        .checkTempReceipt(profileProvider.user);
+
+
+
     final username = profileProvider.user?.firstName.toCapitalized();
     final lastname = profileProvider.user?.lastName.toCapitalized();
     final email = profileProvider.user?.email;
@@ -35,12 +36,11 @@ class Menu extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Logout'),
-            content: const Text('Are you sure you want to logout?\n '
-                'If you logout your shopping journey will be terminated'),
+            title: Text('Logout'),
+            content: Text('Are you sure you want to logout?\n If you logout your shopping journey will be terminated'),
             actions: [
               ElevatedButton(
-                child: const Text('Cancel'),
+                child: Text('Cancel'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -48,7 +48,8 @@ class Menu extends StatelessWidget {
               ElevatedButton(
                 child: const Text('Logout'),
                 onPressed: () async {
-                  if (checkTemp == Future.value(true)) {
+                  if (await itemProvider
+                      .checkTempReceipt(profileProvider.user)) {
                     logOutDuringShopping(user: profileProvider.user);
                     print(profileProvider.user);
 
@@ -58,7 +59,7 @@ class Menu extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => const Login(),
                       ),
-                      (Route<dynamic> route) => false,
+                          (Route<dynamic> route) => false,
                     );
                   } else {
                     //logout(context);
@@ -68,7 +69,7 @@ class Menu extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => const Login(),
                       ),
-                      (Route<dynamic> route) => false,
+                          (Route<dynamic> route) => false,
                     );
                   }
                 },
@@ -135,17 +136,17 @@ class Menu extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.home_outlined),
-            title: const Text("Home"),
-            onTap: () {
-              print("result in profile provider  ${context.read<ProfileProvider>().result}");
-              Navigator.of(context).pushAndRemoveUntil(
+              leading: const Icon(Icons.home_outlined),
+              title: const Text("Home"),
+              onTap: () {
+                print("result in profile provider  ${context.read<ProfileProvider>().result}");
+                Navigator.of(context).pushAndRemoveUntil(
 
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ),(Route<dynamic> route) => false
-            );
-            }
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ),(Route<dynamic> route) => false
+                );
+              }
           ),
           ListTile(
             leading: const Icon(Icons.account_circle_outlined),

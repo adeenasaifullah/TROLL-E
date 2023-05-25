@@ -12,16 +12,16 @@ import '../models/user_model.dart';
 class ItemProvider extends ChangeNotifier {
   List<ItemModel> itemList = [];
   late TempReceiptModel tempReceipt;
+  bool checkTemp = false;
 
   bool isLoading = false;
 
   Future<bool> checkTempReceipt(UserModel? user) async {
-    if(await getTempReceipt(user: user) != null) {
+    if (await getTempReceipt(user: user) != null) {
       return true;
     }
     return false;
   }
-
 
   //2NS ATTEMPT
   Future<void> getReceipt({UserModel? user}) async {
@@ -29,14 +29,12 @@ class ItemProvider extends ChangeNotifier {
     print("before getreceipt");
     tempReceipt = (await getTempReceipt(user: user))!;
     print("after getreceipt");
-    itemList =  tempReceipt.receipt.items;
+    itemList = tempReceipt.receipt.items;
     print("THIS IS THE GET RECEIPT IN PROVIDER SO PRODUCTNAME HERE IS");
     //print(itemList?[0].productName);
     isLoading = false;
     notifyListeners();
   }
-
-
 
 //1ST ATTEMPT
   // UnmodifiableListView<ItemModel> get items {
@@ -59,34 +57,31 @@ class ItemProvider extends ChangeNotifier {
       {required UserModel? user,
       required String barcode,
       required BuildContext context}) async {
-    bool firstscan=true;
+    bool firstscan = true;
     isLoading = true;
     print(user?.userId);
     print(barcode);
-  print("inside additemtotemp provider");
+    print("inside additemtotemp provider");
 
-  if(itemList.isEmpty){
-    await addItem(user: user, productBarcode: barcode, productQuantity: 1);
-
-  }
-  else {
-    for (final item in itemList) {
-      if (item.barcode == barcode) {
-        //this means item has been scanned before so return back to the screen with false value
-        firstscan = false;
-        print('');
-        break;
+    if (itemList.isEmpty) {
+      await addItem(user: user, productBarcode: barcode, productQuantity: 1);
+    } else {
+      for (final item in itemList) {
+        if (item.barcode == barcode) {
+          //this means item has been scanned before so return back to the screen with false value
+          firstscan = false;
+          print('');
+          break;
+        }
       }
-
-    }
-    if(firstscan==true)
-      {
+      if (firstscan == true) {
         await addItem(user: user, productBarcode: barcode, productQuantity: 1);
         print("inside item provider after calling add item");
       }
-  }
-   // print("item provider after calling add item");
-    await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
+    }
+    // print("item provider after calling add item");
+    await getReceipt(
+        user: (Provider.of<ProfileProvider>(context, listen: false).user));
     notifyListeners();
     isLoading = false;
     return firstscan;
@@ -96,60 +91,75 @@ class ItemProvider extends ChangeNotifier {
   //
   // }
 
-  Future<void> increaseItemQuantity({required UserModel? user, required String? barcode,
-    required BuildContext context, required int product_qty, }) async {
-    isLoading=true;
-    await increaseQuantity(user: user, productBarcode: barcode, productQuantity: product_qty);
-    await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
-    isLoading=false;
+  Future<void> increaseItemQuantity({
+    required UserModel? user,
+    required String? barcode,
+    required BuildContext context,
+    required int product_qty,
+  }) async {
+    isLoading = true;
+    await increaseQuantity(
+        user: user, productBarcode: barcode, productQuantity: product_qty);
+    await getReceipt(
+        user: (Provider.of<ProfileProvider>(context, listen: false).user));
+    isLoading = false;
     notifyListeners();
   }
 
   Future<List<num>?> getWeights(UserModel user) async {
-
     List<num>? weights = await compareWeight(user: user);
-    if(weights!=null) {
+    if (weights != null) {
       return weights;
     }
     notifyListeners();
   }
 
-  Future<void> decreaseItemQuantity({required UserModel? user, required String? barcode,
-    required BuildContext context,  required int product_qty, }) async {
-    isLoading=true;
-    await decreaseQuantity(user: user, productBarcode: barcode, productQuantity: product_qty);
-    await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
+  Future<void> decreaseItemQuantity({
+    required UserModel? user,
+    required String? barcode,
+    required BuildContext context,
+    required int product_qty,
+  }) async {
+    isLoading = true;
+    await decreaseQuantity(
+        user: user, productBarcode: barcode, productQuantity: product_qty);
+    await getReceipt(
+        user: (Provider.of<ProfileProvider>(context, listen: false).user));
     print("DECREASE QTY ITEM PROVIDER CALLED");
 
-    isLoading=false;
+    isLoading = false;
     notifyListeners();
   }
 
   Future<bool> remove({
     required UserModel? user,
     required BuildContext context,
-    required String? barcode,}) async {
+    required String? barcode,
+  }) async {
     bool qty_one = false;
 
-      for (final item in itemList!) {
+    for (final item in itemList!) {
       if (item.barcode == barcode && item.productQuantity == 1) {
         //call api to decreaseqty and send qty as 1
         //we will not be showing any dialog now to ask for qty
-        isLoading=true;
-        await decreaseQuantity(user: user, productBarcode: barcode, productQuantity: 1);
+        isLoading = true;
+        await decreaseQuantity(
+            user: user, productBarcode: barcode, productQuantity: 1);
 
-        qty_one=true;
+        qty_one = true;
         print("item provider removingggggggggggggggggggg");
-       await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
-       print("after get receipt");
-       isLoading=false;
-         }
+        await getReceipt(
+            user: (Provider.of<ProfileProvider>(context, listen: false).user));
+        print("after get receipt");
+        isLoading = false;
       }
-      isLoading=true;
-    await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
-      print("GET RECEIPT CALLED IN ITEM PROVIDER IN REMOVE");
-      isLoading=false;
-      notifyListeners();
+    }
+    isLoading = true;
+    await getReceipt(
+        user: (Provider.of<ProfileProvider>(context, listen: false).user));
+    print("GET RECEIPT CALLED IN ITEM PROVIDER IN REMOVE");
+    isLoading = false;
+    notifyListeners();
     return qty_one;
   }
 

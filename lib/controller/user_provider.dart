@@ -10,9 +10,11 @@ class UserProvider extends ChangeNotifier {
   UserModel? user;
   bool isLoading = true;
 
-  Future<void> loginUser({required BuildContext context,
+  Future<void> loginUser({
+    required BuildContext context,
     required String email,
-    required String password,}) async {
+    required String password,
+  }) async {
     isLoading = true;
     await login(context: context, email: email, password: password);
     isLoading = false;
@@ -26,28 +28,33 @@ class UserProvider extends ChangeNotifier {
     required String lastName,
     required String password,
     File? imagefile,
-    required String phoneNumber, }) async {
-    isLoading=true;
-   bool result= await signUp(
+    required String phoneNumber,
+  }) async {
+    isLoading = true;
+    bool result = await signUp(
         context: context,
         firstName: firstName,
         imagefile: imagefile,
         lastName: lastName,
         email: email,
         phoneNumber: phoneNumber,
-        password: password
-   );
+        password: password);
 
     print("INSIDE USER PROVIDER");
-    isLoading=false;
+    isLoading = false;
     notifyListeners();
     return result;
   }
 
   void logOutWhileShopping() {
     logOutDuringShopping(user: user);
-}
+  }
 
+  void logOut(BuildContext context) {
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    print('IN LOGOUT PROVIDER WITHOUT SHOPPING');
+    logout(context);
+  }
 }
 
 // class UserProvider extends ChangeNotifier {

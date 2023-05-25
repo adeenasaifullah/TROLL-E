@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,9 +29,8 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
   final TextEditingController passwordController = TextEditingController();
   final _loginFormKey = GlobalKey<FormState>();
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    // clientId: '495548594516-93cme11jghhar4msjn4d0oe1jai7suuq.apps.googleusercontent.com',
-  );
-
+      // clientId: '495548594516-93cme11jghhar4msjn4d0oe1jai7suuq.apps.googleusercontent.com',
+      );
 
   @override
   void initState() {
@@ -42,7 +39,7 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
     //  initSharedPref();
   }
 
-
+  @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
 
@@ -134,9 +131,12 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                       buttonHeight: displayHeight(context) * 0.075,
                       buttonWidth: displayWidth(context) * 0.8,
                       onPressed: () async {
-                        if (_loginFormKey.currentState!.validate())  {
-                          await userProvider.loginUser(context: context, email: emailController.text.trim(), password: passwordController.text);
-                        //  await loginUser()
+                        if (_loginFormKey.currentState!.validate()) {
+                          await userProvider.loginUser(
+                              context: context,
+                              email: emailController.text.trim(),
+                              password: passwordController.text);
+                          //  await loginUser()
                           // await login(
                           //     userProvider: userProvider,
                           //     context: context,
@@ -147,30 +147,35 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                               "result in login_input wrapper screeennnnnn.................");
                           // print(value);
                           //print(userProvider.prefs.getString('accesstoken'));
-                         //  //if(value != false){
-                         //  userProvider.prefs =
-                         //      await SharedPreferences.getInstance();
-                         // print(userProvider.prefs.get('accesstoken'));
+                          //  //if(value != false){
+                          //  userProvider.prefs =
+                          //      await SharedPreferences.getInstance();
+                          // print(userProvider.prefs.get('accesstoken'));
 
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          if (prefs.getString('accesstoken') !=
-                              null && prefs.getBool('loginStatus') == true) {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          if (prefs.getString('accesstoken') != null &&
+                              prefs.getBool('loginStatus') == true) {
                             Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) => HomeScreen(
-                                  token: prefs.getString("accesstoken"),
+                                MaterialPageRoute(
+                                  builder: (context) => HomeScreen(
+                                    token: prefs.getString("accesstoken"),
+                                  ),
                                 ),
-                              ),(Route<dynamic> route) => false
-                            );
+                                (Route<dynamic> route) => false);
                           }
 
-                          if (prefs.getString('accesstoken') !=
-                              null && prefs.getBool('loginStatus') == false) {
+                          else if (prefs.getString('accesstoken') != null &&
+                              prefs.getBool('loginStatus') == false) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => DemoScreen(token: prefs.getString("accesstoken"),),
+                                builder: (context) => DemoScreen(
+                                  token: prefs.getString("accesstoken"),
+                                ),
                               ),
                             );
+                          } else {
+
                           }
                         }
                       },
@@ -189,7 +194,6 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                         width: displayWidth(context) * 0.1,
                       ),
                       onTap: () async {
-
                         // String googleAuthUrl = 'http://localhost:3000/auth/google?redirect_uri=troll-e://google-auth-success';
                         // String? result = await FlutterWebAuth.authenticate(
                         //   url: googleAuthUrl,
@@ -207,37 +211,41 @@ class _LoginInputWrapperState extends State<LoginInputWrapper> {
                         // final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
                         // final String? idToken = googleAuth.idToken;
 
-
-                        final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+                        final GoogleSignInAccount? googleUser =
+                            await _googleSignIn.signIn();
                         if (googleUser != null) {
                           print(googleUser);
                           print(googleUser.displayName);
 
-                          final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                          final GoogleSignInAuthentication googleAuth =
+                              await googleUser.authentication;
                           // print(googleAuth.);
                           // final String? idToken = googleAuth.idToken;
                           //  print("id token from my google usez $idToken");
 
-
-                        final user = await googleLogIn(email: googleUser.email, name: googleUser.displayName,
-                            photourl: googleUser.photoUrl, googleid: googleUser.id,context: context, userProvider: userProvider);
-                        print(user);
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                        print('Access token from backend: ${prefs.getString('accesstoken')}');
-                        if (prefs.getString('accesstoken') !=
-                            null) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(
-                                token: prefs
-                                    .getString("accesstoken"),
+                          final user = await googleLogIn(
+                              email: googleUser.email,
+                              name: googleUser.displayName,
+                              photourl: googleUser.photoUrl,
+                              googleid: googleUser.id,
+                              context: context,
+                              userProvider: userProvider);
+                          print(user);
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          print(
+                              'Access token from backend: ${prefs.getString('accesstoken')}');
+                          if (prefs.getString('accesstoken') != null) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(
+                                  token: prefs.getString("accesstoken"),
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         }
-                      }},
-
-
+                      },
                     ),
                     //SizedBox(height: displayHeight(context) * 0.02),
                     TextButton(

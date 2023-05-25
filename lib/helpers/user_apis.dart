@@ -151,13 +151,16 @@ Future<void> login({
 
   print("-----------------STATUS CODE----------------");
   print(response.statusCode);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
   if (response.statusCode == 200) {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     var accessToken = jsonResponse['accesstoken'];
     var refreshToken = jsonResponse['refreshtoken'];
     var userJson = jsonResponse['user'];
     var loginStatus = userJson['loggedin_before'];
-
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    print('USER HAS LOGGED IN');
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     prefs.setString('accesstoken', accessToken);
     prefs.setString("refreshtoken", refreshToken);
     prefs.setBool("loginStatus", loginStatus);
@@ -165,6 +168,12 @@ Future<void> login({
     prefs.setBool("result", false);
     showSnackBar(context, 'Login Successful');
   } else {
+    if (prefs.getString('accesstoken') != null) {
+      prefs.remove('accesstoken');
+    }
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    print('NOT LOGGED IN');
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     showSnackBar(context, jsonResponse['message']);
   }
 }
@@ -172,13 +181,15 @@ Future<void> login({
 void logout(BuildContext context) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    print(
+        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    print('IN LOGOUT API WITHOUT SHOPPING');
     prefs.remove("refreshtoken");
     prefs.remove("accesstoken");
 
     prefs.remove("uid");
   } catch (error) {
-    //showSnackBar(context, error.toString());
+    showSnackBar(context, error.toString());
   }
 }
 

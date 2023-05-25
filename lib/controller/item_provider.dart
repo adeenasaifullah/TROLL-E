@@ -15,6 +15,7 @@ class ItemProvider extends ChangeNotifier {
 
   bool isLoading = false;
 
+  bool theftValue= false;
   Future<bool> checkTempReceipt(UserModel? user) async {
     if(await getTempReceipt(user: user) != null) {
       return true;
@@ -36,6 +37,11 @@ class ItemProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateTheftValue(bool val) async {
+    theftValue = val;
+    print("UPDATED Theft value inside Item provider: $theftValue");
+    notifyListeners();
+  }
 
 
 //1ST ATTEMPT
@@ -140,7 +146,7 @@ class ItemProvider extends ChangeNotifier {
 
         qty_one=true;
         print("item provider removingggggggggggggggggggg");
-       await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
+       // await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
        print("after get receipt");
        isLoading=false;
          }

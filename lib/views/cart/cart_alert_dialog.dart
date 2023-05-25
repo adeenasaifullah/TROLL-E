@@ -1,3 +1,80 @@
+// import 'dart:async';
+//
+// import 'package:flutter/material.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:provider/provider.dart';
+//
+// import '../../controller/item_provider.dart';
+// import '../../controller/profile_provider.dart';
+//
+// class CartAlertDialog extends StatefulWidget {
+//   @override
+//   CartAlertDialogState createState() => CartAlertDialogState();
+// }
+//
+// class CartAlertDialogState extends State<CartAlertDialog> {
+//   bool shouldCloseDialog = false;
+//
+//   bool returnDialogValue() {
+//     return true;
+// }
+//
+//   @override
+//   void initState() {
+//
+//     super.initState();
+//     // Simulate the condition being satisfied after 2 seconds
+//     print("init state of alert dialog");
+//     Timer.periodic(Duration(seconds: 1), (timer) async {
+//       List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
+//       print("INSIDE ALERT DIALOG");
+//       if(weights!=null) {
+//
+//         print("THIS is not nullllllllllllllllll");
+//       }
+//       else {
+//         print("THIS SHOULD CLOSE THE POP UP");
+//         setState(() {
+//           shouldCloseDialog = true;
+//
+//         });
+//
+//         Provider.of<ItemProvider>(context, listen: false).updateTheftValue(true);
+//         timer.cancel();
+//
+//       }
+//
+//     });
+//   }
+//
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final itemProvider = Provider.of<ItemProvider>(context);
+//     if (shouldCloseDialog) {
+//       WidgetsBinding.instance.addPostFrameCallback((_) {
+//         // Navigator.of(context).pop(); // Close the dialog
+//         if (mounted) {
+//         Navigator.of(context).pop();
+//       }
+//       });
+//     }
+//
+//     return WillPopScope(
+//         onWillPop: () async {
+//       // Disable the back button
+//       return false;
+//
+//     },
+//     child:const AlertDialog(
+//       title: Text("You have placed an item in the cart without scanning \n "
+//           "Please remove the item and scan it first",
+//         style: TextStyle(fontWeight: FontWeight.w500,),),
+//
+//     )
+//     );
+//   }
+// }
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -9,10 +86,10 @@ import '../../controller/profile_provider.dart';
 
 class CartAlertDialog extends StatefulWidget {
   @override
-  CartAlertDialogState createState() => CartAlertDialogState();
+  _CartAlertDialogState createState() => _CartAlertDialogState();
 }
 
-class CartAlertDialogState extends State<CartAlertDialog> {
+class _CartAlertDialogState extends State<CartAlertDialog> {
   bool shouldCloseDialog = false;
 
   @override
@@ -50,16 +127,16 @@ class CartAlertDialogState extends State<CartAlertDialog> {
 
     return WillPopScope(
         onWillPop: () async {
-      // Disable the back button
-      return false;
+          // Disable the back button
+          return false;
 
-    },
-    child:const AlertDialog(
-      title: Text("You have placed an item in the cart without scanning \n "
-          "Please remove the item and scan it first",
-        style: TextStyle(fontWeight: FontWeight.w500,),),
+        },
+        child:const AlertDialog(
+          title: Text("You have placed an item in the cart without scanning \n "
+              "Please remove the item and scan it first",
+            style: TextStyle(fontWeight: FontWeight.w500,),),
 
-    )
+        )
     );
   }
 }

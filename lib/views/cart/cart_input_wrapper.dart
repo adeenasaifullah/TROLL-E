@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:troll_e/helpers/user_apis.dart';
 import 'package:troll_e/views/cart/alert_temp_less_total_weight.dart';
 import 'package:troll_e/views/cart/checkout.dart';
 import 'package:troll_e/helpers/shopping_api.dart';
@@ -49,6 +50,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
 
   List<ItemModel>? items = [];
   int secondsPassed = 0;
+
   int theftTimer= 0;
   Timer? timer;
 
@@ -79,11 +81,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
   }
 
   compareWeight() async {
-
     List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
-
-
-
     if(weights!=null){
        tempweight= weights[0];
        totalweight=weights[1];
@@ -100,7 +98,8 @@ class CartInputWrapperState extends State<CartInputWrapper> {
          } //if condition ending
 
     } //weight!=null
-  } //async
+  }
+
 
   compareWeightForScan() async {
     print("INSIDE COMPARE WEIGHT FOR SCAN FUNCTION LINE 98");
@@ -116,7 +115,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         print("This is tempweight: $tempweight");
         print("This is totalweight: $totalweight");
         print("This is seconds passed: $secondsPassed");
-        if (secondsPassed == 20 && tempweight < totalweight) {
+        if (secondsPassed == 12 && tempweight < totalweight) {
           timer.cancel();
           secondsPassed = 0;
                 print("YOU HAVE REMOVED AN ITEM FROM YOUR TROLLEY OR INCREASED QUANTITY FOR AN ITEM WITHOUT PLACING IN TROLLEY");
@@ -136,7 +135,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
 
         }
 
-         if (secondsPassed == 20 && tempweight > totalweight) {
+         if (secondsPassed == 12 && tempweight > totalweight) {
           timer.cancel();
             secondsPassed = 0;
           print("YOU HAVE PLACED AN ITEM IN YOUR TROLLEY OR DECREASED QUANTITY FOR AN ITEM WITHOUT REMOVING FROM TROLLEY");
@@ -150,7 +149,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         //   secondsPassed = 0;
         // }
 
-         if(secondsPassed <= 20){
+         if(secondsPassed <= 12){
 
           List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
           if(weights!=null){
@@ -218,41 +217,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
 
     //checking weight of trolley continuously
     Timer.periodic(Duration(seconds: 1), (timer) async {
-      theftTimer += 1;
-
-
-
-      List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
-     print("PRINTING THEFT TIMER");
-      print(theftTimer);
-      if(weights!=null){
-        if(theftTimer >=2 && weights[0]>weights[1])
-        {
-          timer.cancel();
-          theftTimer = 0;
-          compareWeight();
-          Timer.periodic(Duration(seconds:1), (timer) async{
-            CartAlertDialogState alertdialog = new CartAlertDialogState();
-            print(alertdialog.shouldCloseDialog);
-            if(alertdialog.shouldCloseDialog == true)
-              {
-                print("INSIDEEEEE ALERT DIALOG");
-                timer.cancel();
-                compareWeight();
-              }
-          });
-        }
-      }
-      else {
-
-      }
-
-
-
-
-
-
-
+      compareWeight();
     });
 
 
@@ -587,11 +552,13 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                   print("THIS IS THE VALUE OF FIRST SCAN");
                                   print(firstScan);
 
+                                  List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
 
-                                  if (firstScan == false) {
+                                  if (firstScan == false && (weights == null)) {
                                     //context.mounted is being used cuz it said Don't use 'BuildContext's across async gaps
                                     //and onPressed is async so i think i need to do this
                                     if (!context.mounted) return;
+
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
@@ -991,8 +958,12 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                       },
                                     );
                                   }
+                                  compareWeightForScan();
+                                  if(firstScan==false && weights!=null){
+                                    showSnackBar(context, "Please first place the item in trolley, or decrease quantity");
+                                  }
                                 }
-                            compareWeightForScan();
+                            // compareWeightForScan();
                                 ispressed = false;
 
 
@@ -1054,6 +1025,8 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                     ],
                   ),
                 )),
+
+  // })
     );
   }
 }

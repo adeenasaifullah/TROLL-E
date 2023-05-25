@@ -79,9 +79,12 @@ class _CartAlertDialogTwoState extends State<CartAlertDialogTwo> {
       }
       else {
 
+        timer.cancel();
         setState(() {
           shouldCloseDialog = true;
         });
+
+
 
       }
 

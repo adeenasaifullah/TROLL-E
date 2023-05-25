@@ -22,13 +22,10 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
     final itemProvider = Provider.of<ItemProvider>(context);
-
-
-
     final username = profileProvider.user?.firstName.toCapitalized();
     final lastname = profileProvider.user?.lastName.toCapitalized();
     final email = profileProvider.user?.email;
-
+    itemProvider.checkTempReceipt(profileProvider.user);
     final initials = username![0] + lastname![0];
 
     void showLogoutConfirmationDialog(BuildContext context) {
@@ -37,7 +34,8 @@ class Menu extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Logout'),
-            content: Text('Are you sure you want to logout?\n If you logout your shopping journey will be terminated'),
+            content: Text(
+                'Are you sure you want to logout?\n If you logout your shopping journey will be terminated'),
             actions: [
               ElevatedButton(
                 child: Text('Cancel'),
@@ -48,28 +46,26 @@ class Menu extends StatelessWidget {
               ElevatedButton(
                 child: const Text('Logout'),
                 onPressed: () async {
-                  if (await itemProvider
-                      .checkTempReceipt(profileProvider.user)) {
+                  if (itemProvider.checkTemp) {
                     logOutDuringShopping(user: profileProvider.user);
                     print(profileProvider.user);
-
                     Navigator.of(context).pop();
                     // Perform logout action here
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) => const Login(),
                       ),
-                          (Route<dynamic> route) => false,
+                      (Route<dynamic> route) => false,
                     );
                   } else {
-                    //logout(context);
+                    logout(context);
                     //Navigator.of(context).pop();
                     // Perform logout action here
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) => const Login(),
                       ),
-                          (Route<dynamic> route) => false,
+                      (Route<dynamic> route) => false,
                     );
                   }
                 },
@@ -139,15 +135,14 @@ class Menu extends StatelessWidget {
               leading: const Icon(Icons.home_outlined),
               title: const Text("Home"),
               onTap: () {
-                print("result in profile provider  ${context.read<ProfileProvider>().result}");
+                print(
+                    "result in profile provider  ${context.read<ProfileProvider>().result}");
                 Navigator.of(context).pushAndRemoveUntil(
-
                     MaterialPageRoute(
                       builder: (context) => const HomeScreen(),
-                    ),(Route<dynamic> route) => false
-                );
-              }
-          ),
+                    ),
+                    (Route<dynamic> route) => false);
+              }),
           ListTile(
             leading: const Icon(Icons.account_circle_outlined),
             title: const Text("Profile"),

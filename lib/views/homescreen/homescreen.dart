@@ -62,30 +62,24 @@ class _HomeScreenState extends State<HomeScreen> {
     // cartConnected = prefs.getBool("result")!;
     //cartConnected = context.read<ShoppingProvider>().result;
     //cartConnected = context.read<ProfileProvider>().result;
-    print("result in init profile provider  ${context.read<ProfileProvider>().result}");
+    print(
+        "result in init profile provider  ${context.read<ProfileProvider>().result}");
 
     // Provider.of<ItemProvider>(context).getReceipt(
     //     user: Provider.of<ProfileProvider>(context).user);
     super.initState();
   }
+
   void initializeSharedPreferences() async {
     context.read<ProfileProvider>().checkPrefsLoading(true);
 
     prefs = await SharedPreferences.getInstance();
 
     context.read<ProfileProvider>().checkPrefsLoading(false);
-    setState(() {
-
-    });
-
-
+    setState(() {});
   }
 
-
   // Initialize the SharedPreferences instance
-
-
-
 
   // void connected() async {
   //   prefs = await SharedPreferences.getInstance();
@@ -118,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
         //title: Image.asset('Assets/images/TROLL-E-without-tagline.png', fit: BoxFit.cover, height: 150.h,)
       ),
       //   ),
-      body: Provider.of<ProfileProvider>(context).isLoading || Provider.of<ProfileProvider>(context).prefsLoading
+      body: Provider.of<ProfileProvider>(context).isLoading ||
+              Provider.of<ProfileProvider>(context).prefsLoading
           ? const Center(
               child: CircularProgressIndicator(),
             )

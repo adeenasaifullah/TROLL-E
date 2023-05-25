@@ -99,7 +99,7 @@ class _DemoScreenOneState extends State<DemoScreenOne> {
                 children: [
                   Flexible(child: Padding(
                     padding: const EdgeInsets.only(left:15.0, right:15.0),
-                    child: Roboto_text(textValue: 'Tap the connect button to scan the QR code on the cart.If the button starts glowing, click the start shopping button.', size: 16),
+                    child: Roboto_text(textValue: 'Tap the connect button to scan the QR code on the cart.If the button starts glowing, click the start shopping button.', size: 16.sp),
                   ))
                 ],
               ),

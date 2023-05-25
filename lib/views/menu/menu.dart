@@ -35,7 +35,7 @@ class Menu extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Logout'),
-            content: Text('Are you sure you want to logout?'),
+            content: Text('Are you sure you want to logout?\n If you logout your shopping journey will be terminated'),
             actions: [
               ElevatedButton(
                 child: Text('Cancel'),

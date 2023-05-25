@@ -21,7 +21,7 @@ class _CartAlertDialogState extends State<CartAlertDialog> {
     super.initState();
     // Simulate the condition being satisfied after 2 seconds
     print("init state of alert dialog");
-    Timer.periodic(Duration(seconds: 5), (timer) async {
+    Timer.periodic(Duration(seconds: 1), (timer) async {
       List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
       print("INSIDE ALERT DIALOG");
       if(weights!=null) {

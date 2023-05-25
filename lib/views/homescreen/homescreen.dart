@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      drawer: Menu(),
+      drawer: const Menu(),
       appBar:
           // PreferredSize(
           //   preferredSize: Size.fromHeight(80.0),
@@ -127,11 +127,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: displayHeight(context) * 0.8,
                           width: displayWidth(context),
                           decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(60),
-                                topRight: Radius.circular(60),
-                              )),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(60),
+                              topRight: Radius.circular(60),
+                            ),
+                          ),
                           child: Column(
                             children: <Widget>[
                               SizedBox(height: displayHeight(context) * 0.07),
@@ -151,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: 170.w,
                                     height: 170.h,
                                     onPressed: () async {
-// true means its glowing
+                                      // true means its glowing
                                       if (cartConnected == true) {
                                       } else {
                                         String uid = await scanQR();
@@ -200,9 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 blurRadius: 0,
                                 spreadRadius: 0,
                                 onPressed: () {
-                                  setState(() {
-
-                                  });cartConnected
+                                  setState(() {});
+                                  cartConnected
                                       ? Navigator.push(
                                           context,
                                           MaterialPageRoute(

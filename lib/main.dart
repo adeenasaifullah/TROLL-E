@@ -35,7 +35,6 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   runApp(
-
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
@@ -44,8 +43,9 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ItemProvider()),
         ChangeNotifierProvider(create: (_) => HistoryProvider()),
       ],
-      child: MyApp( token: prefs.getString('accesstoken')),
-
+      child: MyApp(
+        token: prefs.getString('accesstoken'),
+      ),
     ),
   );
 }
@@ -71,10 +71,9 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
-
               home: (token != null && JwtDecoder.isExpired(token) == false)
                   ? HomeScreen(token: token)
-                  : Login()
+                  : const Login()
               // const SplashScreen()
               //(prefs.getString('accesstoken') != null && JwtDecoder.isExpired(token) == false )?HomeScreen(token: token):SplashScreen()
               //const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -119,7 +118,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Signup()),
+                  MaterialPageRoute(
+                    builder: (context) => const Signup(),
+                  ),
                 );
               },
               child: const Text("Sign up Screen"),
@@ -128,7 +129,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                  ),
                 );
               },
               child: const Text("Edit Profile Screen"),
@@ -137,7 +140,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => OTP()),
+                  MaterialPageRoute(
+                    builder: (context) => OTP(),
+                  ),
                 );
               },
               child: const Text("OTP"),
@@ -146,7 +151,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ForgotPassword()),
+                  MaterialPageRoute(
+                    builder: (context) => const ForgotPassword(),
+                  ),
                 );
               },
               child: const Text("Forgot Password"),
@@ -155,17 +162,20 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                  ),
                 );
               },
               child: const Text("HomeScreen"),
             ),
-
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Helpcenter()),
+                  MaterialPageRoute(
+                    builder: (context) => const Helpcenter(),
+                  ),
                 );
               },
               child: const Text("Help Center"),
@@ -174,7 +184,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SplashScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const SplashScreen(),
+                  ),
                 );
               },
               child: const Text("Splash screen"),

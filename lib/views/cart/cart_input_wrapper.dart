@@ -102,7 +102,6 @@ class CartInputWrapperState extends State<CartInputWrapper> {
   } //async
 
   compareWeightForScan() async {
-    // secondsPassed = 0;
     print("INSIDE COMPARE WEIGHT FOR SCAN FUNCTION LINE 98");
     Timer.periodic(Duration(seconds:1), (timer) async {
       // setState(){
@@ -117,13 +116,9 @@ class CartInputWrapperState extends State<CartInputWrapper> {
         print("This is totalweight: $totalweight");
         print("This is seconds passed: $secondsPassed");
         if (secondsPassed == 20 && tempweight < totalweight) {
-        // setState() {
-
           timer.cancel();
           secondsPassed = 0;
-        // }
-
-        print("YOU HAVE REMOVED AN ITEM FROM YOUR TROLLEY OR INCREASED QUANTITY FOR AN ITEM WITHOUT PLACING IN TROLLEY");
+                print("YOU HAVE REMOVED AN ITEM FROM YOUR TROLLEY OR INCREASED QUANTITY FOR AN ITEM WITHOUT PLACING IN TROLLEY");
         //alert box shown, as soon as alert box closes, call this method again.
           showDialog(
             context: context,
@@ -131,6 +126,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
               return CartAlertDialogTwo(
                   onCloseDialog: () {
                     // This function will be called when the dialog is closed
+
                     compareWeightForScan(); // Call the function again
                   }
               );
@@ -142,8 +138,6 @@ class CartInputWrapperState extends State<CartInputWrapper> {
          if (secondsPassed == 20 && tempweight > totalweight) {
           timer.cancel();
             secondsPassed = 0;
-
-
           print("YOU HAVE PLACED AN ITEM IN YOUR TROLLEY OR DECREASED QUANTITY FOR AN ITEM WITHOUT REMOVING FROM TROLLEY");
 
           //alert box shown, as soon as alert box closes, call this method again.
@@ -607,7 +601,9 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                                                                 },
                                                                               );
                                                                             }
-                                                                          compareWeightForScan();
+                                                                            if(secondsPassed==0) {
+                                                                              compareWeightForScan();
+                                                                            }
                                                                           },
                                                                           child: Text(
                                                                             "Save",
@@ -724,7 +720,9 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                                                             },
                                                                           );
                                                                         }
-                                                                        compareWeightForScan();
+                                                                        if(secondsPassed==0) {
+                                                                          compareWeightForScan();
+                                                                        }
                                                                         print("I HAVE PRESSED SAVE BUTTON IN ENTER QTY TO INCREASE HERE LINE 728 ");
                                                                       },
                                                                       child:
@@ -1003,7 +1001,9 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                                                       },
                                                                     );
                                                                   }
-                                                                  compareWeightForScan();
+                                                                  if(secondsPassed==0) {
+                                                                    compareWeightForScan();
+                                                                  }
                                                                 },
                                                                 child: Text(
                                                                   "Save",
@@ -1205,7 +1205,9 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                                                         },
                                                                       );
                                                                     }
-                                                                    compareWeightForScan();
+                                                                    if(secondsPassed==0) {
+                                                                      compareWeightForScan();
+                                                                    }
                                                                   },
                                                                   child: Text(
                                                                     "Save",
@@ -1239,7 +1241,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                     );
                                   }
                                 }
-
+                            compareWeightForScan();
                                 ispressed = false;
 
 

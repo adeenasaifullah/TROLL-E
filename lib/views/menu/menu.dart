@@ -48,14 +48,9 @@ class Menu extends StatelessWidget {
                 onPressed: () async {
                   if (await itemProvider
                       .checkTempReceipt(profileProvider.user)) {
-                    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-                    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-                    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-                    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-                    print("DURINGGGGGGGG SHOPPINGGGG LOGOUT");
                     logOutDuringShopping(user: profileProvider.user);
-                    print('USERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
                     print(profileProvider.user);
+
                     Navigator.of(context).pop();
                     // Perform logout action here
                     Navigator.of(context).pushAndRemoveUntil(
@@ -65,8 +60,8 @@ class Menu extends StatelessWidget {
                       (Route<dynamic> route) => false,
                     );
                   } else {
-                    logout(context);
-                    Navigator.of(context).pop();
+                    //logout(context);
+                    //Navigator.of(context).pop();
                     // Perform logout action here
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(

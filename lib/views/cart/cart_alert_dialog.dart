@@ -9,10 +9,10 @@ import '../../controller/profile_provider.dart';
 
 class CartAlertDialog extends StatefulWidget {
   @override
-  _CartAlertDialogState createState() => _CartAlertDialogState();
+  CartAlertDialogState createState() => CartAlertDialogState();
 }
 
-class _CartAlertDialogState extends State<CartAlertDialog> {
+class CartAlertDialogState extends State<CartAlertDialog> {
   bool shouldCloseDialog = false;
 
   @override

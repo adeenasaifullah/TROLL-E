@@ -49,6 +49,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
 
   List<ItemModel>? items = [];
   int secondsPassed = 0;
+  int theftTimer= 0;
   Timer? timer;
 
   checkShoppingHistory() {
@@ -216,11 +217,45 @@ class CartInputWrapperState extends State<CartInputWrapper> {
     });
 
     //checking weight of trolley continuously
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(Duration(seconds: 1), (timer) async {
+      theftTimer += 1;
 
 
-      compareWeight();
+
+      List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
+     print("PRINTING THEFT TIMER");
+      print(theftTimer);
+      if(weights!=null){
+        if(theftTimer >=2 && weights[0]>weights[1])
+        {
+          timer.cancel();
+          theftTimer = 0;
+          compareWeight();
+          Timer.periodic(Duration(seconds:1), (timer) async{
+            CartAlertDialogState alertdialog = new CartAlertDialogState();
+            print(alertdialog.shouldCloseDialog);
+            if(alertdialog.shouldCloseDialog == true)
+              {
+                print("INSIDEEEEE ALERT DIALOG");
+                timer.cancel();
+                compareWeight();
+              }
+          });
+        }
+      }
+      else {
+
+      }
+
+
+
+
+
+
+
     });
+
+
     super.initState();
   }
 

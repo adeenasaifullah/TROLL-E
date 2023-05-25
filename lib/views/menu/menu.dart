@@ -60,7 +60,7 @@ class Menu extends StatelessWidget {
                           (Route<dynamic> route) => false,
                     );
                   } else {
-                    logout(context);
+                    //logout(context);
                     //Navigator.of(context).pop();
                     // Perform logout action here
                     Navigator.of(context).pushAndRemoveUntil(

@@ -17,12 +17,8 @@ class ItemProvider extends ChangeNotifier {
 
   Future<bool> checkTempReceipt(UserModel? user) async {
     if(await getTempReceipt(user: user) != null) {
-      print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-      print("TEMP RECEIPT IS NOT NULLL");
       return true;
     }
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-    print("TEMP RECEIPT IS NULLL");
     return false;
   }
 

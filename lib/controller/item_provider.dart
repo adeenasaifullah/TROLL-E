@@ -119,6 +119,7 @@ class ItemProvider extends ChangeNotifier {
     isLoading=true;
     await decreaseQuantity(user: user, productBarcode: barcode, productQuantity: product_qty);
     await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
+    print("DECREASE QTY ITEM PROVIDER CALLED");
 
     isLoading=false;
     notifyListeners();
@@ -136,11 +137,19 @@ class ItemProvider extends ChangeNotifier {
         //we will not be showing any dialog now to ask for qty
         isLoading=true;
         await decreaseQuantity(user: user, productBarcode: barcode, productQuantity: 1);
-        isLoading=false;
+
         qty_one=true;
+        print("item provider removingggggggggggggggggggg");
+       await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
+       print("after get receipt");
+       isLoading=false;
          }
       }
+      isLoading=true;
     await getReceipt(user: (Provider.of<ProfileProvider>(context, listen: false).user));
+      print("GET RECEIPT CALLED IN ITEM PROVIDER IN REMOVE");
+      isLoading=false;
+      notifyListeners();
     return qty_one;
   }
 

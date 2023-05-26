@@ -554,7 +554,7 @@ class CartInputWrapperState extends State<CartInputWrapper> {
 
                                   List<num>? weights = await Provider.of<ItemProvider>(context, listen: false).getWeights(Provider.of<ProfileProvider>(context, listen: false).user!);
 
-                                  if (firstScan == false && (weights == null)) {
+                                  if (firstScan == false) {
                                     //context.mounted is being used cuz it said Don't use 'BuildContext's across async gaps
                                     //and onPressed is async so i think i need to do this
                                     if (!context.mounted) return;
@@ -602,145 +602,153 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                                           FontWeight.w400),
                                                     ),
                                                     onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop(); // close the previous dialog box
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                        context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                              "Enter Quantity to Increase",
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500,
-                                                              ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                              TextFormField(
-                                                                controller:
-                                                                increase_qty,
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  fillColor:
-                                                                  const Color(
-                                                                      0xFFF4F1F1),
-                                                                  filled: true,
-                                                                  border:
-                                                                  OutlineInputBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        10.0),
-                                                                    borderSide: BorderSide(
-                                                                        width:
-                                                                        6.w,
-                                                                        color: Color(
-                                                                            0xFFF4F1F1)),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 20.h,
-                                                              ),
-                                                              ElevatedButton(
-                                                                style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                                  backgroundColor:
-                                                                  const Color(
-                                                                      0xFF000000),
-                                                                  shape:
-                                                                  RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        10.0),
-                                                                  ),
-                                                                  padding: EdgeInsets
-                                                                      .symmetric(
-                                                                      vertical: 10
-                                                                          .h,
-                                                                      horizontal:
-                                                                      25.w),
-                                                                ),
-                                                                onPressed:
-                                                                    () async {
-                                                                  if (_checkinput
-                                                                      .currentState!
-                                                                      .validate()) {
-                                                                    await itemProvider
-                                                                        .increaseItemQuantity(
-                                                                        user: Provider
-                                                                            .of<
-                                                                            ProfileProvider>(
-                                                                            context,
-                                                                            listen:
-                                                                            false)
-                                                                            .user,
-                                                                        barcode:
-                                                                        _result,
-                                                                        product_qty:
-                                                                        int
-                                                                            .parse(
-                                                                            increase_qty
-                                                                                .text),
-                                                                        context:
-                                                                        context);
-                                                                    if (!context
-                                                                        .mounted)
-                                                                      return;
-                                                                    Navigator
-                                                                        .of(
-                                                                        context)
-                                                                        .pop();
-                                                                    showDialog(
-                                                                      context:
-                                                                      context,
-                                                                      builder:
-                                                                          (
-                                                                          BuildContext
-                                                                          context) {
-                                                                        Future
-                                                                            .delayed(
-                                                                            const Duration(
-                                                                                seconds: 1),
-                                                                                () {
-                                                                              Navigator
-                                                                                  .of(
-                                                                                  context)
-                                                                                  .pop();
-                                                                            });
-                                                                        return const AlertDialog(
-                                                                          title: Text(
-                                                                              "Quantity Increased!"),
-                                                                        );
-                                                                      },
-                                                                    );
-                                                                  }
-                                                                  if(secondsPassed==0) {
-                                                                    compareWeightForScan();
-                                                                  }
-                                                                },
-                                                                child: Text(
-                                                                  "Save",
-                                                                  style:
-                                                                  TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                    15.sp,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
+    if(weights == null) {
+    Navigator.of(context)
+        .pop(); // close the previous dialog box
+    showDialog(
+    context: context,
+    builder: (BuildContext
+    context) {
+    return AlertDialog(
+    title: const Text(
+    "Enter Quantity to Increase",
+    style: TextStyle(
+    fontWeight:
+    FontWeight
+        .w500,
+    ),
+    ),
+    actions: <Widget>[
+    TextFormField(
+    controller:
+    increase_qty,
+    decoration:
+    InputDecoration(
+    fillColor:
+    const Color(
+    0xFFF4F1F1),
+    filled: true,
+    border:
+    OutlineInputBorder(
+    borderRadius:
+    BorderRadius
+        .circular(
+    10.0),
+    borderSide: BorderSide(
+    width:
+    6.w,
+    color: Color(
+    0xFFF4F1F1)),
+    ),
+    ),
+    ),
+    SizedBox(
+    height: 20.h,
+    ),
+    ElevatedButton(
+    style:
+    ElevatedButton
+        .styleFrom(
+    backgroundColor:
+    const Color(
+    0xFF000000),
+    shape:
+    RoundedRectangleBorder(
+    borderRadius:
+    BorderRadius
+        .circular(
+    10.0),
+    ),
+    padding: EdgeInsets
+        .symmetric(
+    vertical: 10
+        .h,
+    horizontal:
+    25.w),
+    ),
+    onPressed:
+    () async {
+    if (_checkinput
+        .currentState!
+        .validate()) {
+    await itemProvider
+        .increaseItemQuantity(
+    user: Provider
+        .of<
+    ProfileProvider>(
+    context,
+    listen:
+    false)
+        .user,
+    barcode:
+    _result,
+    product_qty:
+    int
+        .parse(
+    increase_qty
+        .text),
+    context:
+    context);
+    if (!context
+        .mounted)
+    return;
+    Navigator
+        .of(
+    context)
+        .pop();
+    showDialog(
+    context:
+    context,
+    builder:
+    (
+    BuildContext
+    context) {
+    Future
+        .delayed(
+    const Duration(
+    seconds: 1),
+    () {
+    Navigator
+        .of(
+    context)
+        .pop();
+    });
+    return const AlertDialog(
+    title: Text(
+    "Quantity Increased!"),
+    );
+    },
+    );
+    }
+    if(secondsPassed==0) {
+    compareWeightForScan();
+    }
+    },
+    child: Text(
+    "Save",
+    style:
+    TextStyle(
+    color: Colors
+        .white,
+    fontSize:
+    15.sp,
+    fontWeight:
+    FontWeight
+        .w400,
+    ),
+    ),
+    ),
+    ],
+    );
+    },
+    );
+    }
+    else {
+      Navigator.of(context).pop;
+        showSnackBar(context, "Please first place the item in trolley, or decrease quantity");
+        
+
+    }
                                                     },
                                                     child: const Text(
                                                         'Increase'),
@@ -958,12 +966,10 @@ class CartInputWrapperState extends State<CartInputWrapper> {
                                       },
                                     );
                                   }
-                                  compareWeightForScan();
-                                  if(firstScan==false && weights!=null){
-                                    showSnackBar(context, "Please first place the item in trolley, or decrease quantity");
-                                  }
+                                 // compareWeightForScan();
+
                                 }
-                            // compareWeightForScan();
+                              compareWeightForScan();
                                 ispressed = false;
 
 
